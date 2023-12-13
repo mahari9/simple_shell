@@ -134,7 +134,7 @@ void ma_alias(char **argus)
  * initialize_alias_count- initialization of global alias
  * list of aliases and alias_count
  */
-viod initialize_aliases_count()
+void initialize_aliases_count()
 {
 	int i;
 	for (i = 0; i < MAXALS; ++i)

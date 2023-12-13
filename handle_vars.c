@@ -76,8 +76,6 @@ char *update_var(char *cmd)
 	return (NULL);
 }
 
-#include "s_shell.h"
-
 /**
  * signal_catcher - catch signal (Ctrl-C) interrupt from terminating the shell
  *

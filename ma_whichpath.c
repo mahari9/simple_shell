@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * ma_buildpath- Fonction that search and build path for executable command
+ * ma_buildpath- Function that search and build path for executable command
  * @comp: Command to be executed
  * @dir: directory containg possible executable command.
  * Return: Path of the command or NULL (failure).
@@ -27,7 +27,7 @@ char *ma_buildpath(char *comp, char *dir)
 }
 
 /**
- * ma_whichpath- Fonction that search path for executable command
+ * ma_whichpath- Function that search path for executable command
  * @cmnd: executable Command
  * Return: 0 on success or -1 on failure
  */
@@ -71,8 +71,6 @@ int ma_whichpath(char **cmnd)
 	}
 	return (-1);
 }
-
-#include "shell.h"
 
 /**
  * ma_getenv - Gets the value of environment variable by name
