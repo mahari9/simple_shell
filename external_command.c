@@ -25,13 +25,13 @@ int external_command(char **argu, char *usrin, char **argv, char **envm)
 		ma_whichpath(argu);
 		if (access(argu[0], X_OK) != 0)
 		{
-			ma_perror(argv, argu[0], 126);
+			ma_perror(argv, argu, 126);
 			deallocate(argu, usrin);
 			exit(126);
 		}
 		if (execve(*argu, argu, impl_env(envm)) == -1)
 		{
-			ma_perror(argv, argu[0], 127);
+			ma_perror(argv, argu, 127);
 			deallocate(argu, usrin);
 			perror("execve");
 			exit(127);
