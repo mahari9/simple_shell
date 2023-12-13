@@ -48,14 +48,14 @@ typedef struct alias_list
 /********* global variable declaration****/
 alias_list *G_alias;
 int count, num_p, status, builtp, p_unset, replflag;
-void env_n[50];
+int env_n[50];
 
 /*********** string_manp.c *******/
 int ma_strlen(const char *str);
 char *ma_strcpy(char *dst, char *src);
 char *ma_strdup(const char *str);
 char *ma_strndup(const char *str, size_t n);
-char *ma_strcat(char *dst, const char *src);
+char *ma_strcat(char *dst, char *src);
 
 /************** string_manp1.c ********/
 int ma_strcmp(char *str1, char *str2);
@@ -92,8 +92,8 @@ void deallocte_env(void);
 void deallocate(char **argus, char *usrin);
 
 /********error handler and printers******/
-void *display_error(char **argv, char **argus);
-void *display_error126(char **argv, char **argus);
+char *display_error(char **argv, char **argus);
+char *display_error126(char **argv, char **argus);
 char *display_errorexit(char **argv, char **argus);
 void ma_perror_cd(char **argv, char **argus, int cod);
 int ma_perror(char **argv, char **argus, int cod);
