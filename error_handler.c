@@ -4,22 +4,22 @@
  * display_error - Function that prints error message for code error 127
  * @argv: vector argument
  * @argus:  Array of pointers to the command line arguments
+ * return: error message or NULL
  */
-
-void display_error(char **argv, char **argus)
+char *display_error(char **argv, char **argus)
 {
 	int length;
 	char *error, *ec;
 
 	ec = ma_itoa(count);
 	if (!ec)
-		return;
-	length = _strlen(argv[0]) + _strlen(ec) + _strlen(argus[0]);
+		return (NULL);
+	length = ma _strlen(argv[0]) +ma _strlen(ec) +ma _strlen(argus[0]);
 	error = malloc(sizeof(char) * (length + 17));
 	if (!error)
 	{
 		free(ec);
-		return;
+		return (NULL);
 	}
 	ma_strcpy(error, argv[0]);
 	ma_strcat(error, ": ");
@@ -31,15 +31,17 @@ void display_error(char **argv, char **argus)
 	WRT(error);
 	free(argus);
 	free(error);
+	return (error);
 }
 
 /**
  * display_error126 - Function that prints error message for code error 126
  *  @argv: vector argument
  * @argus: Array of pointers to the command line arguments
+ * Return: error message
  */
 
-void display_error126(char **argv, char **argus)
+char *display_error126(char **argv, char **argus)
 {
 	int length;
 	char *error, *ec;
@@ -47,12 +49,12 @@ void display_error126(char **argv, char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return;
-	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(usrinargus[0]);
+	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = malloc(sizeof(char) * (length + 25));
 	if (!error)
 	{
 		free(ec);
-		return;
+		return (NULL);
 	}
 	ma_strcpy(error, argv[0]);
 	ma_strcat(error, ": ");
@@ -71,16 +73,16 @@ void display_error126(char **argv, char **argus)
  * display_errorexit - Function that prints error message for invalid exit
  * @argv: arguments vector
  * @argus: array of Pointer to command line arguments
- * Return:error message
+ * Return: Nothing
  */
-char *display_errorexit(char **argv, char **argus)
+void display_errorexit(char **argv, char **argus)
 {
 	int length;
 	char *error, *ec;
 
 	ec = ma_itoa(count);
 	if (!ec)
-		return (NULL);
+		return;
 	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
 	error = malloc(sizeof(char) * (length + 24));
 	if (!error)
