@@ -56,3 +56,27 @@ char *ma_memcpy(char *dst, char *src, unsigned int n)
 	}
 	return (dst);
 }
+
+/**
+ * deallocate - free allocated memory for array pointer and user input
+ * @argus: array of pointer to the character
+ * @usrin: pointer to character
+ */
+void deallocate(char **argus, char *usrin)
+{
+	free(argus);
+	free(usrin);
+	argus = NULL;
+	usrin = NULL;
+}
+
+/**
+ * deallocate_env - deallocate memory allocated for ma_setenv
+ */
+void deallocte_env(void)
+{
+	int i;
+
+	for (i = 0; i < num_p && env_n[i] != NULL; ++i)
+		free(env_n[i]);
+}
