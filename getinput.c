@@ -8,11 +8,11 @@
 int get_process_stdininput(void)
 {
 	int count = 0, loca_count = 0, stat = 0;
-	char *usrin = NULL, **envm;
+	char *usrin = NULL, **envm, *line;
 
 	do {
 		count++;
-		usrin = ma_getline();
+		n = ma_getline(&line, &n, stdin);
 		if (usrin[0] == '0')
 			continue;
 		loca_count++;
@@ -26,7 +26,7 @@ int get_process_stdininput(void)
 				break;
 			}
 		}
-		stat = ma_separat(usrin);
+		stat = ma_separat(line);
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
@@ -37,7 +37,7 @@ int get_process_stdininput(void)
 		free(usrin);
 	if (isatty(STDIN_FILENO))
 		write(STDERR_FILENO, "\n", 2);
-	deallocate_env(void);
+	deallocate_env();
 	exit(stat);
 }
 
@@ -63,11 +63,11 @@ void ma_readprocess_execute_file(const char *filename, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	while ((getline(&line, &n, fd)) != -1)
+	while ((ma_getline(&line, &n, fd)) != -1)
 	{
 		count++;
 		loca_count++;
-		status = ma_parser(line);
+		stat = ma_parser(line);
 	}
 	if (line)
 		free(line);

@@ -17,7 +17,7 @@
 extern char **environ;
 
 /**MACROS**/
-#define TMPMAXSIZE 1024
+#define BUFFMAXSIZE 1024
 #define MAXALS 25
 
 #define WRT(e) (write(STDERR_FILENO, e, ma_strlen(e)))
@@ -47,6 +47,7 @@ typedef struct alias_list
 
 /********* global variable declaration****/
 alias_list G_alias;
+char *usrin;
 int count, num_p, status, source, p_unset, replflag;
 void *env_n[50];
 
@@ -103,7 +104,10 @@ char *ma_cd_error(char **argv, char **argus);
 char *ma_cd_error1(char **argv, char **argus);
 
 /********  getline and process ******/
-char *ma_getline();
+ssize_t ma_getline(char **linept, size_t *n, int fd);
+int ma_getc(int fd);
+void fill_buffer(int fd, char *buffer, size_t *index, size_t *rd);
+char *hashtag_comm(char *line);
 char *ma_process_line(char *line);
 int get_process_stdininput(void);
 int validate_file(const char *pn);

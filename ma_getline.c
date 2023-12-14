@@ -1,6 +1,5 @@
 #include "shell.h"
 
-#include "shell.h"
 /**
  * ma_getline - read input from source stream.
  * @linept: pointer to the input line
@@ -11,11 +10,11 @@
  */
 ssize_t ma_getline(char **linept, size_t *n, int fd)
 {
-	size_t index = 0, n_rd = 256, nw_rd;
+	size_t index = 0, *n_rd = 256, *nw_rd;
 	char *nw_ln;
 	int c;
 
-	if (linept == NULL || n_rd == NULL)
+	if (linept == NULL || n == NULL)
 	{
 		errno = EINVAL;
 		return (-1);
@@ -59,10 +58,9 @@ ssize_t ma_getline(char **linept, size_t *n, int fd)
  */
 int ma_getc(int fd)
 {
-	static char buffer[BUFFER_SIZE];
+	static char buffer[BUFFMAXSIZE];
 	static size_t index;
 	static size_t rd;
-	int result;
 
 	if (index >= rd)
 	{
@@ -71,9 +69,7 @@ int ma_getc(int fd)
 		if (rd <= 0 || index >= rd)
 			return (EOF);
 	}
-	result = (int)buffer[index];
-	index++;
-	return (result);
+	return ((int)buffer[index++]);
 }
 
 /**
@@ -87,7 +83,7 @@ int ma_getc(int fd)
 void fill_buffer(int fd, char *buffer, size_t *index, size_t *rd)
 {
 	*index = 0;
-	*rd = read(fd, buffer, BUFFER_SIZE);
+	*rd = read(fd, buffer, BUFFMAXSIZE);
 }
 
 /**
@@ -111,7 +107,7 @@ char *hashtag_comm(char *line)
 		{
 			treated_line = ma_strndup(line, rmn);
 			treated_line[rmn] = '\0';
-			trackadress(treated_line);
+			track_adress(treated_line);
 			line = treated_line;
 		}
 	}
