@@ -13,7 +13,7 @@ int inputcommand_execute(char **argv, char **argus, char **envm)
 	int stat = 0;
 	pid_t pid;
 
-	if (pth_cmnd !=NULL)
+	if (pth_cmnd != NULL)
 		if (pid == 0)
 		{
 			stat = execve(pth_cmnd, argv, impl_env(envm));
@@ -40,7 +40,7 @@ int inputcommand_execute(char **argv, char **argus, char **envm)
 		}
 	}
 	else
-		stat = ma_perror(argv,argus, 127);
+		stat = ma_perror(argv, argus, 127);
 	return (stat);
 }
 
@@ -54,21 +54,21 @@ int inputcommand_execute(char **argv, char **argus, char **envm)
 
 int p_process(char **argv, char **argus, pid_t pid)
 {
-	int wstatus;
+	int stat;
 
-	if (waitpid(pid, &wstatus, 0) == -1)
+	if (waitpid(pid, &stat, 0) == -1)
 	{
 		perror("waitpid");
 		return (-1);
 	}
-	if (WIFEXITED(wstatus))
+	if (WIFEXITED(stat))
 	{
-		status = WEXITSTATUS(wstatus);
+		status = WEXITSTATUS(stat);
 		if (status != 0)
 			ma_perror(argv, argus, status);
 	}
-	else if (WIFSIGNALED(wstatus))
-		status = (128 + WTERMSIG(wstatus));
+	else if (WIFSIGNALED(stat))
+		status = (128 + WTERMSIG(stat));
 	else
 		status = 127;
 	return (status);
