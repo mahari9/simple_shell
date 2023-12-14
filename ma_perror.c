@@ -30,7 +30,7 @@ void ma_perror_cd(char **argv, char **argus, int cod)
  *
  * Return: error code
  */
-int ma_perror(char **argv, char **argus, int cod)
+int ma_perror(argv, argus, int cod)
 {
 	int status = 0;
 	char *error = NULL;
@@ -44,13 +44,13 @@ int ma_perror(char **argv, char **argus, int cod)
 	}
 	else if (cod == 126)
 	{
-		error = display_error126(char **argv, char **argus);
+		error = display_error126(argv, argus);
 		WRT(error);
 		status = 126;
 	}
 	else if (cod == 127)
 	{
-		error = display_error(char **argv, char **argus);
+		error = display_error(argv, argus);
 		WRT(error);
 		status = 127;
 	}
@@ -75,7 +75,7 @@ int ma_perror(char **argv, char **argus, int cod)
  */
 void ma_perrorfile(char **argv)
 {
-	char *error, *ec, *msg = ": Can't open "
+	char *error, *ec, *msg = ": Can't open ",
 		int len, status;
 
 	if (count != 0)
@@ -88,7 +88,7 @@ void ma_perrorfile(char **argv)
 		ec = "0";
 
 	len = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argv[1])
-		+ ma_strlen(meg) + 4;
+		+ ma_strlen(msg) + 4;
 	error = malloc(sizeof(char) * (len));
 	if (!error)
 	{

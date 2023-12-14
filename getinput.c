@@ -17,28 +17,21 @@ int get_process_stdininput(void)
 			continue;
 		loca_count++;
 		replfalg = 0;
-		hist(usrin);
-		for (envm = environ; *envm; ++envm)
 		{
-			if (ma_strcmp(*envm, "PATH=") == 0)
+			stat = ma_separat(usrin);
+			if (isatty(STDIN_FILENO))
 			{
-				path_unset = 0;
-				break;
+				display_prompt();
+				fflush(stdout);
 			}
-		}
-		stat = ma_separat(usrin);
+		} while (1);
+		if (usrin)
+			free(usrin);
 		if (isatty(STDIN_FILENO))
-		{
-			display_prompt();
-			fflush(stdout);
-		}
-	} while (1);
-	if (usrin)
-		free(usrin);
-	if (isatty(STDIN_FILENO))
-		write(STDERR_FILENO, "\n", 2);
-	deallocate_env(void);
-	exit(stat);
+			write(STDERR_FILENO, "\n", 2);
+		deallocate_env(void);
+		exit(stat);
+	}
 }
 
 /**

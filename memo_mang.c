@@ -1,4 +1,4 @@
-A#include "shell.h"
+#include "shell.h"
 
 /**
  * ma_realloc - reallocates a memory block

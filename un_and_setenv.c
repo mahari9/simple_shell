@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * create_env - Function that creates strings w/c are environmental variables

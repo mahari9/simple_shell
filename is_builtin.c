@@ -12,8 +12,8 @@ int execute_builtin(char **argv, char **argus)
 	char *message[];
 
 	if (ma_strncmp(argus[0], "exit", 4) == 0)
-		return (exit_Shell(argv, argus));
-	if (ma_strncmp(args[0], "alias", 5) == 0)
+		return (exit_shell(argv, argus));
+	if (ma_strncmp(argus[0], "alias", 5) == 0)
 	{
 		ma_alias(argus);
 		return (0);
@@ -28,7 +28,7 @@ int execute_builtin(char **argv, char **argus)
 	{
 		if ((argus[1] == NULL) || (argus[2] == NULL) || (argus[3] != NULL))
 		{
-			message = "use: setenv VARIABLE VALUE format\n";
+			*message = "use: setenv VARIABLE VALUE format\n";
 			WRT(message);
 			return (-1);
 		}
