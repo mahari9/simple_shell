@@ -7,7 +7,7 @@
  */
 int get_process_stdininput(void)
 {
-	int count = 0, loca_count = 0, stat = 0
+	int count = 0, loca_count = 0, stat = 0;
 	char *usrin = NULL, **envm;
 
 	do {

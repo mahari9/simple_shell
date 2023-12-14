@@ -73,7 +73,7 @@ char *ma_strchr(const char *s, int crt);
 
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);
-void ma_env(char **envm);
+int ma_env(char **envm);
 int ma_cd(char **argv, char **argus);
 void exit_shell(char **argv, char **argus);
 char *create_env(char *name, char *value);
@@ -88,13 +88,14 @@ void ma_alias(char **argus);
 /**********memory mang *********/
 void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *ma_memcpy(char *dst, char *src, unsigned int n);
-void deallocte_env(void);
+void initialize_alias_count(void);
+void deallocate_env(void);
 void deallocate(char **argus, char *usrin);
 
 /********error handler and printers******/
 char *display_error(char **argv, char **argus);
 char *display_error126(char **argv, char **argus);
-void *display_errorexit(char **argv, char **argus);
+void display_errorexit(char **argv, char **argus);
 void ma_perror_cd(char **argv, char **argus, int cod);
 int ma_perror(char **argv, char **argus, int cod);
 void ma_perrorfile(char **argv);
@@ -116,7 +117,7 @@ int main(int argc, char **argv);
 /******* execution commands *******/
 int handle_commands(char **argus, char **argv);
 int execute_builtin(char **argv, char **argus);
-int external_command(char **argu, char *usrin, char **argv, char **envm);
+int external_command(char **argu, char **argv, char **envm);
 int p_process(pid_t pid, char **argu, char **argv);
 
 /******* variable rplace handler********/
