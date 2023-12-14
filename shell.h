@@ -55,7 +55,7 @@ int ma_strlen(const char *str);
 char *ma_strcpy(char *dst, char *src);
 char *ma_strdup(const char *str);
 char *ma_strndup(const char *str, size_t n);
-char *ma_strcat(char *dst, char *src);
+char *ma_strcat(char *dst, const char *src);
 
 /************** string_manp1.c ********/
 int ma_strcmp(char *str1, char *str2);

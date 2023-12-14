@@ -56,36 +56,37 @@ char *ma_process_line(char *line)
 {
 	int i, j = 0;
 	int line_len = ma_strlen(line);
-	char *tmp;
+	static char *result;
 
-	tmp = malloc(sizeof(char) * (line_len + 1));
-	if (tmp == NULL)
+	result = malloc(sizeof(char) * (line_len + 1));
+	if (result == NULL)
 	{
 		free(line);
-		free(tmp);
+		free(result);
 		return (NULL);
 	}
 	for (i = 0; line[i] == ' '; i++)
 		;
 	for (; line[i + 1] != '\0'; i++)
 	{
-		tmp[j] = line[i];
+		result[j] = line[i];
 		j++;
 	}
-	tmp[j] = '\0';
-	if (tmp[0] == '\0' || tmp[0] == '#')
+	result[j] = '\0';
+	if (result[0] == '\0' || result[0] == '#')
 	{
 		free(line);
 		return ("\0");
 	}
-	for (i = 0; tmp[i] != '\0'; i++)
+	for (i = 0; result[i] != '\0'; i++)
 	{
-		if (tmp[i] == '#' && tmp[i - 1] == ' ' && tmp[i + 1] == ' ')
+		if (result[i] == '#' && result[i - 1] == ' '
+				&& result[i + 1] == ' ')
 		{
-			tmp[i] = '\0';
+			result[i] = '\0';
 		}
 	}
-	return (tmp);
+	return (result);
 }
 
 /**
