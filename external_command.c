@@ -15,11 +15,6 @@ int external_command(char **argu, char *usrin, char **argv, char **envm)
 	if (*argu == NULL)
 		return (EXIT_FAILURE);
 	pid = fork();
-	if (pid == -1)
-	{
-		perror("forking");
-		return (-1);
-	}
 	if (pid == 0)
 	{
 		ma_whichpath(argu);
@@ -36,10 +31,14 @@ int external_command(char **argu, char *usrin, char **argv, char **envm)
 			perror("execve");
 			exit(127);
 		}
-		else
+		else if 
 		{
-			return (p_process(pid, argu, argv));
+			(pid == -1);
+			perror("forking");
+			return (-1);
 		}
+		else
+			return (p_process(pid, argu, argv));
 	}
 }
 
@@ -55,7 +54,7 @@ int p_process(pid_t pid, char **argu, char **argv)
 {
 	int wstatus;
 
-	if (waitpid(-1, &wstatus, 0) == -1)
+	if (waitpid(pid, &wstatus, 0) == -1)
 	{
 		perror("waitpid");
 		return (-1);
@@ -70,6 +69,8 @@ int p_process(pid_t pid, char **argu, char **argv)
 	else if (WIFSIGNALED(wstatus))
 		return (128 + WTERMSIG(wstatus));
 	else if
+	{
 		return (127);
+	}
 	return (0);
 }

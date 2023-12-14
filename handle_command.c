@@ -65,7 +65,7 @@ int ma_separat(char *usrin)
  *
  * Return: 0 on seccuss -1 on failure
  */
-int *ma_parser(char *usrin)
+int ma_parser(char *usrin)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
@@ -83,7 +83,7 @@ int *ma_parser(char *usrin)
 		return (-1);
 	argus = malloc(sizeof(char *) * (i + 1));
 	if (!argus)
-		return (ma_perror(NULL, NULL, NULL, 12));
+		return (ma_perror(NULL, NULL, 12));
 	argu = ma_strtok(usrin, delim);
 	for (i = 0; argu != NULL; i++)
 	{
@@ -94,11 +94,11 @@ int *ma_parser(char *usrin)
 			free(argus[i]);
 			argus[i] = found;
 		}
-		argu = ma_strtok_(NULL, delim);
+		argu = ma_strtok(NULL, delim);
 	}
 	argus[i] = NULL;
 	if (replflag == 0)
-		stat = execute_commands(argus,  argv);
+		stat = handle_commands(argus, argv);
 	else
 		write(STDOUT_FILENO, "\n", 1);
 	deallocate(argus, NULL);
@@ -128,13 +128,11 @@ int handle_commands(char **argus, char **argv)
 	}
 	if (argus && argus[0])
 	{
-		stat = execute_builtin(argus);
+		stat = execute_builtin(argv, argus);
 		if (stat != 1)
 			return (stat);
-		if (isatty(STDIN_FILENO))
-			return (external_command(argus, usrin, argv, envm));
 		else
-			return (external_command(argus, line, argv, envm));
+			return (external_command(argus, argv, envm));
 	}
 	return (0);
 }

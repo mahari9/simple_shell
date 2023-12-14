@@ -7,8 +7,7 @@
  */
 int get_process_stdininput(void)
 {
-	int count = 0, loca_count stat = 1;
-	size_t n = 0;
+	int count = 0, loca_count = 0, stat = 0
 	char *usrin = NULL, **envm;
 
 	do {
@@ -38,7 +37,7 @@ int get_process_stdininput(void)
 		free(usrin);
 	if (isatty(STDIN_FILENO))
 		write(STDERR_FILENO, "\n", 2);
-	deallocate_env();
+	deallocate_env(void);
 	exit(stat);
 }
 
@@ -56,7 +55,7 @@ void ma_readprocess_execute_file(const char *filename, char **argv)
 	int count = 0, loca_count, stat = 0, fd;
 
 	if (!filename)
-		return (-1);
+		exit(EXIT_FAILURE);
 	fd =  open(filename, O_RDONLY);
 	if (fd == -1)
 	{
@@ -72,6 +71,6 @@ void ma_readprocess_execute_file(const char *filename, char **argv)
 	}
 	if (line)
 		free(line);
-	close(file);
+	close(filename);
 	exit(stat);
 }

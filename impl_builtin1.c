@@ -17,7 +17,7 @@ char **impl_env(char **ma_environ)
 	nenv = malloc(sizeof(struct pair_entry) * (env_num + 1));
 	if (nenv == NULL)
 	{
-		ma_perror(NULL, 12);
+		ma_perror(NULL, NULL, 12);
 		free(nenv);
 		return (NULL);
 	}
@@ -51,7 +51,7 @@ char **impl_env(char **ma_environ)
  * Return: 0 on success
  */
 
-int ma _env(char **envm)
+int ma_env(char **envm)
 {
 	int i, j;
 
@@ -89,16 +89,16 @@ void exit_shell(char **argv, char **argus)
 			deallocate_env();
 			exit(1);
 		}
-	}
-	else
-	{
-		stat = ma_atoi(argus[1]);
-		if (stat == 1)
+		else
 		{
-			display_errorexit(argv, argus);
-			deallocate(argus, usrin);
-			deallocate_env();
-			exit(stat);
+			stat = ma_atoi(argus[1]);
+			if (stat == 1)
+			{
+				display_errorexit(argv, argus);
+				deallocate(argus, usrin);
+				deallocate_env();
+				exit(stat);
+			}
 		}
 	}
 	deallocate(argus, usrin);

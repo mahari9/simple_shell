@@ -14,7 +14,7 @@ char *display_error(char **argv, char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	length = ma _strlen(argv[0]) +ma _strlen(ec) +ma _strlen(argus[0]);
+	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = malloc(sizeof(char) * (length + 17));
 	if (!error)
 	{
@@ -40,7 +40,6 @@ char *display_error(char **argv, char **argus)
  * @argus: Array of pointers to the command line arguments
  * Return: error message
  */
-
 char *display_error126(char **argv, char **argus)
 {
 	int length;
@@ -48,7 +47,7 @@ char *display_error126(char **argv, char **argus)
 
 	ec = ma_itoa(count);
 	if (!ec)
-		return;
+		return (NULL);
 	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = malloc(sizeof(char) * (length + 25));
 	if (!error)
@@ -114,55 +113,14 @@ void display_errorexit(char **argv, char **argus)
 char *ma_cd_error(char **argv, char **argus)
 {
 	char *errmsg, *error, *ec;
-	int *length;
+	int length;
 
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	if (argus[1][0] != "-")
-	{
-		errmsg = ": cd: Unable to change directory to ";
-		length = ma_strlen(argv[0]) + ma_strlen(ec) +
-			ma_strlen(errmsg) + ma_strlen(argus[1] + 4);
-		error = malloc(sizeof(char) * length);
-		if (!error)
-		{
-			ma_perror(NULL, NULL, 12);
-			free(ec);
-			return (NULL);
-		}
-		ma_strcpy(error, argv[0]);
-		ma_strcat(error, ": ");
-		ma_strcat(error, ec);
-		ma_strcat(error, errmsg);
-		ma_strcat(error, argus[1]);
-		ma_strcat(error, "\n");
-		ma_strcat(error, "\0");
-	}
-	else
-		error = ma_cd_error1(argv, argus);
-	free(ec);
-	return (error);
-}
-
-/**
- * ma_cd_error1 - can't change current directory to specified location
- * @argv: vector arguments
- * @argus: array of pointers to the command line argument
- * Return: error message
- */
-
-char *ma_cd_error1(char **argv, char **argus)
-{
-	char *errmsg, *error, *ec;
-	int *length;
-
-	ec = ma_itoa(counter);
-	if (!ec)
-		return (NULL);
-	argus[1][0] == "-";
-	errmsg = ": invalid option";
-	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(errmsg) + 12;
+	errmsg = ": cd: Unable to change directory to ";
+	length = ma_strlen(argv[0]) + ma_strlen(ec) +
+		ma_strlen(errmsg) + ma_strlen(argus[1] + 4);
 	error = malloc(sizeof(char) * length);
 	if (!error)
 	{
@@ -173,9 +131,8 @@ char *ma_cd_error1(char **argv, char **argus)
 	ma_strcpy(error, argv[0]);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
-	ma_strcat(error, ": cd: -");
-	ma_strcat(error, argus[1][1]);
 	ma_strcat(error, errmsg);
+	ma_strcat(error, argus[1]);
 	ma_strcat(error, "\n");
 	ma_strcat(error, "\0");
 	free(ec);

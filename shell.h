@@ -41,12 +41,12 @@ typedef struct pair_entry
  */
 typedef struct alias_list
 {
-	pair_entry * aliases[MAXALS];
+	pair_entry aliases[MAXALS];
 	int a_count;
 } alias_list;
 
 /********* global variable declaration****/
-alias_list *G_alias;
+alias_list G_alias;
 int count, num_p, status, builtp, p_unset, replflag;
 int env_n[50];
 
@@ -94,7 +94,7 @@ void deallocate(char **argus, char *usrin);
 /********error handler and printers******/
 char *display_error(char **argv, char **argus);
 char *display_error126(char **argv, char **argus);
-char *display_errorexit(char **argv, char **argus);
+void *display_errorexit(char **argv, char **argus);
 void ma_perror_cd(char **argv, char **argus, int cod);
 int ma_perror(char **argv, char **argus, int cod);
 void ma_perrorfile(char **argv);
@@ -107,7 +107,7 @@ char *ma_process_line(char *line);
 int get_process_stdininput(void);
 int validate_file(const char *pn);
 void ma_readprocess_execute_file(const char *filename, char **argv);
-int *ma_parser(char *usrin);
+int ma_parser(char *usrin);
 int handle_opera(char *usrin, char *opr);
 int ma_separat(char *usrin);
 char *ma_strtok(char *usrin, const char *separ);

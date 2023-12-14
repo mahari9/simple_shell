@@ -14,14 +14,14 @@ char *search_alias(char *nam, int *row)
     while (1)
     {
         found = 0;
-        for (j = 0; G_alias -> aliases[j].name != NULL; j++)
+        for (j = 0; G_alias.aliases[j].name != NULL; j++)
         {
-            if (ma_strcmp(nam, G_alias -> aliases[j].name) == 0)
+            if (ma_strcmp(nam, G_alias.aliases[j].name) == 0)
             {
                 if (row != NULL)
                     *row = j;
 
-                al_valu = G_alias -> aliases[j].value;
+                al_valu = G_alias.aliases[j].value;
                 nam = al_valu;
                 found = 1;
                 break;
@@ -43,18 +43,18 @@ char *search_alias(char *nam, int *row)
  */
 void define_alias(char *al_name, char *al_value)
 {
-	int row,
+	int row;
 	char *found;
-	G_alias -> count = 0;
+	G_alias.a_count = 0;
 
 	found = search_alias(al_name, &row);
 		if (found)
-			G_alias -> aliases[row].value = al_value;
+			G_alias.aliases[row].value = al_value;
 		else
 		{
-			G_alias -> aliases[G_alias -> a_count].name = al_name;
-			G_alias -> aliases[G_alias -> a_count].value = al_value;
-			G_alias -> count++;
+			G_alias.aliases[G_alias.a_count].name = al_name;
+			G_alias.aliases[G_alias.a_count].value = al_value;
+			G_alias.a_count++;
 		}
 }
 
@@ -65,22 +65,24 @@ void define_alias(char *al_name, char *al_value)
 void print_alias(int r)
 {
     int len;
-	*G_alias -> aliases = NULL;
+    char *aliaslis;
 
-	len = ma_strlen(G_alias -> aliases[r].name)
-	+ ma_strlen(G_alias -> aliases[r].value);
-    G_alias -> aliases = malloc(sizeof(char) * (len + 5));
-    if (G_alias -> aliases == NULL)
+	aliaslis = NULL;
+
+	len = ma_strlen(G_alias.aliases[r].name)
+	+ ma_strlen(G_alias.aliases[r].value);
+    aliaslis = malloc(sizeof(char) * (len + 5));
+    if (aliaslis == NULL)
     {
         ma_perror(NULL, NULL, 12);
         return;
     }
-	ma_strcpy(G_alias -> aliases, G_alias -> aliases[r].name);
-	ma_strcat(G_alias -> aliases, "='");
-	ma_strcat(G_alias -> aliases, G_alias -> aliases[r].value);
-	ma_strcat(G_alias -> aliases, "'\n");
-	write(STDOUT_FILENO, G_alias -> aliases, ma_strlen(G_alias -> aliases));
-	free(G_alias -> aliases);
+	ma_strcpy(aliaslis, G_alias.aliases[r].name);
+	ma_strcat(aliaslis, "='");
+	ma_strcat(aliaslis, G_alias.aliases[r].value);
+	ma_strcat(aliaslis, "'\n");
+	write(STDOUT_FILENO, aliaslis, ma_strlen(aliaslis));
+	free(aliaslis);
 }
 
 /**
@@ -97,16 +99,16 @@ void ma_alias(char **argus)
 		ar_count++;
 	if (ar_count == 0)
 	{
-		for (i = 0; i < G_alias -> a_count; i++)
+		for (i = 0; i < G_alias.a_count; i++)
 			print_alias(i);
 	}
 	for (; col < ar_count; n++, col++)
 	{
 		if((equal = ma_strchr(argus[n], '=')) == NULL)
         {
-            for (i = 0; i <= G_alias -> a_count; i++)
-            if ((G_alias -> aliases[i].name)
-			&& (ma_strcmp(argus[n], G_alias -> aliases[i].name) == 0))
+            for (i = 0; i <= G_alias.a_count; i++)
+            if ((G_alias.aliases[i].name)
+			&& (ma_strcmp(argus[n], G_alias.aliases[i].name) == 0))
             {
                 print_alias(i);
                 break;
@@ -132,15 +134,15 @@ void ma_alias(char **argus)
  * initialize_alias_count- initialization of global alias
  * list of aliases and alias_count
  */
-void initialize_aliases_count()
+void initialize_aliases_count(void)
 {
 	int i;
 	for (i = 0; i < MAXALS; ++i)
 	{
-		G_alias -> aliases[i].name = NULL;
-		G_alias -> aliases[i].value = NULL;
+		G_alias.aliases[i].name = NULL;
+		G_alias.aliases[i].value = NULL;
 	}
-	G_alias -> a_count = 0;
+	G_alias.a_count = 0;
 }
 
 /**
