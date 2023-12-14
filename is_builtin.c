@@ -13,7 +13,7 @@ int execute_builtin(char **argv, char **argus)
 
 	if (ma_strncmp(argus[0], "exit", 4) == 0)
 	{
-		exit_Shell(argv, argus);
+		exit_shell(argv, argus);
 		return (0);
 	}
 	if (ma_strncmp(argus[0], "alias", 5) == 0)
@@ -35,13 +35,13 @@ int execute_builtin(char **argv, char **argus)
 			WRT(message);
 			return (-1);
 		}
-		return (ma_setenv(argus[1], argmus[2]));
+		return (ma_setenv(argus[1], argus[2]));
 	}
 	else if (ma_strncmp(argus[0], "unsetenv", 8) == 0)
 	{
 		if ((argus[1] == NULL) || (argus[2] != NULL))
 		{
-			message = "use: unsetenv VARIABLE format\n"
+			message = "use: unsetenv VARIABLE format\n";
 				WRT(message);
 			return (-1);
 		}

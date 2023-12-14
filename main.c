@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	{
 		deallocate_env();
 	}
-	initialize_aliases_count();
+	initialize_alias_count();
 	if (isatty(STDIN_FILENO))
 	{
 		display_prompt();

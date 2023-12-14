@@ -72,7 +72,7 @@ int ma_env(char **envm)
  */
 void exit_shell(char **argv, char **argus)
 {
-	int stat;
+	int stat, i;
 
 	if (argus[1] == NULL)
 	{
@@ -80,7 +80,7 @@ void exit_shell(char **argv, char **argus)
 		deallocate_env();
 		exit(status);
 	}
-	for (int i = 0; argus[1][i]; i++)
+	for (i = 0; argus[1][i]; i++)
 	{
 		if (ma_isalpha(argus[1][i]) != 0)
 		{

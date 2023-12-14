@@ -47,7 +47,7 @@ char *update_var(char *cmd)
 		if (i + 1 >= size)
 		{
 			size *= 2;
-			buffer = malloc(buffer, size);
+			buffer = ma_realloc(buffer, size);
 			if (!buffer)
 				return (NULL);
 		}
@@ -71,7 +71,7 @@ char *update_var(char *cmd)
 	if (verify)
 		return (buffer);
 	if (cmdcopy[0] == '$' && cmdcopy[1])
-		repflag = 1;
+		replflag = 1;
 	free(buffer);
 	return (NULL);
 }

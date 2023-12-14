@@ -73,7 +73,7 @@ char *ma_strchr(const char *s, int crt);
 
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);
-void ma_env(char **envm);
+int ma_env(char **envm);
 int ma_cd(char **argv, char **argus);
 void exit_shell(char **argv, char **argus);
 char *create_env(char *name, char *value);
@@ -88,7 +88,8 @@ void ma_alias(char **argus);
 /**********memory mang *********/
 void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char *ma_memcpy(char *dst, char *src, unsigned int n);
-void deallocte_env(void);
+void initialize_alias_count(void);
+void deallocate_env(void);
 void deallocate(char **argus, char *usrin);
 
 /********error handler and printers******/
