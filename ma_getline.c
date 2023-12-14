@@ -8,7 +8,7 @@ char *ma_getline()
 {
 	int i, read_line;
 	char k = 0;
-	static char *tmpso, result;
+	static char *tmpso, *result;
 	static int tmpsosize = TMPMAXSIZE;
 
 	tmpso = malloc(tmpsosize);
@@ -56,7 +56,7 @@ char *ma_process_line(char *line)
 {
 	int i, j = 0;
 	int line_len = ma_strlen(line);
-	static char *result;
+	char *result;
 
 	result = malloc(sizeof(char) * (line_len + 1));
 	if (result == NULL)

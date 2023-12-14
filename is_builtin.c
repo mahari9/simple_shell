@@ -9,18 +9,20 @@
  */
 int execute_builtin(char **argv, char **argus)
 {
-	char *message[];
+	char *message;
 
 	if (ma_strncmp(argus[0], "exit", 4) == 0)
-		return (exit_Shell(argv, argus));
-	if (ma_strncmp(args[0], "alias", 5) == 0)
+	{
+		exit_Shell(argv, argus);
+	        return (0);
+	if (ma_strncmp(argus[0], "alias", 5) == 0)
 	{
 		ma_alias(argus);
 		return (0);
 	}
 	else if (ma_strncmp(argus[0], "cd", 2) == 0)
 	{
-		return (ma_cd(argv[0], argus[1]));
+		return (ma_cd(argv, argus));
 	}
 	else if (ma_strncmp(argus[0], "env", 3) == 0)
 		return (ma_env(environ));

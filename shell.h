@@ -94,7 +94,7 @@ void deallocate(char **argus, char *usrin);
 /********error handler and printers******/
 char *display_error(char **argv, char **argus);
 char *display_error126(char **argv, char **argus);
-void *display_errorexit(char **argv, char **argus);
+void display_errorexit(char **argv, char **argus);
 void ma_perror_cd(char **argv, char **argus, int cod);
 int ma_perror(char **argv, char **argus, int cod);
 void ma_perrorfile(char **argv);
