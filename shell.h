@@ -116,7 +116,7 @@ int main(int argc, char **argv);
 /******* execution commands *******/
 int handle_commands(char **argus, char **argv);
 int execute_builtin(char **argv, char **argus);
-int external_command(char **argu, char *usrin, char **argv, char **envm);
+int external_command(char **argu, char **argv, char **envm);
 int p_process(pid_t pid, char **argu, char **argv);
 
 /******* variable rplace handler********/

@@ -14,7 +14,8 @@ int execute_builtin(char **argv, char **argus)
 	if (ma_strncmp(argus[0], "exit", 4) == 0)
 	{
 		exit_Shell(argv, argus);
-	        return (0);
+		return (0);
+	}
 	if (ma_strncmp(argus[0], "alias", 5) == 0)
 	{
 		ma_alias(argus);
@@ -47,4 +48,19 @@ int execute_builtin(char **argv, char **argus)
 		return (ma_unsetenv(argus[1]));
 	}
 	return (1);
+}
+/**
+ * initialize_alias_count - initialization of global alias
+ * list of aliases and alias_count
+ */
+void initialize_alias_count(void)
+{
+	int i;
+
+	for (i = 0; i < MAXALS; ++i)
+	{
+		G_alias.aliases[i].name = NULL;
+		G_alias.aliases[i].value = NULL;
+	}
+	G_alias.a_count = 0;
 }
