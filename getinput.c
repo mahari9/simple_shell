@@ -8,11 +8,12 @@
 int get_process_stdininput(void)
 {
 	int count = 0, loca_count = 0, stat = 0;
-	char *usrin = NULL, **envm, *line;
+	size_t *n;
+	char *usrin = NULL, **envm, *line, c;
 
 	do {
 		count++;
-		n = ma_getline(&line, &n, stdin);
+		c = ma_getline(&line, &n, stdin);
 		if (usrin[0] == '0')
 			continue;
 		loca_count++;

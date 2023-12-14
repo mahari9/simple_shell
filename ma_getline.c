@@ -10,7 +10,7 @@
  */
 ssize_t ma_getline(char **linept, size_t *n, int fd)
 {
-	size_t index = 0, *n_rd = 256, *nw_rd;
+	size_t index = 0, n_rd = 256, nw_rd;
 	char *nw_ln;
 	int c;
 
@@ -107,7 +107,7 @@ char *hashtag_comm(char *line)
 		{
 			treated_line = ma_strndup(line, rmn);
 			treated_line[rmn] = '\0';
-			track_adress(treated_line);
+			track_address(treated_line);
 			line = treated_line;
 		}
 	}
