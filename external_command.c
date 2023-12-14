@@ -14,6 +14,7 @@ int inputcommand_execute(char **argv, char **argus, char **envm)
 	pid_t pid;
 
 	if (pth_cmnd != NULL)
+	{
 		if (pid == 0)
 		{
 			stat = execve(pth_cmnd, argv, impl_env(envm));

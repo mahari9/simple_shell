@@ -59,13 +59,13 @@ char *ma_whichpath(char *cmnd)
 		} while (comp != NULL);
 		free(dup_pth);
 		free(pth);
-		if (stat(*cmnd, &tmp) == 0)
-			return (cmnnd);
+		if (stat(cmnd, &tmp) == 0)
+			return (cmnd);
 		return (NULL);
 	}
-	else if (stat(*cmnd, &tmp) == 0)
+	else if (stat(cmnd, &tmp) == 0)
 	{
-		if (ma_strncmp(*cmnd, "./", 2) == 0 && ma_strncmp(*cmnd, "/", 1) == 0)
+		if (ma_strncmp(cmnd, "./", 2) == 0 && ma_strncmp(cmnd, "/", 1) == 0)
 			return (cmnd);
 	}
 	return (NULL);

@@ -47,7 +47,7 @@ typedef struct alias_list
 
 /********* global variable declaration****/
 alias_list G_alias;
-int count, num_p, status, builtp, p_unset, replflag;
+int count, num_p, status, source, p_unset, replflag;
 void *env_n[50];
 
 /*********** string_manp.c *******/
@@ -117,8 +117,8 @@ int main(int argc, char **argv);
 /******* execution commands *******/
 int handle_commands(char **argus, char **argv);
 int execute_builtin(char **argv, char **argus);
-int external_command(char **argu, char **argv, char **envm);
-int p_process(pid_t pid, char **argu, char **argv);
+int inputcommand_execute(char **argu, char **argv, char **envm);
+int p_process(char **argv, char **argus, pid_t pid);
 
 /******* variable rplace handler********/
 char *impl_var(char *cmd);
@@ -131,7 +131,7 @@ void display_prompt(void);
 void print_o(const char *message);
 
 /********ma_whichpath **********/
-int ma_whichpath(char **cmnd);
+char *ma_whichpath(char *cmnd);
 char *ma_buildpath(char *comp, char *dir);
 char *ma_getenv(const char *name);
 
