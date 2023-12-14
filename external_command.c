@@ -37,7 +37,7 @@ int inputcommand_execute(char **argv, char **argus, char **envm)
 		{
 			if (source)
 				free(pth_cmnd);
-			return (p_process(pid, argv, argus));
+			return (p_process(argv, argus, pid));
 		}
 	}
 	else
