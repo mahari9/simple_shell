@@ -90,8 +90,8 @@ char *ma_getenv(const char *name)
 		for (j = 0; name[j] != '\0' && name[j] == envm[i][j]; j++)
 		if (name[j] == '\0' && envm[i][j] == '=')
 		{
-			value_start = &envp[i][j + 1];
-			value_length = _strlen(value_start);
+			value_start = &envm[i][j + 1];
+			value_length = ma_strlen(value_start);
 
 			value = malloc(value_length + 1);
 
