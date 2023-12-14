@@ -17,9 +17,8 @@ int main(int argc, char **argv)
 	if (setup_signal_catcher() < 0)
 	{
 		deallocate_env();
-		return (-1);
 	}
-	initialize_aliases_count(void);
+	initialize_aliases_count();
 	if (isatty(STDIN_FILENO))
 	{
 		display_prompt();
@@ -30,9 +29,9 @@ int main(int argc, char **argv)
 		{
 			filename = argv[1];
 			if (validate_file(filename))
-				ma_readprocess_execute_file(filename, argv[1]);
+				ma_readprocess_execute_file(filename, argv);
 			else
-				ma_perrorfile(argv[1]);
+				ma_perrorfile(argv);
 		}
 	deallocate_env();
 	return (0);

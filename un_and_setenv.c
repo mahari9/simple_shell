@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * create_env - Function that creates strings w/c are environmental variables
@@ -17,7 +17,7 @@ char *create_env(char *name, char *value)
 	len = len_name + len_value + 2;
 	env_v = malloc(sizeof(char) * (len));
 	if (env_v == NULL)
-		return (error_handler(NULL, 50));
+		return (ma_perror(NULL, NULL, 50));
 	ma_strcpy(env_v, name);
 	ma_strcat(env_v, "=");
 	ma_strcat(env_v, value);
@@ -39,7 +39,7 @@ int ma_setenv(char *name, char *value)
 	int i, j = 0;
 
 	if ((ma_strchr(name, '=') != NULL) || (ma_strlen(name) == 0))
-		return (error_handler(NULL, 22));
+		return (ma_perror(NULL, NULL, 22));
 	track_address(env_var);
 	env_var = create_env(name, value);
 	for (env = environ; *env; env++)
@@ -76,8 +76,7 @@ int ma_unsetenv(char *name)
 	char **env, **del;
 
 	if ((ma_strchr(name, '=') != NULL) || (ma_strlen(name) == 0))
-		return (error_handler(NULL, 22));
-	/* Iterate through the environ and remove if it exists */
+		return (ma_perror(NULL, NULL, 22));
 	for (env = environ; *env; env++)
 	{
 		if (ma_strncmp(*env, name, ma_strlen(name)) == 0 &&
