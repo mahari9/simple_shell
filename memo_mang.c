@@ -10,7 +10,7 @@
 void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *result;
-	void *old_ptr, new_ptr;
+	char *old_ptr, *new_ptr;
 
 	if (new_size == old_size)
 		return (ptr);
@@ -30,29 +30,25 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	if (result == NULL)
 		free(ptr);
 	new_ptr = result;
-	ma_memcpy(result, ptr, old_size);
+	ma_memcpy(new_size, old_size);
 	free(ptr);
 	return (result);
 }
 
 /**
  * ma_memcpy - copy n bytes of memory from src to dst
- * @dst: destination pointer
- * @src: source pointer
- * @n: size to be copied
- * Return: pointer to dst
+ * @new_size: destination pointer
+ * @old_size: source pointer
+ * Return: pointer to new pointer
  */
-char *ma_memcpy(char *dst, char *src, unsigned int n)
+void ma_memcpy(char *new_size, char *old_size)
 {
 	unsigned int i;
+	void *nw_ptr, *od_ptr
 
-	for (i = 0; i < n; i++)
-	{
-		dst[i] = src[i];
-	}
-	return (dst);
+	for (i = 0; i < old_size && i < new_size; i++)
+		nw_ptr = *old_ptr++;
 }
-
 /**
  * deallocate - free allocated memory for array pointer and user input
  * @argus: array of pointer to the character
