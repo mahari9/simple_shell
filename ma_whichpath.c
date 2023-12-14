@@ -79,30 +79,26 @@ int ma_whichpath(char **cmnd)
  */
 char *ma_getenv(const char *name)
 {
-	size_t name_len, env_len, value_len;
-	char *value = NULL, *value_beginning = NULL, **env = environ;
+	int i, j;
+	char **envm = environ, *value, *value_start;
+	size_t value_length;
 
-	name_len = ma_strlen(name);
-	for (*env != NULL; env++)
+	if (!name || !environ)
+		return (NULL);
+	for (i = 0; environ[i] != NULL; i++)
 	{
-		env_len = 0;
-		while ((*env)[env_len] != '=' && (*env)[env_len] != '\0')
+		for (j = 0; name[j] != '\0' && name[j] == envm[i][j]; j++)
+		if (name[j] == '\0' && envm[i][j] == '=')
 		{
-			env_len++;
-		}
-		if (env_len == name_len && ma_strncmp(name, *env, name_len) == 0)
-		{
-			value_beginning = (*env) + env_len + 1;
-			value_len = ma_strlen(value_beginning);
-			value = malloc(value_len + 1);
+			value_start = &envp[i][j + 1];
+			value_length = _strlen(value_start);
+
+			value = malloc(value_length + 1);
+
 			if (value)
 			{
-				ma_strcpy(value, value_beginning);
+				ma_strcpy(value, value_start);
 				return (value);
-			}
-			else if
-			{
-				return (NULL);
 			}
 		}
 	}
