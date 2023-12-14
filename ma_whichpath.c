@@ -29,9 +29,9 @@ char *ma_buildpath(char *comp, char *dir)
 /**
  * ma_whichpath- Function that search path for executable command
  * @cmnd: executable Command
- * Return: 0 on success or -1 on failure
+ * Return: path to executable cmnd or NULL
  */
-int ma_whichpath(char **cmnd)
+char *ma_whichpath(char *cmnd)
 {
 	char *pth, *dup_pth, *comp, *pth_cmnd;
 	struct stat tmp;
@@ -43,14 +43,13 @@ int ma_whichpath(char **cmnd)
 		comp = ma_strtok(dup_pth, ":");
 
 		do {
-			pth_cmnd = ma_buildpath(*cmnd, comp);
+			pth_cmnd = ma_buildpath(cmnd, comp);
 			if (stat(pth_cmnd, &tmp) == 0)
 			{
-				*cmnd = ma_strdup(pth_cmnd);
+				cmnd = ma_strdup(pth_cmnd);
 				free(dup_pth);
 				free(pth);
-				free(pth_cmnd);
-				return (0);
+				return (pth_cmnd);
 			}
 			else
 			{
@@ -61,15 +60,15 @@ int ma_whichpath(char **cmnd)
 		free(dup_pth);
 		free(pth);
 		if (stat(*cmnd, &tmp) == 0)
-			return (0);
-		return (-1);
+			return (cmnnd);
+		return (NULL);
 	}
 	else if (stat(*cmnd, &tmp) == 0)
 	{
 		if (ma_strncmp(*cmnd, "./", 2) == 0 && ma_strncmp(*cmnd, "/", 1) == 0)
-			return (0);
+			return (cmnd);
 	}
-	return (-1);
+	return (NULL);
 }
 
 /**

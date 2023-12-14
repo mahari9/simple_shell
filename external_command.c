@@ -1,56 +1,58 @@
 #include "shell.h"
-
 /**
- * external_command - Function that handles external commands execution
- * @argu: Arroy of pointers to executable command
- * @usrin: input by user
- * @argv: array of arguments passed to function
- * @envm: pointer to the environment variables
+ * inputcommand_execute - handle execution of input external commands
+ * @argv: vector arguments
+ * @argus: parsed command to be executed
+ * @envm: array of pointer to the environment variables
  * Return: 0 (Success)
  */
-int external_command(char **argu, char *usrin, char **argv, char **envm)
+
+int inputcommand_execute(char **argv, char **argus, char **envm)
 {
+	char *pth_cmnd = ma_whichpath(argv[0]);
+	int stat = 0;
 	pid_t pid;
 
-	if (*argu == NULL)
-		return (EXIT_FAILURE);
-	pid = fork();
-	if (pid == 0)
-	{
-		ma_whichpath(argu);
-		if (access(argu[0], X_OK) != 0)
+	if (pth_cmnd !=NULL)
+		if (pid == 0)
 		{
-			ma_perror(argv, argu, 126);
-			deallocate(argu, usrin);
-			exit(126);
+			stat = execve(pth_cmnd, argv, impl_env(envm));
+			if (stat == -1)
+			{
+				if (source)
+					free(pth_cmnd);
+				perror("execve");
+				return (-1);
+			}
 		}
-		if (execve(*argu, argu, impl_env(envm)) == -1)
+		else if (pid == -1)
 		{
-			ma_perror(argv, argu, 127);
-			deallocate(argu, usrin);
-			perror("execve");
-			exit(127);
-		}
-		else if 
-		{
-			(pid == -1);
+			if (stat)
+				free(pth_cmnd);
 			perror("forking");
 			return (-1);
 		}
 		else
-			return (p_process(pid, argu, argv));
+		{
+			if (source)
+				free(pth_cmnd);
+			return (p_process(pid, argv, argus));
+		}
 	}
+	else
+		stat = ma_perror(argv,argus, 127);
+	return (stat);
 }
 
 /**
- * p_process- handles parent proccess after fork
- * @argu: array of pointers to executable command
- * @argv: array of arguments passed to function
+ * p_process - handle parent proccess after forking(pid = 0)
+ * @argv: vector of arguments
+ * @argus: parsed command to be executed
  * @pid: proccess id
  * Return: 0 (Success)
  */
 
-int p_process(pid_t pid, char **argu, char **argv)
+int p_process(char **argv, char **argus, pid_t pid)
 {
 	int wstatus;
 
@@ -63,14 +65,11 @@ int p_process(pid_t pid, char **argu, char **argv)
 	{
 		status = WEXITSTATUS(wstatus);
 		if (status != 0)
-			ma_perror(argv, argu, status);
-		return (status);
+			ma_perror(argv, argus, status);
 	}
 	else if (WIFSIGNALED(wstatus))
-		return (128 + WTERMSIG(wstatus));
-	else if
-	{
-		return (127);
-	}
-	return (0);
+		status = (128 + WTERMSIG(wstatus));
+	else
+		status = 127;
+	return (status);
 }
