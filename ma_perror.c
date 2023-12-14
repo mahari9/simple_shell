@@ -37,20 +37,20 @@ int ma_perror(char **argv, char **argus, int cod)
 
 	if (cod == 22)
 	{
-		error = "Invalid Argument\n"
+		write(STDERR_FILENO, "Invalid Argument\n", 17);
 			WRT(error);
 		errno = EINVAL;
 		status = -1;
 	}
 	else if (cod == 126)
 	{
-		error = display_error126(char **argv, char **argus);
+		error = display_error126(argv, argus);
 		WRT(error);
 		status = 126;
 	}
 	else if (cod == 127)
 	{
-		error = display_error(char **argv, char **argus);
+		error = display_error(argv, argus);
 		WRT(error);
 		status = 127;
 	}
@@ -75,8 +75,8 @@ int ma_perror(char **argv, char **argus, int cod)
  */
 void ma_perrorfile(char **argv)
 {
-	char *error, *ec, *msg = ": Can't open "
-		int len, status;
+	char *error, *ec, *msg = ": Can't open ";
+	int len, status;
 
 	if (count != 0)
 	{
@@ -88,7 +88,7 @@ void ma_perrorfile(char **argv)
 		ec = "0";
 
 	len = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argv[1])
-		+ ma_strlen(meg) + 4;
+		+ ma_strlen(msg) + 4;
 	error = malloc(sizeof(char) * (len));
 	if (!error)
 	{

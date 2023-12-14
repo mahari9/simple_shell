@@ -48,7 +48,7 @@ typedef struct alias_list
 /********* global variable declaration****/
 alias_list G_alias;
 int count, num_p, status, builtp, p_unset, replflag;
-int env_n[50];
+void *env_n[50];
 
 /*********** string_manp.c *******/
 int ma_strlen(const char *str);
