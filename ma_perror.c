@@ -23,9 +23,9 @@ void ma_perror_cd(char **argv, char **argus, int cod)
 }
 
 /**
- * ma_perror - Handle error message to standard output
+ * ma_perror - handle error message to standard output
  * @argv: argument vector
- * @argus: Array of pointers to the arguments
+ * @argus: array of pointers to the arguments
  * @cod: code of errore
  *
  * Return: error code
