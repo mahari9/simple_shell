@@ -105,7 +105,7 @@ void exit_shell(char **argv)
  * initialize_alias_count- initialization of global alias
  * list of aliases and alias_count
  */
-void initialize_aliases_count(void)
+void initialize_alias_count(void)
 {
 	int i;
 
