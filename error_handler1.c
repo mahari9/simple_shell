@@ -26,10 +26,9 @@ char *display_error(char **argus)
 	ma_strcat(error, ": ");
 	ma_strcat(error, argus[0]);
 	ma_strcat(error, ": not found\n");
-	free(ec);
-	WRT(error);
-	free(argus);
-	free(error);
+
+	if (count)
+		free(ec);
 	return (error);
 }
 
@@ -59,10 +58,9 @@ char *display_error126(char **argus)
 	ma_strcat(error, ": ");
 	ma_strcat(error, argus[0]);
 	ma_strcat(error, ": permission denied\n");
-	free(ec);
-	WRT(error);
-	free(argus[0]);
-	free(error);
+	
+	if (count)
+		free(ec);
 	return (error);
 }
 
@@ -94,9 +92,10 @@ void display_errorexit(char **argus)
 	ma_strcat(error, ": invalid number: ");
 	ma_strcat(error, argus[1]);
 	ma_strcat(error, "\n");
-	free(ec);
+	
+	if (count)
+		free(ec);
 	WRT(error);
-	free(argus);
 	free(error);
 }
 
@@ -131,6 +130,7 @@ char *ma_cd_error(char **argus)
 	ma_strcat(error, argus[1]);
 	ma_strcat(error, "\n");
 	ma_strcat(error, "\0");
+	
 	free(ec);
 	return (error);
 }
