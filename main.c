@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 		{
 			filename = argv[1];
 			if (validate_file(filename))
-				ma_readprocess_execute_file(filename, argv);
+				ma_readprocess_execute_file(filename);
 			else
 				ma_perrorfile(argv);
 		}

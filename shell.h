@@ -47,11 +47,8 @@ typedef struct alias_list
 
 /********* global variable declaration****/
 alias_list G_alias;
-<<<<<<< HEAD
 char *usrin, **argv;
-=======
 char *usrin, char *shell;
->>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 int count, num_p, status, source, replflag;
 void *env_n[50];
 
@@ -80,7 +77,7 @@ char *ma_strchr(const char *s, int crt);
 char **impl_env(char **ma_environ);
 int ma_env(char **envm);
 int ma_cd(char **argus);
-void exit_shell(char **argus);
+void exit_shell(char **argv);
 char *create_env(char *name, char *value);
 int ma_setenv(char *name, char *value);
 int ma_unsetenv(char *name);
@@ -115,11 +112,11 @@ char *hashtag_comm(char *line);
 char *ma_process_line(char *line);
 int get_process_stdininput(void);
 int validate_file(const char *pn);
-void ma_readprocess_execute_file(const char *filename, char **argv);
-int ma_parser(char *usri);
+void ma_readprocess_execute_file(const char *filename);
+int ma_parser(char *usrin);
 int handle_opera(char *cmd, char *opr);
 int ma_separat(char *usri);
-char *ma_strtok(char *usrin, const char *separ);
+char *ma_strtok(char *usri, const char *separ);
 int main(int argc, char **argv);
 
 /******* execution commands *******/

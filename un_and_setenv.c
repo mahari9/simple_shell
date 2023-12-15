@@ -18,7 +18,7 @@ char *create_env(char *name, char *value)
 	env_v = malloc(sizeof(char) * (len));
 	if (env_v == NULL)
 		return (NULL);
-	ma_perror(NULL, NULL, 12);
+	ma_perror(NULL, 12);
 	ma_strcpy(env_v, name);
 	ma_strcat(env_v, "=");
 	ma_strcat(env_v, value);
@@ -41,7 +41,7 @@ int ma_setenv(char *name, char *value)
 
 	if ((ma_strchr(name, '=') != NULL) || (ma_strlen(name) == 0))
 		return (-1);
-	ma_perror(NULL, NULL, 22);
+	ma_perror(NULL, 22);
 	track_address(env_var);
 	env_var = create_env(name, value);
 	for (env = environ; *env; env++)
@@ -58,7 +58,7 @@ int ma_setenv(char *name, char *value)
 	mod_environ = malloc(sizeof(char *) * (j + 2));
 	if (mod_environ == NULL)
 		return (-1);
-	ma_perror(NULL, NULL, 12);
+	ma_perror(NULL, 12);
 	track_address(mod_environ);
 	for (i = 0; environ[i]; i++)
 		mod_environ[i] = environ[i];
@@ -79,7 +79,7 @@ int ma_unsetenv(char *name)
 	char **env, **del;
 
 	if ((ma_strchr(name, '=') != NULL) || (ma_strlen(name) == 0))
-		return (ma_perror(NULL, NULL, 22));
+		return (ma_perror(NULL, 22));
 	for (env = environ; *env; env++)
 	{
 		if (ma_strncmp(*env, name, ma_strlen(name)) == 0 &&

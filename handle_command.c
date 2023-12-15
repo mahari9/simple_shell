@@ -70,11 +70,8 @@ int ma_parser(char *usri)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
-<<<<<<< HEAD
 	char *usrin_copy = NULL, *argu, **argus, *found;
-=======
 	char *usri_copy = NULL, *argu, **argus, *found;
->>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 
 	usri_copy = ma_strdup(usri);
 	if (usri_copy != NULL)
@@ -103,11 +100,8 @@ int ma_parser(char *usri)
 	}
 	argus[i] = NULL;
 	if (replflag == 0)
-<<<<<<< HEAD
 		stat = handle_commands(argus, NULL);
-=======
 		stat = handle_commands(argus);
->>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 	else
 		write(STDOUT_FILENO, "\n", 1);
 	deallocate(argus, NULL);
@@ -137,11 +131,7 @@ int handle_commands(char **argus)
 	}
 	if (argus && argus[0])
 	{
-<<<<<<< HEAD
-		stat = execute_builtin(argus, argv);
-=======
 		stat = execute_builtin(argus);
->>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 		if (stat != 1)
 			return (stat);
 		else
