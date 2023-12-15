@@ -9,17 +9,17 @@ int get_process_stdininput(void)
 {
 	int count = 0, loca_count = 0, stat = 0;
 	size_t n = 0;
-	char *usrin = NULL, **envm, c;
+	char *usrin = NULL, c;
 
 	do {
 		count++;
 		c = ma_getline(&usrin, &n, STDIN_FILENO);
-		if (usrin[0] == '0')
-			continue;
-		loca_count++;
-		replflag = 0;
 		source = 0;
-		stat = ma_separat(line);
+		if (usrin[c - 1] == '\n')
+			(usrin[c - 1] = '0');
+		count++
+		loca_count++;
+		stat = ma_separat(ursin);
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
@@ -46,7 +46,7 @@ void ma_readprocess_execute_file(const char *filename, char **argv)
 	char *line = NULL;
 	size_t n = 0;
 	int count = 0, loca_count, stat = 0, fd;
-	void (argv);
+	(void)argv;
 
 	if (!filename)
 		exit(EXIT_FAILURE);
