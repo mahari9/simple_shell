@@ -17,9 +17,9 @@ int get_process_stdininput(void)
 		replflag = 0;
 		if (usrin[c - 1] == '\n')
 			(usrin[c - 1] = '0');
-		count++
+		count++;
 		loca_count++;
-		stat = ma_separat(ursin);
+		stat = ma_separat(usrin);
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
