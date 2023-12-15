@@ -70,23 +70,20 @@ void print_alias(int r)
 	aliaslis = NULL;
 
 	len = ma_strlen(G_alias.aliases[r].name)
-<<<<<<< HEAD
 	+ ma_strlen(G_alias.aliases[r].value);
-    aliaslis = malloc(sizeof(char) * (len + 5));
-    if (aliaslis == NULL)
-    {
-        ma_perror(NULL, 12);
-        return;
-    }
-=======
-		+ ma_strlen(G_alias.aliases[r].value);
+	aliaslis = malloc(sizeof(char) * (len + 5));
+	if (aliaslis == NULL)
+	{
+		ma_perror(NULL, 12);
+		return;
+	}
+	+ma_strlen(G_alias.aliases[r].value);
 	aliaslis = malloc(sizeof(char) * (len + 5));
 	if (aliaslis == NULL)
 	{
 		ma_perror(NULL, NULL, 12);
 		return;
 	}
->>>>>>> 97098e3ee2d2c4936091a6f0d64339980b548c8b
 	ma_strcpy(aliaslis, G_alias.aliases[r].name);
 	ma_strcat(aliaslis, "='");
 	ma_strcat(aliaslis, G_alias.aliases[r].value);
@@ -107,26 +104,15 @@ void ma_alias(char **argus)
 
 	for (i = 0; argus[i]; i++)
 		ar_count++;
-	if (ar_count == 0)
+	if (!ar_count)
 	{
 		for (i = 0; i < G_alias.a_count; i++)
 			print_alias(i);
 	}
 	for (; col < ar_count; n++, col++)
 	{
-<<<<<<< HEAD
 		equal = ma_strchr(argus[n], '=');
-		if (!equal)
-        {
-            for (i = 0; i <= G_alias.a_count; i++)
-            if ((G_alias.aliases[i].name)
-			&& (ma_strcmp(argus[n], G_alias.aliases[i].name) == 0))
-            {
-                print_alias(i);
-                break;
-			}
-=======
-		if ((equal = ma_strchr(argus[n], '=')) == NULL)
+		if (equal == NULL)
 		{
 			for (i = 0; i <= G_alias.a_count; i++)
 				if ((G_alias.aliases[i].name)
@@ -135,7 +121,6 @@ void ma_alias(char **argus)
 					print_alias(i);
 					break;
 				}
->>>>>>> 97098e3ee2d2c4936091a6f0d64339980b548c8b
 		}
 		else
 		{
@@ -153,9 +138,9 @@ void ma_alias(char **argus)
 	valuelist[row] = NULL;
 }
 
+
 /**
  * ma_cd - change the current directory of the process
- * @argv: argument vector
  * @argus: Array of pointers to the arguments
  * Return: 0 on success, -1 on failure
  */
@@ -168,7 +153,6 @@ int ma_cd(char **argus)
 	track_address(old_dir);
 	cwd = getcwd(NULL, 0);
 	track_address(cwd);
-
 	if (!argv[1])
 	{
 		home = ma_getenv("HOME");
@@ -195,11 +179,8 @@ int ma_cd(char **argus)
 	else
 	{
 		if (chdir(dir) != 0)
-<<<<<<< HEAD
 			ma_perror_cd(argus, 3);
-=======
-			ma_perror_cd(argv, argus, 3);
->>>>>>> 97098e3ee2d2c4936091a6f0d64339980b548c8b
+			ma_perror_cd(argus, 3);
 		return (-1);
 	}
 	ma_setenv("OLDPWD", old_dir);
