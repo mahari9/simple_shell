@@ -20,14 +20,14 @@ int get_process_stdininput(void)
 			(usrin[c - 1] = '0');
 		count++;
 		loca_count++;
-                for (envm = environ; *envm; ++envm)
-                {
-                        if (ma_strcmp(*envm, "PATH=") == 0)
-                        {
-                                no_pth = 0;
-                                break;
-                        }
-                }
+		for (envm = environ; *envm; ++envm)
+		{
+			if (ma_strcmp(*envm, "PATH=") == 0)
+			{
+				no_pth = 0;
+				break;
+			}
+		}
 		stat = ma_separat(usrin);
 		if (isatty(STDIN_FILENO))
 		{

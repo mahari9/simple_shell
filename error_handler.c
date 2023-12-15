@@ -2,8 +2,8 @@
 
 /**
  * display_error - Function that prints error message for code error 127
- * @argus:  Array of pointers to the command line arguments
- * return: error message or NULL
+ * @argus: Array of pointers to the command line arguments
+ * Return: Error message or NULL
  */
 char *display_error(char **argus)
 {
@@ -13,13 +13,15 @@ char *display_error(char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
-	error = malloc(sizeof(char) * (length + 17));
+
+	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]) + 17;
+	error = malloc(sizeof(char) * length);
 	if (!error)
 	{
 		free(ec);
 		return (NULL);
 	}
+
 	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
@@ -31,6 +33,7 @@ char *display_error(char **argus)
 		free(ec);
 	return (error);
 }
+
 
 /**
  * display_error126 - Function that prints error message for code error 126
@@ -58,7 +61,7 @@ char *display_error126(char **argus)
 	ma_strcat(error, ": ");
 	ma_strcat(error, argus[0]);
 	ma_strcat(error, ": permission denied\n");
-	
+
 	if (count)
 		free(ec);
 	return (error);
@@ -92,7 +95,7 @@ void display_errorexit(char **argus)
 	ma_strcat(error, ": invalid number: ");
 	ma_strcat(error, argus[1]);
 	ma_strcat(error, "\n");
-	
+
 	if (count)
 		free(ec);
 	WRT(error);
@@ -130,7 +133,7 @@ char *ma_cd_error(char **argus)
 	ma_strcat(error, argus[1]);
 	ma_strcat(error, "\n");
 	ma_strcat(error, "\0");
-	
+
 	free(ec);
 	return (error);
 }
