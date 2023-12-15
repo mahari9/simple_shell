@@ -19,8 +19,23 @@ int get_process_stdininput(void)
 			(usrin[c - 1] = '0');
 		count++;
 		loca_count++;
+<<<<<<< HEAD
 		replfalg = 0;
 		stat = ma_separat(usrin);
+=======
+		{
+			stat = ma_separat(usrin);
+			if (isatty(STDIN_FILENO))
+			{
+				display_prompt();
+				fflush(stdout);
+			}
+		} while (1);
+		if (usrin)
+			free(usrin);
+		if (isatty(STDIN_FILENO))
+			write(STDERR_FILENO, "\n", 2);
+>>>>>>> 97098e3ee2d2c4936091a6f0d64339980b548c8b
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
@@ -61,6 +76,7 @@ void ma_readprocess_execute_file(const char *filename)
 		count++;
 		loca_count++;
 		source = 0;
+		replflag = 0;
 		stat = ma_parser(line);
 	}
 	if (line)

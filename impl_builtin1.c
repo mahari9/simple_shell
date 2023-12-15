@@ -105,3 +105,19 @@ void exit_shell(char **argv, char **argus)
 	deallocate_env();
 	exit(stat);
 }
+
+/**
+ * initialize_alias_count- initialization of global alias
+ * list of aliases and alias_count
+ */
+void initialize_aliases_count(void)
+{
+	int i;
+
+	for (i = 0; i < MAXALS; ++i)
+	{
+		G_alias.aliases[i].name = NULL;
+		G_alias.aliases[i].value = NULL;
+	}
+	G_alias.a_count = 0;
+}

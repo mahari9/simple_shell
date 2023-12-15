@@ -30,7 +30,7 @@ int ma_strcmp(char *str1, char *str2)
  * ma_strncmp - Function that compares n number of char of two strings
  * @str1: string one
  * @str2: string two
- * @n: Number of 
+ * @n: Number of
  * Return: integer value
  */
 int ma_strncmp(const char *str1, const char *str2, size_t n)
@@ -40,7 +40,7 @@ int ma_strncmp(const char *str1, const char *str2, size_t n)
 	if (str1 == NULL)
 		return (-1);
 
-	while(i < n && str2[i] != '\0')
+	while (i < n && str2[i] != '\0')
 	{
 		if (str1[i] != str2[i])
 		{
@@ -101,30 +101,28 @@ int ma_atoi(char *str)
  *
  * Return: pointer to the beginning of the substring or NULL;
  */
-
-char *ma_strstr(char *hystk, char *ndl) 
+char *ma_strstr(char *hystk, char *ndl)
 {
 	char *r = hystk, *n = ndl;
 
-    if (*ndl == '\0') 
+	if (*ndl == '\0')
 	{
-        return (hystk);
-    }
-    while (*hystk != '\0')
+		return (hystk);
+	}
+	while (*hystk != '\0')
 	{
-        while (*r != '\0' && *n != '\0' && *r == *n) 
+		while (*r != '\0' && *n != '\0' && *r == *n)
 		{
-            r++;
-            n++;
-        }
-        if (*n == '\0') 
+			r++;
+			n++;
+		}
+		if (*n == '\0')
 		{
-            return (r);
-        }
-        hystk++;
+			return (r);
+		}
+		hystk++;
 		r = hystk;
 		n = ndl;
-    }
-
-    return (NULL);
+	}
+	return (NULL);
 }

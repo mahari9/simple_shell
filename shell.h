@@ -47,7 +47,11 @@ typedef struct alias_list
 
 /********* global variable declaration****/
 alias_list G_alias;
+<<<<<<< HEAD
+char *usrin, **argv;
+=======
 char *usrin, char *shell;
+>>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 int count, num_p, status, source, replflag;
 void *env_n[50];
 
