@@ -47,7 +47,7 @@ char *update_var(char *cmd)
 		if (i + 1 >= size)
 		{
 			size *= 2;
-			buffer = ma_realloc(buffer, size);
+			buffer = ma_realloc(buffer, size, size*= 2);
 			if (!buffer)
 				return (NULL);
 		}

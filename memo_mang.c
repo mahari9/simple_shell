@@ -10,7 +10,8 @@
 void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *result;
-	void *old_ptr, new_ptr;
+	char *old_ptr, *new_ptr;
+	unsigned int i;
 
 	if (new_size == old_size)
 		return (ptr);
@@ -30,7 +31,8 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	if (result == NULL)
 		free(ptr);
 	new_ptr = result;
-	ma_memcpy(result, ptr, old_size);
+	for (i = 0; i < old_size && i < new_size; i++)
+		result = *old_ptr++;
 	free(ptr);
 	return (result);
 }
@@ -39,8 +41,8 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  * ma_memcpy - copy n bytes of memory from src to dst
  * @dst: destination pointer
  * @src: source pointer
- * @n: size to be copied
- * Return: pointer to dst
+ * @n: the size in bytes to be copied
+ * Return: pointer to new pointer
  */
 char *ma_memcpy(char *dst, char *src, unsigned int n)
 {
@@ -52,7 +54,6 @@ char *ma_memcpy(char *dst, char *src, unsigned int n)
 	}
 	return (dst);
 }
-
 /**
  * deallocate - free allocated memory for array pointer and user input
  * @argus: array of pointer to the character
@@ -69,7 +70,7 @@ void deallocate(char **argus, char *usrin)
 /**
  * deallocate_env - deallocate memory allocated for ma_setenv
  */
-void deallocte_env(void)
+void deallocate_env(void)
 {
 	int i;
 

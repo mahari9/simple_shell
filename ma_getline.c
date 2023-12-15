@@ -1,94 +1,118 @@
 #include "shell.h"
 
 /**
- * ma_getline - Read input from stdin
- * Return: the input on a tmpso
+ * ma_getline - read input from source stream.
+ * @linept: pointer to the input line
+ * @n: the n the size of bytes read from input
+ * @fd: file descriptor
+ *
+ * Return: n read or -1 on failure
  */
-char *ma_getline()
+ssize_t ma_getline(char **linept, size_t *n, int fd)
 {
-	int i, read_line;
-	char k = 0;
-	static char *tmpso, *result;
-	static int tmpsosize = TMPMAXSIZE;
+	size_t index = 0, n_rd = 256, nw_rd;
+	char *nw_ln;
+	int c;
 
-	tmpso = malloc(tmpsosize);
-	if (tmpso == NULL)
+	if (linept == NULL || n == NULL)
 	{
-		free(tmpso);
-		return (NULL);
+		errno = EINVAL;
+		return (-1);
 	}
-	for (i = 0; k != EOF && k != '\n'; i++)
+	if (*linept == NULL)
 	{
-		read_line = read(STDIN_FILENO, &k, 1);
-		if (read_line == 0)
+		*linept = malloc(n_rd);
+		if (*linept == NULL)
+			return (-1);
+		*n = n_rd;
+	}
+	while ((c = ma_getc(fd)) != EOF)
+	{
+		if (index + 1 >= *n)
 		{
-			free(tmpso);
-			exit(EXIT_SUCCESS);
+			nw_rd = (*n) * 2;
+			nw_ln = ma_realloc(*linept, *n, nw_rd);
+			if (nw_ln == NULL)
+				return (-1);
+			*linept = nw_ln;
+			*n = nw_rd;
 		}
-		tmpso[i] = k;
-		if (tmpso[0] == '\n')
+		(*linept)[index++] = c;
+		if (c == '\n')
 		{
-			free(tmpso);
-			return (NULL);
-		}
-		if (i >= tmpsosize)
-		{
-			tmpso = ma_realloc(tmpso, tmpsosize, (tmpsosize + 2));
-			if (tmpso == NULL)
-			{
-				free(tmpso);
-				return (NULL);
-			}
+			(*linept)[index] = '\0';
+			return (index);
 		}
 	}
-	tmpso[i] = '\0';
-	result = ma_process_line(tmpso);
-	free(tmpso);
-	return (result);
+	if (index == 0)
+		return (-1);
+	(*linept)[index] = '\0';
+	return (index);
 }
 
 /**
- * ma_process_line - A line read from stdin to be processed
- * @line: user input
- * Return: the input on a tmpso
+ * ma_getc - funtion that reads c character at a time from file
+ * @fd: file descriptor
+ *
+ * Return: read character
  */
-char *ma_process_line(char *line)
+int ma_getc(int fd)
 {
-	int i, j = 0;
-	int line_len = ma_strlen(line);
-	char *result;
+	static char buffer[BUFFMAXSIZE];
+	static size_t index;
+	static size_t rd;
 
-	result = malloc(sizeof(char) * (line_len + 1));
-	if (result == NULL)
+	if (index >= rd)
 	{
-		free(line);
-		free(result);
-		return (NULL);
+		fill_buffer(fd, buffer, &index, &rd);
+
+		if (rd <= 0 || index >= rd)
+			return (EOF);
 	}
-	for (i = 0; line[i] == ' '; i++)
-		;
-	for (; line[i + 1] != '\0'; i++)
-	{
-		result[j] = line[i];
-		j++;
-	}
-	result[j] = '\0';
-	if (result[0] == '\0' || result[0] == '#')
-	{
-		free(line);
-		return ("\0");
-	}
-	for (i = 0; result[i] != '\0'; i++)
-	{
-		if (result[i] == '#' && result[i - 1] == ' '
-				&& result[i + 1] == ' ')
-		{
-			result[i] = '\0';
-		}
-	}
-	return (result);
+	return ((int)buffer[index++]);
 }
 
+/**
+ * fill_buffer - fill buffer from fd if the index is greater than size
+ * @fd: file descriptor
+ * @buffer: buffer that store the file
+ * @index: pointer that keep track the absolute position in buffer
+ * @rd: the size of buffer in bytes to be get read
+ */
+
+void fill_buffer(int fd, char *buffer, size_t *index, size_t *rd)
+{
+	*index = 0;
+	*rd = read(fd, buffer, BUFFMAXSIZE);
+}
+
+/**
+ * hashtag_comm - remove comments in line after hashtag
+ * @line: input to be treated
+ *
+ * Return: line without comments or null
+ */
+char *hashtag_comm(char *line)
+{
+	size_t rmn;
+	char *index, *treated_line = NULL;
+
+	if (*line == '#')
+		return (NULL);
+	index = ma_strchr(line, '#');
+	if (index)
+	{
+		rmn = index - line;
+		if (rmn > 0 && line[rmn - 1] == ' ')
+		{
+			treated_line = ma_strndup(line, rmn);
+			treated_line[rmn] = '\0';
+			track_address(treated_line);
+			line = treated_line;
+		}
+	}
+	return (line);
+}
 /**
  * validate_file - validate file regularity
  * @pn: path name to the file to be validated

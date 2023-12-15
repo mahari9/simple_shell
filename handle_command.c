@@ -113,7 +113,7 @@ int ma_parser(char *usrin)
  */
 int handle_commands(char **argus, char **argv)
 {
-	char **envm = environ, *found, *usrin, *line;
+	char **envm = environ, *found;
 	int i = 0, stat = 0;
 
 	while (argus[i] != NULL)
@@ -132,7 +132,7 @@ int handle_commands(char **argus, char **argv)
 		if (stat != 1)
 			return (stat);
 		else
-			return (external_command(argus, argv, envm));
+			return (inputcommand_execute(argus, argv, envm));
 	}
 	return (0);
 }
