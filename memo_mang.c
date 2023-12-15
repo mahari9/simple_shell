@@ -22,7 +22,7 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		if (result == NULL)
 		return (result);
 	}
-	if (new_size == 0 && ptr)
+	if (!new_size && ptr)
 	{
 		free(ptr);
 	}
@@ -32,7 +32,7 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		free(ptr);
 	new_ptr = result;
 	for (i = 0; i < old_size && i < new_size; i++)
-		result = *old_ptr++;
+		new_ptr[i] = *old_ptr++;
 	free(ptr);
 	return (result);
 }

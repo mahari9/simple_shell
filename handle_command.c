@@ -69,7 +69,7 @@ int ma_parser(char *usrin)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
-	char *usrin_copy = NULL, *argu, **argus, **argv, *found;
+	char *usrin_copy = NULL, *argu, **argus, *found;
 
 	usrin_copy = ma_strdup(usrin);
 	if (usrin_copy != NULL)
@@ -98,7 +98,7 @@ int ma_parser(char *usrin)
 	}
 	argus[i] = NULL;
 	if (replflag == 0)
-		stat = handle_commands(argus, argv);
+		stat = handle_commands(argus, NULL);
 	else
 		write(STDOUT_FILENO, "\n", 1);
 	deallocate(argus, NULL);
@@ -107,8 +107,8 @@ int ma_parser(char *usrin)
 
 /**
  * handle_commands - Function that handles execution of different commands
- * @argv: argument vector
  * @argus: Array of pointers to command line arguments passed to function
+ * @argv: vector argument
  * Return: 0 on success
  */
 int handle_commands(char **argus, char **argv)
@@ -128,7 +128,7 @@ int handle_commands(char **argus, char **argv)
 	}
 	if (argus && argus[0])
 	{
-		stat = execute_builtin(argv, argus);
+		stat = execute_builtin(argus, argv);
 		if (stat != 1)
 			return (stat);
 		else

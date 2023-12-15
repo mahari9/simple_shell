@@ -38,7 +38,7 @@ char *update_var(char *cmd)
 	size_t i = 0, size = 256, verify = 0;
 	pid_t pid;
 
-	buffer = malloc(256);
+	buffer = malloc(size);
 	if (!buffer)
 		return (NULL);
 
@@ -47,7 +47,7 @@ char *update_var(char *cmd)
 		if (i + 1 >= size)
 		{
 			size *= 2;
-			buffer = ma_realloc(buffer, size, size*= 2);
+			buffer = malloc(size);
 			if (!buffer)
 				return (NULL);
 		}
