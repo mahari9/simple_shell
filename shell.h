@@ -47,9 +47,8 @@ typedef struct alias_list
 
 /********* global variable declaration****/
 alias_list G_alias;
-char *usrin, **argv;
-char *usrin, char *shell;
-int count, num_p, status, source, replflag;
+char *usrin, *shell;
+int count, num_p, status, source, replflag, no_pth;
 void *env_n[50];
 
 /*********** string_manp.c *******/

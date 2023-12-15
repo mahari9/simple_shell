@@ -14,28 +14,21 @@ int get_process_stdininput(void)
 	do {
 		c = ma_getline(&usrin, &n, STDIN_FILENO);
 		source = 0;
+		no_pth = 1;
 		replflag = 0;
 		if (usrin[c - 1] == '\n')
 			(usrin[c - 1] = '0');
 		count++;
 		loca_count++;
-<<<<<<< HEAD
-		replfalg = 0;
+                for (envm = environ; *envm; ++envm)
+                {
+                        if (ma_strcmp(*envm, "PATH=") == 0)
+                        {
+                                no_pth = 0;
+                                break;
+                        }
+                }
 		stat = ma_separat(usrin);
-=======
-		{
-			stat = ma_separat(usrin);
-			if (isatty(STDIN_FILENO))
-			{
-				display_prompt();
-				fflush(stdout);
-			}
-		} while (1);
-		if (usrin)
-			free(usrin);
-		if (isatty(STDIN_FILENO))
-			write(STDERR_FILENO, "\n", 2);
->>>>>>> 97098e3ee2d2c4936091a6f0d64339980b548c8b
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
@@ -58,7 +51,7 @@ int get_process_stdininput(void)
  */
 void ma_readprocess_execute_file(const char *filename)
 {
-	char *line = NULL;
+	char *line = NULL, c;
 	size_t n = 0;
 	int count = 0, loca_count, stat = 0, fd;
 
@@ -71,12 +64,22 @@ void ma_readprocess_execute_file(const char *filename)
 		exit(EXIT_FAILURE);
 	}
 
-	while ((ma_getline(&line, &n, fd)) != -1)
+	while ((c = ma_getline(&line, &n, fd)) != -1)
 	{
+		source = 0;
+		no_pth = 1;
+		if (line[c - 1] == '\n')
+			(line[c - 1] = '0');
 		count++;
 		loca_count++;
-		source = 0;
-		replflag = 0;
+		for (envm = environ; *envm; ++envm)
+		{
+			if (ma_strcmp(*envm, "PATH=") == 0)
+			{
+				no_pth = 0;
+				break;
+			}
+		}
 		stat = ma_parser(line);
 	}
 	if (line)

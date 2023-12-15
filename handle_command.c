@@ -70,7 +70,6 @@ int ma_parser(char *usri)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
-	char *usrin_copy = NULL, *argu, **argus, *found;
 	char *usri_copy = NULL, *argu, **argus, *found;
 
 	usri_copy = ma_strdup(usri);
@@ -85,7 +84,7 @@ int ma_parser(char *usri)
 		return (-1);
 	argus = malloc(sizeof(char *) * (i + 1));
 	if (!argus)
-		return (ma_perror(NULL, NULL, 12));
+		return (ma_perror(NULL, 12));
 	argu = ma_strtok(usri, delim);
 	for (i = 0; argu != NULL; i++)
 	{
@@ -100,7 +99,6 @@ int ma_parser(char *usri)
 	}
 	argus[i] = NULL;
 	if (replflag == 0)
-		stat = handle_commands(argus, NULL);
 		stat = handle_commands(argus);
 	else
 		write(STDOUT_FILENO, "\n", 1);
@@ -111,7 +109,6 @@ int ma_parser(char *usri)
 /**
  * handle_commands - Function that handles execution of different commands
  * @argus: Array of pointers to command line arguments passed to function
- * @argv: vector argument
  * Return: 0 on success
  */
 int handle_commands(char **argus)
@@ -135,7 +132,7 @@ int handle_commands(char **argus)
 		if (stat != 1)
 			return (stat);
 		else
-			return (inputcommand_execute(argv, envm));
+			return (inputcommand_execute(argus, envm));
 	}
 	return (0);
 }

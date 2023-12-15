@@ -92,7 +92,7 @@ void append_str(char **buffer, char *str, int n, size_t *i)
 			s = "0";
 		if (!*buffer)
 		{
-			ma_perror(NULL, NULL, 12);
+			ma_perror(NULL, 12);
 			return;
 		}
 		ma_strcpy(*buffer, s);
@@ -104,7 +104,7 @@ void append_str(char **buffer, char *str, int n, size_t *i)
 	{
 		if (!buffer)
 		{
-			ma_perror(NULL, NULL, 12);
+			ma_perror(NULL, 12);
 			return;
 		}
 		ma_strcpy(*buffer, str);

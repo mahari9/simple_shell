@@ -77,13 +77,6 @@ void print_alias(int r)
 		ma_perror(NULL, 12);
 		return;
 	}
-	+ma_strlen(G_alias.aliases[r].value);
-	aliaslis = malloc(sizeof(char) * (len + 5));
-	if (aliaslis == NULL)
-	{
-		ma_perror(NULL, NULL, 12);
-		return;
-	}
 	ma_strcpy(aliaslis, G_alias.aliases[r].name);
 	ma_strcat(aliaslis, "='");
 	ma_strcat(aliaslis, G_alias.aliases[r].value);
@@ -153,7 +146,7 @@ int ma_cd(char **argus)
 	track_address(old_dir);
 	cwd = getcwd(NULL, 0);
 	track_address(cwd);
-	if (!argv[1])
+	if (!argus[1])
 	{
 		home = ma_getenv("HOME");
 		track_address(home);
@@ -179,7 +172,6 @@ int ma_cd(char **argus)
 	else
 	{
 		if (chdir(dir) != 0)
-			ma_perror_cd(argus, 3);
 			ma_perror_cd(argus, 3);
 		return (-1);
 	}

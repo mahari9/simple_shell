@@ -47,8 +47,10 @@ char *ma_whichpath(char *cmnd)
 			if (stat(pth_cmnd, &tmp) == 0)
 			{
 				cmnd = ma_strdup(pth_cmnd);
-				free(dup_pth);
+				if (dup_pth)
+					free(dup_pth);
 				free(pth);
+				source = 1;
 				return (pth_cmnd);
 			}
 			else
@@ -57,15 +59,16 @@ char *ma_whichpath(char *cmnd)
 				comp = strtok(NULL, ":");
 			}
 		} while (comp != NULL);
-		free(dup_pth);
+		if (dup_pth)
+			free(dup_pth);
 		free(pth);
 		if (stat(cmnd, &tmp) == 0)
 			return (cmnd);
 		return (NULL);
 	}
-	else if (stat(cmnd, &tmp) == 0)
+	else if ((no_pth == 1) && stat(cmnd, &tmp) == 0)
 	{
-		if (ma_strncmp(cmnd, "./", 2) == 0 && ma_strncmp(cmnd, "/", 1) == 0)
+		if (ma_strncmp(cmnd, "/", 1) == 0)
 			return (cmnd);
 	}
 	return (NULL);
