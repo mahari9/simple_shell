@@ -11,8 +11,9 @@ int main(int argc, char **argv)
 	const char *filename;
 
 	count = 0,
-	      status = 0;
+	status = 0;
 	num_p = 0;
+	shell = argv[0];
 
 	if (setup_signal_catcher() < 0)
 	{

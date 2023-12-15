@@ -5,13 +5,13 @@
  * @argus: pointer to user input command
  * @cod: code of error
  */
-void ma_perror_cd(char **argv, char **argus, int cod)
+void ma_perror_cd(char **argus, int cod)
 {
 	char *error = NULL;
 
 	if (cod == 2)
 	{
-		error = ma_cd_error(argv, argus);
+		error = ma_cd_error(argus);
 		status = 2;
 	}
 
@@ -24,13 +24,12 @@ void ma_perror_cd(char **argv, char **argus, int cod)
 
 /**
  * ma_perror - handle error message to standard output
- * @argv: argument vector
  * @argus: array of pointers to the arguments
  * @cod: code of errore
  *
  * Return: error code
  */
-int ma_perror(char **argv, char **argus, int cod)
+int ma_perror(char **argus, int cod)
 {
 	int status = 0;
 	char *error = NULL;
@@ -44,13 +43,13 @@ int ma_perror(char **argv, char **argus, int cod)
 	}
 	else if (cod == 126)
 	{
-		error = display_error126(argv, argus);
+		error = display_error126(argus);
 		WRT(error);
 		status = 126;
 	}
 	else if (cod == 127)
 	{
-		error = display_error(argv, argus);
+		error = display_error(argus);
 		WRT(error);
 		status = 127;
 	}
