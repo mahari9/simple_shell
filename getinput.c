@@ -12,9 +12,9 @@ int get_process_stdininput(void)
 	char *usrin = NULL, c;
 
 	do {
-		count++;
 		c = ma_getline(&usrin, &n, STDIN_FILENO);
 		source = 0;
+		replflag = 0;
 		if (usrin[c - 1] == '\n')
 			(usrin[c - 1] = '0');
 		count++
