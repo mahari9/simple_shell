@@ -74,7 +74,7 @@ void print_alias(int r)
     aliaslis = malloc(sizeof(char) * (len + 5));
     if (aliaslis == NULL)
     {
-        ma_perror(NULL, NULL, 12);
+        ma_perror(NULL, 12);
         return;
     }
 	ma_strcpy(aliaslis, G_alias.aliases[r].name);
@@ -104,7 +104,8 @@ void ma_alias(char **argus)
 	}
 	for (; col < ar_count; n++, col++)
 	{
-		if((equal = ma_strchr(argus[n], '=')) == NULL)
+		equal = ma_strchr(argus[n], '=');
+		if (!equal)
         {
             for (i = 0; i <= G_alias.a_count; i++)
             if ((G_alias.aliases[i].name)
@@ -151,10 +152,10 @@ void initialize_aliases_count(void)
  * @argus: Array of pointers to the arguments
  *  Return: 0 on success, -1 on failure
  */
-int ma_cd(char **argv, char **argus)
+int ma_cd(char **argus)
 {
 	char *cwd = NULL, *home = NULL, *prev_dir = NULL,
-	     *dir = argv[1], *old_dir = getcwd(NULL, 0);
+	     *dir = argus[1], *old_dir = getcwd(NULL, 0);
 	int value;
 
 	track_address(old_dir);
@@ -187,7 +188,7 @@ int ma_cd(char **argv, char **argus)
 	else
 	{
 		if (chdir(dir) != 0)
-			ma_perror_cd(argv,argus, 3);
+			ma_perror_cd(argus, 3);
 		return (-1);
 	}
 	ma_setenv("OLDPWD", old_dir);
