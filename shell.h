@@ -47,7 +47,11 @@ typedef struct alias_list
 
 /********* global variable declaration****/
 alias_list G_alias;
+<<<<<<< HEAD
 char *usrin, **argv;
+=======
+char *usrin, char *shell;
+>>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 int count, num_p, status, source, replflag;
 void *env_n[50];
 
@@ -75,8 +79,8 @@ char *ma_strchr(const char *s, int crt);
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);
 int ma_env(char **envm);
-int ma_cd(char **argv, char **argus);
-void exit_shell(char **argv, char **argus);
+int ma_cd(char **argus);
+void exit_shell(char **argus);
 char *create_env(char *name, char *value);
 int ma_setenv(char *name, char *value);
 int ma_unsetenv(char *name);
@@ -94,14 +98,14 @@ void deallocate_env(void);
 void deallocate(char **argus, char *usrin);
 
 /********error handler and printers******/
-char *display_error(char **argv, char **argus);
-char *display_error126(char **argv, char **argus);
-void display_errorexit(char **argv, char **argus);
-void ma_perror_cd(char **argv, char **argus, int cod);
-int ma_perror(char **argv, char **argus, int cod);
+char *display_error(char **argus);
+char *display_error126(char **argus);
+void display_errorexit(char **argus);
+void ma_perror_cd(char **argus, int cod);
+int ma_perror(char **argus, int cod);
 void ma_perrorfile(char **argv);
-char *ma_cd_error(char **argv, char **argus);
-char *ma_cd_error1(char **argv, char **argus);
+char *ma_cd_error(char **argus);
+char *ma_cd_error1(char **argus);
 
 /********  getline and process ******/
 ssize_t ma_getline(char **linept, size_t *n, int fd);
@@ -112,17 +116,17 @@ char *ma_process_line(char *line);
 int get_process_stdininput(void);
 int validate_file(const char *pn);
 void ma_readprocess_execute_file(const char *filename, char **argv);
-int ma_parser(char *usrin);
-int handle_opera(char *usrin, char *opr);
-int ma_separat(char *usrin);
+int ma_parser(char *usri);
+int handle_opera(char *cmd, char *opr);
+int ma_separat(char *usri);
 char *ma_strtok(char *usrin, const char *separ);
 int main(int argc, char **argv);
 
 /******* execution commands *******/
-int handle_commands(char **argus, char **argv);
-int execute_builtin(char **argv, char **argus);
-int inputcommand_execute(char **argu, char **argv, char **envm);
-int p_process(char **argv, char **argus, pid_t pid);
+int handle_commands(char **argus);
+int execute_builtin(char **argus);
+int inputcommand_execute(char **argv, char **envm);
+int p_process(char **argus, pid_t pid);
 
 /******* variable rplace handler********/
 char *impl_var(char *cmd);

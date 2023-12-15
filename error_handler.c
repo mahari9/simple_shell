@@ -2,11 +2,10 @@
 
 /**
  * display_error - Function that prints error message for code error 127
- * @argv: vector argument
  * @argus:  Array of pointers to the command line arguments
  * return: error message or NULL
  */
-char *display_error(char **argv, char **argus)
+char *display_error(char **argus)
 {
 	int length;
 	char *error, *ec;
@@ -14,14 +13,14 @@ char *display_error(char **argv, char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]);
+	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = malloc(sizeof(char) * (length + 17));
 	if (!error)
 	{
 		free(ec);
 		return (NULL);
 	}
-	ma_strcpy(error, argv[0]);
+	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");
@@ -36,11 +35,10 @@ char *display_error(char **argv, char **argus)
 
 /**
  * display_error126 - Function that prints error message for code error 126
- *  @argv: vector argument
  * @argus: Array of pointers to the command line arguments
  * Return: error message
  */
-char *display_error126(char **argv, char **argus)
+char *display_error126(char **argus)
 {
 	int length;
 	char *error, *ec;
@@ -48,14 +46,14 @@ char *display_error126(char **argv, char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]);
+	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = malloc(sizeof(char) * (length + 25));
 	if (!error)
 	{
 		free(ec);
 		return (NULL);
 	}
-	ma_strcpy(error, argv[0]);
+	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");
@@ -70,11 +68,10 @@ char *display_error126(char **argv, char **argus)
 
 /**
  * display_errorexit - Function that prints error message for invalid exit
- * @argv: arguments vector
  * @argus: array of Pointer to command line arguments
  * Return: Nothing
  */
-void display_errorexit(char **argv, char **argus)
+void display_errorexit(char **argus)
 {
 	int length;
 	char *error, *ec;
@@ -82,14 +79,14 @@ void display_errorexit(char **argv, char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return;
-	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
+	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
 	error = malloc(sizeof(char) * (length + 24));
 	if (!error)
 	{
 		free(ec);
 		return;
 	}
-	ma_strcpy(error, argv[0]);
+	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");
@@ -105,12 +102,11 @@ void display_errorexit(char **argv, char **argus)
 
 /**
  * ma_cd_error - can't change current directory to specified location
- * @argv: vector arguments
  * @argus: Array of pointers to the command line arguments
  * Return: error message
  */
 
-char *ma_cd_error(char **argv, char **argus)
+char *ma_cd_error(char **argus)
 {
 	char *errmsg, *error, *ec;
 	int length;
@@ -119,16 +115,16 @@ char *ma_cd_error(char **argv, char **argus)
 	if (!ec)
 		return (NULL);
 	errmsg = ": cd: Unable to change directory to ";
-	length = ma_strlen(argv[0]) + ma_strlen(ec) +
+	length = ma_strlen(shell) + ma_strlen(ec) +
 		ma_strlen(errmsg) + ma_strlen(argus[1] + 4);
 	error = malloc(sizeof(char) * length);
 	if (!error)
 	{
-		ma_perror(NULL, NULL, 12);
+		ma_perror(NULL, 12);
 		free(ec);
 		return (NULL);
 	}
-	ma_strcpy(error, argv[0]);
+	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, errmsg);

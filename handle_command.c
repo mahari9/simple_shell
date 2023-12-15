@@ -2,25 +2,25 @@
 
 /**
  * handle_opera - handles when first operator is either && or ||
- * @usrin: input line to be tokenized
+ * @cmd: input command  to be tokenized
  * @opr: logical operator to be handled
  * Return: 0 on success
  */
-int handle_opera(char *usrin, char *opr)
+int handle_opera(char *cmd, char *opr)
 {
 	int result = 0;
 	char *cmnd, *log_and = ma_strstr(usrin, "&&");
 	char *log_or = ma_strstr(usrin, "||");
 
-	cmnd = ma_strtok(usrin, opr);
+	cmnd = ma_strtok(cmd, opr);
 	while (cmnd != NULL)
 	{
 		result = ma_parser(cmnd);
 		if (((result == 0) && (ma_strcmp(opr, "||") == 0))
 				|| ((result != 0) && (ma_strcmp(opr, "&&") == 0)))
 			return (result);
-		log_or = ma_strstr(usrin, "||");
-		log_and = ma_strstr(usrin, "&&");
+		log_or = ma_strstr(cmd, "||");
+		log_and = ma_strstr(cmd, "&&");
 		if (log_or == NULL || log_and < log_or)
 			opr = "&";
 		else
@@ -32,19 +32,20 @@ int handle_opera(char *usrin, char *opr)
 
 /**
  * ma_separat - separate given input into commands
- * @usrin: input of a line of string
+ * @usri: input of a line of string
  * Return: 0 on success
  */
-int ma_separat(char *usrin)
+int ma_separat(char *usri)
 {
 	char *log_and, *log_or, *cmnd;
 	int stat = 0;
 
-	if (usrin[0] == ' ' && usrin[ma_strlen(usrin)] == ' ')
+	usri = hashtag_comm(usri);
+	if (usri[0] == ' ' && usri[ma_strlen(usri)] == ' ')
 		exit(0);
-	if (!usrin)
+	if (!usri)
 		return (0);
-	cmnd = ma_strtok(usrin, ";");
+	cmnd = ma_strtok(usri, ";");
 	for (; cmnd != NULL;)
 	{
 		log_and = ma_strstr(cmnd, "&&");
@@ -61,30 +62,34 @@ int ma_separat(char *usrin)
 }
 /**
  * ma_parser - splits line into an array of tokens
- * @usrin: input command-line to be splited in arguments
+ * @usri: input command-line to be splited in arguments
  *
  * Return: 0 on seccuss -1 on failure
  */
-int ma_parser(char *usrin)
+int ma_parser(char *usri)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
+<<<<<<< HEAD
 	char *usrin_copy = NULL, *argu, **argus, *found;
+=======
+	char *usri_copy = NULL, *argu, **argus, *found;
+>>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 
-	usrin_copy = ma_strdup(usrin);
-	if (usrin_copy != NULL)
+	usri_copy = ma_strdup(usri);
+	if (usri_copy != NULL)
 	{
-		argu = ma_strtok(usrin_copy, delim);
+		argu = ma_strtok(usri_copy, delim);
 		for (i = 0; argu != NULL; i++)
 			argu = ma_strtok(NULL, delim);
-		free(usrin_copy);
+		free(usri_copy);
 	}
 	else
 		return (-1);
 	argus = malloc(sizeof(char *) * (i + 1));
 	if (!argus)
 		return (ma_perror(NULL, NULL, 12));
-	argu = ma_strtok(usrin, delim);
+	argu = ma_strtok(usri, delim);
 	for (i = 0; argu != NULL; i++)
 	{
 		argus[i] = ma_strdup(argu);
@@ -98,7 +103,11 @@ int ma_parser(char *usrin)
 	}
 	argus[i] = NULL;
 	if (replflag == 0)
+<<<<<<< HEAD
 		stat = handle_commands(argus, NULL);
+=======
+		stat = handle_commands(argus);
+>>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 	else
 		write(STDOUT_FILENO, "\n", 1);
 	deallocate(argus, NULL);
@@ -111,7 +120,7 @@ int ma_parser(char *usrin)
  * @argv: vector argument
  * Return: 0 on success
  */
-int handle_commands(char **argus, char **argv)
+int handle_commands(char **argus)
 {
 	char **envm = environ, *found;
 	int i = 0, stat = 0;
@@ -128,11 +137,15 @@ int handle_commands(char **argus, char **argv)
 	}
 	if (argus && argus[0])
 	{
+<<<<<<< HEAD
 		stat = execute_builtin(argus, argv);
+=======
+		stat = execute_builtin(argus);
+>>>>>>> f926d8fb7f96563d8cbbf029e234a587a5249dbb
 		if (stat != 1)
 			return (stat);
 		else
-			return (inputcommand_execute(argus, argv, envm));
+			return (inputcommand_execute(argv, envm));
 	}
 	return (0);
 }
