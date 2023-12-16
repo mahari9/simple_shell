@@ -43,19 +43,42 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * ma_memcpy - copy n bytes of memory from src to dst
+ * @dst: destination pointer
+ * @src: source pointer
+ * @n: the size in bytes to be copied
+ * Return: pointer to new pointer
+ */
+char *ma_memcpy(char *dst, const char *src, unsigned int n)
+{
+	unsigned int i;
+
+	char *ret = dst;
+
+	for (i = 0; i < n; i++)
+	{
+		*dst++ = *src++;
+	}
+	return ret;
+}
+
+/**
+>>>>>>> 1e2eacdfd203aa778821ae269d3a1c0e8b1eddf9
  * deallocate - free allocated memory for array pointer and user input
  * @argus: array of pointer to the character
  */
 void deallocate(char **argus)
 {
-	int i;
+	if (argus == NULL)
+		return;
 
-	for (i = 0; argus[i] != NULL; i++)
+	for (int i = 0; argus[i] != NULL; i++)
 	{
 		free(argus[i]);
 	}
-	if (argus)
-		free(argus);
+	free(argus);
 }
 
 /**
