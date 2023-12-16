@@ -21,7 +21,7 @@ ssize_t ma_getline(char **linept, size_t *n, int fd)
 	}
 	if (*linept == NULL)
 	{
-		*linept = malloc(n_rd);
+		*linept = (char*)malloc(n_rd);
 		if (*linept == NULL)
 			return (-1);
 		*n = n_rd;
@@ -31,7 +31,7 @@ ssize_t ma_getline(char **linept, size_t *n, int fd)
 		if (index + 1 >= *n)
 		{
 			nw_rd = (*n) * 2;
-			nw_ln = ma_realloc(*linept, *n, nw_rd);
+			nw_ln = (char*)ma_realloc(*linept, *n, nw_rd);
 			if (nw_ln == NULL)
 				return (-1);
 			*linept = nw_ln;

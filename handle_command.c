@@ -40,6 +40,7 @@ int ma_separat(char *line)
 int log_and(char *cmnds)
 {
 	int result = 0;
+<<<<<<< HEAD
 	char *cmd, *op = "", *log_andt = _strstr(cmnds, "&&");
 	char *log_ort = _strstr(cmnds, "||"), *sav;
 
@@ -53,6 +54,25 @@ int log_and(char *cmnds)
 				resulturn (result);
 			cmd = ma_strtok_r(NULL, "&", &sav);
 		}
+=======
+	char *cmnd, *log_and = ma_strstr(usrin, "&&");
+	char *log_or = ma_strstr(usrin, "||"), *sav;
+
+	cmnd = ma_strtok_r(cmd, opr, &sav);
+	while (cmnd != NULL)
+	{
+		result = ma_parser(cmnd);
+		if (((result == 0) && (ma_strcmp(opr, "||") == 0))
+				|| ((result != 0) && (ma_strcmp(opr, "&&") == 0)))
+			return (result);
+		log_or = ma_strstr(cmd, "||");
+		log_and = ma_strstr(cmd, "&&");
+		if (log_or == NULL || log_and < log_or)
+			opr = "&";
+		else
+			opr = "|";
+		cmnd = ma_strtok_r(NULL, opr, &sav);
+>>>>>>> 6d820a178dbfb8d43d41a70df42c5fcc7faa3f3b
 	}
 	else
 	{
@@ -82,6 +102,7 @@ int log_and(char *cmnds)
  */
 int log_or(char *cmnds)
 {
+<<<<<<< HEAD
 	int result = 0;
 	char *cmd, *op = "", *log_andt = ma_strstr(cmnds, "&&");
 	char *log_ort = ma_strstr(cmnds, "||"), *sav;
@@ -96,6 +117,28 @@ int log_or(char *cmnds)
 				resulturn (result);
 			cmd = ma_strtok_r(NULL, "|", &sav);
 		}
+=======
+	char *log_and, *log_or, *cmnd, *sav;
+	int stat = 0;
+
+	usri = hashtag_comm(usri);
+	if (usri[0] == ' ' && usri[ma_strlen(usri)] == ' ')
+		exit(0);
+	if (!usri)
+		return (0);
+	cmnd = ma_strtok_r(usri, ";", &sav);
+	for (; cmnd != NULL;)
+	{
+		log_and = ma_strstr(cmnd, "&&");
+		log_or = ma_strstr(cmnd, "||");
+		if (log_and && (log_or == NULL || log_and < log_or))
+			stat = handle_opera(cmnd, "&&");
+		else if (log_or && (log_and == NULL || log_or < log_and))
+			stat = handle_opera(cmnd, "||");
+		else
+			stat = ma_parser(cmnd);
+		cmnd = ma_strtok_r(NULL, ";", &sav);
+>>>>>>> 6d820a178dbfb8d43d41a70df42c5fcc7faa3f3b
 	}
 	else
 	{
@@ -127,22 +170,22 @@ int ma_parser(char *usri)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
-	char *usri_copy = NULL, *argu, **argus, *found;
+	char *usri_copy = NULL, *argu, **argus, *found, *sav;
 
 	usri_copy = ma_strdup(usri);
 	if (usri_copy != NULL)
 	{
-		argu = ma_strtok(usri_copy, delim);
+		argu = ma_strtok_r(usri_copy, delim, &sav);
 		for (i = 0; argu != NULL; i++)
-			argu = ma_strtok(NULL, delim);
+			argu = ma_strtok_r(NULL, delim, &sav);
 		free(usri_copy);
 	}
 	else
 		return (-1);
-	argus = malloc(sizeof(char *) * (i + 1));
+	argus = (char**)malloc(sizeof(char *) * (i + 1));
 	if (!argus)
 		return (ma_perror(NULL, 12));
-	argu = ma_strtok(usri, delim);
+	argu = ma_strtok_r(usri, delim, &sav);
 	for (i = 0; argu != NULL; i++)
 	{
 		argus[i] = ma_strdup(argu);
@@ -152,7 +195,7 @@ int ma_parser(char *usri)
 			free(argus[i]);
 			argus[i] = found;
 		}
-		argu = ma_strtok(NULL, delim);
+		argu = ma_strtok_r(NULL, delim, &sav);
 	}
 	argus[i] = NULL;
 	if (replflag == 0)

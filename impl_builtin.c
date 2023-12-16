@@ -71,7 +71,7 @@ void print_alias(int r)
 
 	len = ma_strlen(G_alias.aliases[r].name)
 	+ ma_strlen(G_alias.aliases[r].value);
-	aliaslis = malloc(sizeof(char) * (len + 5));
+	aliaslis = (char*)malloc(sizeof(char) * (len + 5));
 	if (aliaslis == NULL)
 	{
 		ma_perror(NULL, 12);
@@ -139,8 +139,8 @@ void ma_alias(char **argus)
  */
 int ma_cd(char **argus)
 {
-	char *cwd = NULL, *home = NULL, *prev_dir = NULL,
-	     *dir = argus[1], *old_dir = getcwd(NULL, 0);
+	char *cwd = NULL, *home = NULL, *prev_dir = NULL;
+	const char *dir = argus[1], *old_dir = getcwd(NULL, 0);
 	int value;
 
 	track_address(old_dir);

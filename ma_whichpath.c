@@ -12,7 +12,7 @@ char *ma_buildpath(char *comp, char *dir)
 	char *cmnd;
 
 	full_len = ma_strlen(dir) + ma_strlen(comp) + 2;
-	cmnd = malloc(sizeof(char) * full_len);
+	cmnd = (char*)malloc(sizeof(char) * full_len);
 	if (cmnd != NULL)
 	{
 		free(cmnd);
@@ -96,7 +96,7 @@ char *ma_getenv(const char *name)
 			value_start = &envm[i][j + 1];
 			value_length = ma_strlen(value_start);
 
-			value = malloc(value_length + 1);
+			value = (char*)malloc(value_length + 1);
 
 			if (value)
 			{

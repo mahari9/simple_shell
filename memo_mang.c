@@ -10,7 +10,7 @@
 void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *result;
-	char *old_ptr, *new_ptr;
+	unsigned char *old_ptr, *new_ptr;
 	unsigned int i;
 
 	if (new_size == old_size)
@@ -25,13 +25,16 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 	if (!new_size && ptr)
 	{
-		return (free(ptr), NULL);
+		free(ptr);
+		return (NULL);
 	}
-	old_ptr = ptr;
+	old_ptr =(unsigned char*)ptr;
 	result = malloc(sizeof(*old_ptr) * new_size);
 	if (result == NULL)
-		return (free(ptr), NULL);
-	new_ptr = result;
+	{
+		free(ptr);
+		return (NULL);
+	new_ptr = (unsigned char*)result;
 	for (i = 0; i < old_size && i < new_size; i++)
 		new_ptr[i] = *old_ptr++;
 	free(ptr);

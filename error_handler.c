@@ -15,7 +15,7 @@ char *display_error(char **argus)
 		return (NULL);
 
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]) + 17;
-	error = malloc(sizeof(char) * length);
+	error = (char*)malloc(sizeof(char) * length);
 	if (!error)
 	{
 		free(ec);
@@ -49,7 +49,7 @@ char *display_error126(char **argus)
 	if (!ec)
 		return (NULL);
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
-	error = malloc(sizeof(char) * (length + 25));
+	error = (char*)malloc(sizeof(char) * (length + 25));
 	if (!error)
 	{
 		free(ec);
@@ -81,7 +81,7 @@ void display_errorexit(char **argus)
 	if (!ec)
 		return;
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
-	error = malloc(sizeof(char) * (length + 24));
+	error = (char*)malloc(sizeof(char) * (length + 24));
 	if (!error)
 	{
 		free(ec);
@@ -119,7 +119,7 @@ char *ma_cd_error(char **argus)
 	errmsg = ": cd: Unable to change directory to ";
 	length = ma_strlen(shell) + ma_strlen(ec) +
 		ma_strlen(errmsg) + ma_strlen(argus[1] + 4);
-	error = malloc(sizeof(char) * length);
+	error = (char*)malloc(sizeof(char) * length);
 	if (!error)
 	{
 		ma_perror(NULL, 12);

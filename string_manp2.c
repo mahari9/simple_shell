@@ -12,7 +12,7 @@ char *ma_itoa(int num)
 	char *str;
 
 	num_digits = count_digits(num);
-	str = malloc((num_digits + 1) * sizeof(char));
+	str = (char*)malloc((num_digits + 1) * sizeof(char));
 	if (!str)
 	{
 		free(str);

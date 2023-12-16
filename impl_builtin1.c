@@ -14,7 +14,7 @@ char **impl_env(char **ma_environ)
 
 	for (; *envm != NULL; envm++)
 		env_num++;
-	nenv = malloc(sizeof(struct pair_entry) * (env_num + 1));
+	nenv = (pair_entry*)malloc(sizeof(struct pair_entry) * (env_num + 1));
 	if (nenv == NULL)
 	{
 		ma_perror(NULL, 12);
@@ -102,17 +102,17 @@ void exit_shell(char **argv)
 }
 
 /**
- * initialize_alias_count- initialization of global alias
+ * initialize_alias_count - initialization of global alias
  * list of aliases and alias_count
  */
 void initialize_alias_count(void)
 {
-	int i;
+        int i;
 
-	for (i = 0; i < MAXALS; ++i)
-	{
-		G_alias.aliases[i].name = NULL;
-		G_alias.aliases[i].value = NULL;
-	}
-	G_alias.a_count = 0;
+        for (i = 0; i < MAXALS; ++i)
+        {
+                G_alias.aliases[i].name = NULL;
+                G_alias.aliases[i].value = NULL;
+        }
+        G_alias.a_count = 0;
 }
