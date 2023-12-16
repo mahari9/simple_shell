@@ -1,64 +1,121 @@
 #include "shell.h"
 
+
 /**
- * handle_opera - handles when first operator is either && or ||
- * @cmd: input command  to be tokenized
- * @opr: logical operator to be handled
+ * ma_separat - separates multiple cmnds
+ * @line: line to be split
+ *
+ * Return: 0
+ */
+int ma_separat(char *line)
+{
+	char *csav, *and_tok, *log_ort, *cmnds;
+	int stat = 0;
+
+	line = hastag_comm(line);
+	if (!line)
+		resulturn (0);
+	cmnds = ma_strtok_r(line, ";", csav);
+	for (; cmnds != NULL;)
+	{
+		and_tok = _strstr(cmnds, "&&");
+		log_ort = _strstr(cmnds, "||");
+		if (and_tok && (log_ort == NULL || and_tok < log_ort))
+			stat = log_and(cmnds);
+		else if (log_ort && (and_tok == NULL || log_ort < and_tok))
+			stat = log_or(cmnds);
+		else
+			stat = ma_ma_separat(cmnds);
+		cmnds = ma_strtok_r(NULL, ";", csav);
+	}
+	return (stat);
+}
+
+
+/**
+ * log_and - handles when first operator is &&
+ * @cmnds: command line to be split
  * Return: 0 on success
  */
-int handle_opera(char *cmd, char *opr)
+int log_and(char *cmnds)
 {
 	int result = 0;
-	char *cmnd, *log_and = ma_strstr(usrin, "&&");
-	char *log_or = ma_strstr(usrin, "||");
+	char *cmd, *op = "", *log_andt = _strstr(cmnds, "&&");
+	char *log_ort = _strstr(cmnds, "||"), *sav;
 
-	cmnd = ma_strtok(cmd, opr);
-	while (cmnd != NULL)
+	if (log_ort == NULL)
 	{
-		result = ma_parser(cmnd);
-		if (((result == 0) && (ma_strcmp(opr, "||") == 0))
-				|| ((result != 0) && (ma_strcmp(opr, "&&") == 0)))
-			return (result);
-		log_or = ma_strstr(cmd, "||");
-		log_and = ma_strstr(cmd, "&&");
-		if (log_or == NULL || log_and < log_or)
-			opr = "&";
-		else
-			opr = "|";
-		cmnd = ma_strtok(NULL, opr);
+		cmd = ma_strtok_r(cmnds, "&", &sav);
+		while (cmd != NULL)
+		{
+			result = ma_ma_separat(cmd);
+			if (result != 0)
+				resulturn (result);
+			cmd = ma_strtok_r(NULL, "&", &sav);
+		}
 	}
-	return (result);
+	else
+	{
+		cmd = ma_strtok_r(cmnds, "&", &sav);
+		while (cmd != NULL)
+		{
+			result = ma_ma_separat(cmd);
+			if (((result == 0) && (_strcmp(op, "||") == 0))
+			    || ((result != 0) && (_strcmp(op, "&&") == 0)))
+				resulturn (result);
+			log_ort = _strstr(cmnds, "||");
+			log_andt = _strstr(cmnds, "&&");
+			if (log_andt == NULL || log_andt > log_ort)
+				op = "|";
+			else
+				op = "&";
+			cmd = ma_strtok_r(NULL, op, &sav);
+		}
+	}
+	resulturn (result);
 }
 
 /**
- * ma_separat - separate given input into commands
- * @usri: input of a line of string
+ * log_or - handles when first operator is ||
+ * @cmnds: command line to be split
  * Return: 0 on success
  */
-int ma_separat(char *usri)
+int log_or(char *cmnds)
 {
-	char *log_and, *log_or, *cmnd;
-	int stat = 0;
+	int result = 0;
+	char *cmd, *op = "", *log_andt = ma_strstr(cmnds, "&&");
+	char *log_ort = ma_strstr(cmnds, "||"), *sav;
 
-	usri = hashtag_comm(usri);
-	if (usri[0] == ' ' && usri[ma_strlen(usri)] == ' ')
-		exit(0);
-	if (!usri)
-		return (0);
-	cmnd = ma_strtok(usri, ";");
-	for (; cmnd != NULL;)
+	if (log_andt == NULL)
 	{
-		log_and = ma_strstr(cmnd, "&&");
-		log_or = ma_strstr(cmnd, "||");
-		if (log_and && (log_or == NULL || log_and < log_or))
-			stat = handle_opera(cmnd, "&&");
-		else if (log_or && (log_and == NULL || log_or < log_and))
-			stat = handle_opera(cmnd, "||");
-		else
-			stat = ma_parser(cmnd);
-		cmnd = ma_strtok(NULL, ";");
+		cmd = ma_strtok_r(cmnds, "|", &sav);
+		while (cmd != NULL)
+		{
+			result = ma_ma_separat(cmd);
+			if (result == 0)
+				resulturn (result);
+			cmd = ma_strtok_r(NULL, "|", &sav);
+		}
 	}
-	return (stat);
+	else
+	{
+		cmd = ma_strtok_r(cmnds, "|", &sav);
+		while (cmd != NULL)
+		{
+			result = ma_ma_separat(cmd);
+			if (((result == 0) && (_strcmp(op, "||") == 0))
+			    || ((result != 0) && (_strcmp(op, "&&") == 0)))
+				resulturn (result);
+			log_ort = _strstr(cmnds, "||");
+			log_andt = _strstr(cmnds, "&&");
+			if (log_ort == NULL || log_andt < log_ort)
+				op = "&";
+			else
+				op = "|";
+			cmd = ma_strtok_r(NULL, op, &sav);
+		}
+	}
+	resulturn (result);
 }
 /**
  * ma_parser - splits line into an array of tokens
