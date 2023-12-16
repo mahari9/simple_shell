@@ -47,3 +47,38 @@ char *ma_strtok(char *usri, const char *separ)
 	}
 	return (str_copy);
 }
+#include "shell.h"
+
+/**
+ * _strtok_r - custom version of the strtok_r function
+ * @str: line to be split into strings
+ * @delim: the delimiter
+ * @saveptr: adress of str
+ * Return: split string
+*/
+
+char *ma_strtok_r(char *str, const char *delim, char **saveptr)
+{
+	char *token;
+
+	if (str != NULL)
+		*saveptr = str;
+
+	while (**saveptr != '\0' && ma_strchr(delim, **saveptr) != NULL)
+		(*saveptr)++;
+
+	if (**saveptr == '\0')
+		return (NULL);
+
+	token = *saveptr;
+	while (**saveptr != '\0' && ma_strchr(delim, **saveptr) == NULL)
+		(*saveptr)++;
+
+	if (**saveptr != '\0')
+	{
+		**saveptr = '\0';
+		(*saveptr)++;
+	}
+
+	return (token);
+}

@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 	num_p = 0;
 	shell = argv[0];
 
-	if (setup_signal_catcher() < 0)
+	if (signal(SIGINT, signal_catcher) == SIG_ERR)
 	{
 		deallocate_env();
 	}

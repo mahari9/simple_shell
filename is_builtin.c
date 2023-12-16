@@ -30,8 +30,7 @@ int execute_builtin(char **argus)
 	{
 		if ((argus[1] == NULL) || (argus[2] == NULL) || (argus[3] != NULL))
 		{
-			message = "use: setenv VARIABLE VALUE format\n";
-			WRT(message);
+			write(2, "use: setenv VARIABLE VALUE format\n", 29);
 			return (-1);
 		}
 		return (ma_setenv(argus[1], argus[2]));
@@ -40,26 +39,10 @@ int execute_builtin(char **argus)
 	{
 		if ((argus[1] == NULL) || (argus[2] != NULL))
 		{
-			message = "use: unsetenv VARIABLE format\n";
-				WRT(message);
+			write(2, "use: unsetenv VARIABLE format\n", 25);
 			return (-1);
 		}
 		return (ma_unsetenv(argus[1]));
 	}
 	return (1);
-}
-/**
- * initialize_alias_count - initialization of global alias
- * list of aliases and alias_count
- */
-void initialize_alias_count(void)
-{
-	int i;
-
-	for (i = 0; i < MAXALS; ++i)
-	{
-		G_alias.aliases[i].name = NULL;
-		G_alias.aliases[i].value = NULL;
-	}
-	G_alias.a_count = 0;
 }

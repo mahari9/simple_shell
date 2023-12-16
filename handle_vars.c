@@ -16,7 +16,7 @@ char *impl_var(char *cmd)
 		buffer = ma_getenv(name);
 		if (buffer != NULL)
 		{
-			value = malloc(ma_strlen(buffer) + 1);
+			value = (char*)malloc(ma_strlen(buffer) + 1);
 			ma_strcpy(value, buffer);
 			free(buffer);
 			return (value);
@@ -35,10 +35,10 @@ char *impl_var(char *cmd)
 char *update_var(char *cmd)
 {
 	char *buffer, *cmdcopy = cmd;
-	size_t i = 0, size = 256, verify = 0;
+	size_t i = 0, size = 254, verify = 0;
 	pid_t pid;
 
-	buffer = malloc(size);
+	buffer = (char*)malloc(size);
 	if (!buffer)
 		return (NULL);
 
@@ -47,7 +47,7 @@ char *update_var(char *cmd)
 		if (i + 1 >= size)
 		{
 			size *= 2;
-			buffer = malloc(size);
+			buffer = (char*)malloc(size);
 			if (!buffer)
 				return (NULL);
 		}

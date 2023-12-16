@@ -117,6 +117,7 @@ int ma_parser(char *usrin);
 int handle_opera(char *cmd, char *opr);
 int ma_separat(char *usri);
 char *ma_strtok(char *usri, const char *separ);
+char *ma_strtok_r(char *str, const char *delim, char **saveptr);
 int main(int argc, char **argv);
 
 /******* execution commands *******/

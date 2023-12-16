@@ -10,9 +10,9 @@ int handle_opera(char *cmd, char *opr)
 {
 	int result = 0;
 	char *cmnd, *log_and = ma_strstr(usrin, "&&");
-	char *log_or = ma_strstr(usrin, "||");
+	char *log_or = ma_strstr(usrin, "||"), *sav;
 
-	cmnd = ma_strtok(cmd, opr);
+	cmnd = ma_strtok_r(cmd, opr, &sav);
 	while (cmnd != NULL)
 	{
 		result = ma_parser(cmnd);
@@ -25,7 +25,7 @@ int handle_opera(char *cmd, char *opr)
 			opr = "&";
 		else
 			opr = "|";
-		cmnd = ma_strtok(NULL, opr);
+		cmnd = ma_strtok_r(NULL, opr, &sav);
 	}
 	return (result);
 }
@@ -37,7 +37,7 @@ int handle_opera(char *cmd, char *opr)
  */
 int ma_separat(char *usri)
 {
-	char *log_and, *log_or, *cmnd;
+	char *log_and, *log_or, *cmnd, *sav;
 	int stat = 0;
 
 	usri = hashtag_comm(usri);
@@ -45,7 +45,7 @@ int ma_separat(char *usri)
 		exit(0);
 	if (!usri)
 		return (0);
-	cmnd = ma_strtok(usri, ";");
+	cmnd = ma_strtok_r(usri, ";", &sav);
 	for (; cmnd != NULL;)
 	{
 		log_and = ma_strstr(cmnd, "&&");
@@ -56,7 +56,7 @@ int ma_separat(char *usri)
 			stat = handle_opera(cmnd, "||");
 		else
 			stat = ma_parser(cmnd);
-		cmnd = ma_strtok(NULL, ";");
+		cmnd = ma_strtok_r(NULL, ";", &sav);
 	}
 	return (stat);
 }
@@ -70,22 +70,22 @@ int ma_parser(char *usri)
 {
 	int i, stat = 0;
 	const char *delim = " \n\t&|";
-	char *usri_copy = NULL, *argu, **argus, *found;
+	char *usri_copy = NULL, *argu, **argus, *found, *sav;
 
 	usri_copy = ma_strdup(usri);
 	if (usri_copy != NULL)
 	{
-		argu = ma_strtok(usri_copy, delim);
+		argu = ma_strtok_r(usri_copy, delim, &sav);
 		for (i = 0; argu != NULL; i++)
-			argu = ma_strtok(NULL, delim);
+			argu = ma_strtok_r(NULL, delim, &sav);
 		free(usri_copy);
 	}
 	else
 		return (-1);
-	argus = malloc(sizeof(char *) * (i + 1));
+	argus = (char**)malloc(sizeof(char *) * (i + 1));
 	if (!argus)
 		return (ma_perror(NULL, 12));
-	argu = ma_strtok(usri, delim);
+	argu = ma_strtok_r(usri, delim, &sav);
 	for (i = 0; argu != NULL; i++)
 	{
 		argus[i] = ma_strdup(argu);
@@ -95,7 +95,7 @@ int ma_parser(char *usri)
 			free(argus[i]);
 			argus[i] = found;
 		}
-		argu = ma_strtok(NULL, delim);
+		argu = ma_strtok_r(NULL, delim, &sav);
 	}
 	argus[i] = NULL;
 	if (replflag == 0)

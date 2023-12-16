@@ -15,7 +15,7 @@ char *create_env(char *name, char *value)
 	len_name = ma_strlen(name);
 	len_value = ma_strlen(value);
 	len = len_name + len_value + 2;
-	env_v = malloc(sizeof(char) * (len));
+	env_v = (char*)malloc(sizeof(char) * (len));
 	if (env_v == NULL)
 		return (NULL);
 	ma_perror(NULL, 12);
@@ -55,7 +55,7 @@ int ma_setenv(char *name, char *value)
 	}
 	for (env = environ; *env; env++)
 		j++;
-	mod_environ = malloc(sizeof(char *) * (j + 2));
+	mod_environ = (char**)malloc(sizeof(char *) * (j + 2));
 	if (mod_environ == NULL)
 		return (-1);
 	ma_perror(NULL, 12);

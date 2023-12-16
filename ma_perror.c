@@ -35,7 +35,6 @@ int ma_perror(char **argus, int cod)
 	if (cod == 22)
 	{
 		write(STDERR_FILENO, "Invalid Argument\n", 17);
-			WRT(error);
 		errno = EINVAL;
 		status = -1;
 	}
@@ -53,8 +52,7 @@ int ma_perror(char **argus, int cod)
 	}
 	else if (cod == 12)
 	{
-		error = "Error: Unable to allocate memory\n";
-		WRT(error);
+		write(STDERR_FILENO, "Error: Unable to allocate memory\n", 33);
 		status = -1;
 	}
 
@@ -86,7 +84,7 @@ void ma_perrorfile(char **argv)
 
 	len = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argv[1])
 		+ ma_strlen(msg) + 4;
-	error = malloc(sizeof(char) * (len));
+	error = (char*)malloc(sizeof(char) * (len));
 	if (!error)
 	{
 		if (count)
