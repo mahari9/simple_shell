@@ -8,7 +8,6 @@
  */
 int execute_builtin(char **argus)
 {
-	char *message;
 
 	if (ma_strncmp(argus[0], "exit", 4) == 0)
 	{
