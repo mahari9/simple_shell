@@ -6,10 +6,12 @@
  */
 void deallocate(char **argus)
 {
+	int i;
+
 	if (argus == NULL)
 		return;
 
-	for (int i = 0; argus[i] != NULL; i++)
+	for (i = 0; argus[i] != NULL; i++)
 	{
 		free(argus[i]);
 	}

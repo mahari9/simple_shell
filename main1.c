@@ -36,15 +36,15 @@ int main(int argc, char **argv)
 			}
 		}
 		argus = separator(usrin);
-		for (i = 0; argus[i] =! NULL; i++)
+		for (i = 0; argus[i] != NULL; i++)
 		{
 			argu = ma_parser(argus[i]);
-			if (ma_strcmp(argu[0], 'exit') == 0)
+			if (ma_strcmp(argu[0], "exit") == 0)
 			{
 				free(argus);
 				exit_shell(argu);
 			}
-			if (ma_strcmp(argu[0], 'env') == 0)
+			if (ma_strcmp(argu[0], "env") == 0)
 			{
 				stat = (ma_env(environ));
 				free(argu);

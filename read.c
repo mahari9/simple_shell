@@ -8,7 +8,7 @@
 char **separator(char *usri)
 {
 	char **argus;
-	char **argu;
+	char *argu;
 	int i;
 	int buffsize = BUFFMAXSIZE;
 
