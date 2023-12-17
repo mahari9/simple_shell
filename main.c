@@ -10,10 +10,10 @@ int main(int argc, char **argv)
 {
 	const char *filename;
 
-	count = 0,
-	status = 0;
-	num_p = 0;
 	shell = argv[0];
+	count = 0;
+	num_p = 0;
+	status = 0;
 
 	if (signal(SIGINT, signal_catcher) == SIG_ERR)
 	{

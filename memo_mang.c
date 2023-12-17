@@ -28,14 +28,14 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		free(ptr);
 		return (NULL);
 	}
-	old_ptr =(unsigned char*)ptr;
-	result = malloc(sizeof(*old_ptr) * new_size);
+	old_ptr = (unsigned char *)ptr;
+	result = malloc(new_size);
 	if (result == NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
-	new_ptr = (unsigned char*)result;
+	new_ptr = (unsigned char *)result;
 	for (i = 0; i < old_size && i < new_size; i++)
 		new_ptr[i] = *old_ptr++;
 	free(ptr);
@@ -43,8 +43,6 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
-<<<<<<< HEAD
-=======
  * ma_memcpy - copy n bytes of memory from src to dst
  * @dst: destination pointer
  * @src: source pointer
@@ -61,20 +59,18 @@ char *ma_memcpy(char *dst, const char *src, unsigned int n)
 	{
 		*dst++ = *src++;
 	}
-	return ret;
+	return (dst);
 }
 
 /**
->>>>>>> 1e2eacdfd203aa778821ae269d3a1c0e8b1eddf9
  * deallocate - free allocated memory for array pointer and user input
  * @argus: array of pointer to the character
  */
 void deallocate(char **argus)
 {
-	if (argus == NULL)
-		return;
+	int i;
 
-	for (int i = 0; argus[i] != NULL; i++)
+	for (i = 0; argus[i] != NULL; i++)
 	{
 		free(argus[i]);
 	}
@@ -101,5 +97,4 @@ void sweep_all(char **argus)
 	deallocate(argus);
 	if (usrin)
 		free(usrin);
-	deallocate_env();
 }
