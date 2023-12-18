@@ -20,7 +20,7 @@ extern char **environ;
 #define BUFFMAXSIZE 1024
 #define MAXALS 25
 
-#define WRT(e) (write(STDERR_FILENO, e, ma_strlen(e)))
+#define WRT(e) (write(STDOUT_FILENO, e, ma_strlen(e)))
 
 /**
  * struct pair_entry - Pair entry Used for
