@@ -10,7 +10,9 @@ int get_process_stdininput(void)
 	int count = 0, loca_count = 0, stat = 0;
 	size_t n = 0;
 	char *usrin = NULL, c, **envm;
-
+	
+	if (isatty(STDIN_FILENO))
+		display_prompt();
 	do {
 		c = ma_getline(&usrin, &n, STDIN_FILENO);
 		source = 0;

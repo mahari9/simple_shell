@@ -27,7 +27,6 @@ int ma_separat(char *line)
 			stat = ma_parser(cmnds);
 		cmnds = ma_strtok_r(NULL, ";", &csav);
 	}
-	free(line);
 	return (stat);
 }
 

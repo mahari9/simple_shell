@@ -70,7 +70,7 @@ char *ma_itoa(int num);
 int count_digits(int num);
 int ma_puts(char *cos);
 void append_str(char **buffer, char *str, int n, size_t *i);
-char *ma_strchr(const char *s, int crt);
+char *ma_strchr(const char *s, char crt);
 
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);

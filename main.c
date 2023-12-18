@@ -20,20 +20,18 @@ int main(int argc, char **argv)
 		deallocate_env();
 	}
 	initialize_alias_count();
-	if (isatty(STDIN_FILENO))
+	if (argc == 2 && argv[1] != NULL)
 	{
-		display_prompt();
-		get_process_stdininput();
+		filename = argv[1];
+		if (validate_file(filename))
+			ma_readprocess_execute_file(filename);
+		else
+			ma_perrorfile(argv);
 	}
 	else
-		if (argc == 2 && argv[1] != NULL)
-		{
-			filename = argv[1];
-			if (validate_file(filename))
-				ma_readprocess_execute_file(filename);
-			else
-				ma_perrorfile(argv);
-		}
+	{
+		get_process_stdininput();
+	}
 	deallocate_env();
 	return (0);
 }

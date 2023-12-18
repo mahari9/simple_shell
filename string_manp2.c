@@ -121,14 +121,15 @@ void append_str(char **buffer, char *str, int n, size_t *i)
  * Return: pointer to the first occurance of crt or NULL
 */
 
-char *ma_strchr(const char *s, int crt)
+char *ma_strchr(const char *s, char crt)
 {
-	while (s != NULL)
+	if (s != NULL)
 	{
-		if (*s == crt)
-			return ((char *)s); /* crt is Found in the string */
-		s++;
-
+		do {
+			if (*s == crt)
+				break;
+		} while (*s++);
+		return ((char *)s);
 	} /* crt is not found in the string */
 	return (NULL);
 }
