@@ -53,8 +53,6 @@ char *ma_memcpy(char *dst, const char *src, unsigned int n)
 {
 	unsigned int i;
 
-	char *ret = dst;
-
 	for (i = 0; i < n; i++)
 	{
 		*dst++ = *src++;
