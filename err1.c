@@ -3,9 +3,11 @@
 /**
  * display_error - Function that prints error message for code error 127
  * @argus: Array of pointers to the command line arguments
+ * @count: .....
+ * @argv: .......
  * Return: Error message or NULL
  */
-char *display_error(char **argus)
+char *display_error(char **argus, int count, char **argv)
 {
 	int length;
 	char *error, *ec;
@@ -14,7 +16,7 @@ char *display_error(char **argus)
 	if (!ec)
 		return (NULL);
 
-	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]) + 17;
+	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]) + 17;
 	error = (char *)malloc(sizeof(char) * length);
 	if (!error)
 	{
@@ -22,7 +24,7 @@ char *display_error(char **argus)
 		return (NULL);
 	}
 
-	ma_strcpy(error, shell);
+	ma_strcpy(error, (char *)argv[0]);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");
@@ -38,9 +40,11 @@ char *display_error(char **argus)
 /**
  * display_error126 - Function that prints error message for code error 126
  * @argus: Array of pointers to the command line arguments
+ * count: ...
+ * *@argv: ...
  * Return: error message
  */
-char *display_error126(char **argus)
+char *display_error126(char **argus, int count, char **argv)
 {
 	int length;
 	char *error, *ec;
@@ -48,14 +52,14 @@ char *display_error126(char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
+	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = (char *)malloc(sizeof(char) * (length + 25));
 	if (!error)
 	{
 		free(ec);
 		return (NULL);
 	}
-	ma_strcpy(error, shell);
+	ma_strcpy(error, (char *)argv[0]);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");
@@ -70,9 +74,11 @@ char *display_error126(char **argus)
 /**
  * display_errorexit - Function that prints error message for invalid exit
  * @argus: array of Pointer to command line arguments
+ * count: ....
+ * @argv: ...
  * Return: Nothing
  */
-void display_errorexit(char **argus)
+void display_errorexit(char **argus, int count, char ** argv)
 {
 	int length;
 	char *error, *ec;
@@ -80,14 +86,14 @@ void display_errorexit(char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return;
-	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
+	length = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
 	error = (char *)malloc(sizeof(char) * (length + 24));
 	if (!error)
 	{
 		free(ec);
 		return;
 	}
-	ma_strcpy(error, shell);
+	ma_strcpy(error, (char *)argv[0]);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");

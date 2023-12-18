@@ -7,15 +7,16 @@
  */
 int ma_strlen(const char *str)
 {
-	int i = 0;
-	int length = 0;
-
-	while (str[i] != '\0')
+	int count = 0;
+	
+	if (str == NULL)
+		return (0);
+	while (*str != '\0')
 	{
-		length++;
-		i++;
+		count++;
+		str++;
 	}
-	return (length);
+	return (count);
 }
 
 /**

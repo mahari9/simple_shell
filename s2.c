@@ -3,27 +3,33 @@
  * ma_strcmp - Function that compares two strings
  * @str1: string one
  * @str2: string two
- * Return: 0 on success and -1 on failure
+ * Return: 0 on success
  */
 int ma_strcmp(char *str1, char *str2)
 {
-	int i = 0;
+	int result = 0, i, len1, len2;
 
-	do {
-		if (str1[i] != str2[i] || str1[i] == '\0')
+	len1 = ma_strlen(str1);
+	len2 = ma_strlen(str2);
+
+	if (str1 == NULL || str2 == NULL)
+		return (1);
+
+	if (len1 != len2)
+		return (1);
+
+	for (i = 0; str1[i]; i++)
+	{
+		if (str1[i] != str2[i])
 		{
-			if (str1[i] > str2[i])
-			{
-				return (1);
-			}
-			else if (str1[i] < str2[i])
-			{
-				return (-1);
-			}
-			return (0);
+			result = str1[i] - str2[i];
+			break;
 		}
-		i++;
-	} while (1);
+		else
+			continue;
+
+	}
+	return (result);
 }
 
 /**

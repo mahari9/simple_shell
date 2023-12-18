@@ -8,21 +8,16 @@
  */
 int main(int argc, char **argv)
 {
-	int loca_count = 0, stat = 0, i;
+	int loca_count = 0, stat = 0, i, count = 0;
 	size_t n = 0;
 	char **argu, **argus, *usrin = NULL, c, **envm;
 
-	count = 0;
-	status = 0;
-	shell = argv[0];
 	(void) argc;
 
 	if (isatty(STDIN_FILENO))
 		display_prompt();
 	do {
-		c = getline(&usrin, &n, STDIN_FILENO);
-		source = 0;
-		no_pth = 1;
+		c = ma_getline(&usrin, &n, STDIN_FILENO);
 		if (usrin[c - 1] == '\n')
 			(usrin[c - 1] = '0');
 		count++;
@@ -31,7 +26,6 @@ int main(int argc, char **argv)
 		{
 			if (ma_strcmp(*envm, "PATH=") == 0)
 			{
-				no_pth = 0;
 				break;
 			}
 		}
@@ -42,7 +36,7 @@ int main(int argc, char **argv)
 			if (ma_strcmp(argu[0], "exit") == 0)
 			{
 				free(argus);
-				exit_shell(argu);
+				exit_shell(argu, count, usrin, argv);
 			}
 			if (ma_strcmp(argu[0], "env") == 0)
 			{
@@ -51,7 +45,7 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				stat = (inputcommand_execute(argu, envm));
+				stat = (inputcommand_execute(argv, argu, usrin, count, envm));
 				free(argu);
 			}
 		}

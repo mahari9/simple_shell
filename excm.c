@@ -2,11 +2,13 @@
 /**
  * inputcommand_execute - handle execution of input external commands
  * @argv: vector arguments
+ * @count: ....
+ * @argus: ....
  * @envm: array of pointer to the environment variables
  * Return: 0 (Success)
  */
 
-int inputcommand_execute(char **argv, char **envm)
+int inputcommand_execute(char **argv, char **argus, char *usrin, int count, char **envm)
 {
 	char *pth_cmnd = ma_whichpath(argv[0]);
 	int stat = 0;
@@ -20,7 +22,7 @@ int inputcommand_execute(char **argv, char **envm)
 			stat = execve(pth_cmnd, argv, impl_env(envm));
 			if (stat == -1)
 			{
-				if (source)
+				if (usrin)
 					free(pth_cmnd);
 				perror("execve");
 				return (-1);
@@ -28,31 +30,31 @@ int inputcommand_execute(char **argv, char **envm)
 		}
 		else if (pid == -1)
 		{
-			if (source)
+			if (usrin)
 				free(pth_cmnd);
 			perror("forking");
 			return (-1);
 		}
 		else
 		{
-			if (source)
-				free(pth_cmnd);
-			return (p_process(argv, pid));
+			return (p_process(argv, argus, count, pid));
 		}
 	}
 	else
-		stat = ma_perror(argv, 127);
+		stat = ma_perror(argus, count, argv, 127);
 	return (stat);
 }
 
 /**
  * p_process - handle parent proccess after forking(pid = 0)
  * @argv: vector of arguments
+ * argus: ....
+ * count: ....
  * @pid: proccess id
  * Return: 0 (Success)
  */
 
-int p_process(char **argv, pid_t pid)
+int p_process(char **argv, char **argus, int count, pid_t pid)
 {
 	int stat;
 
@@ -63,13 +65,13 @@ int p_process(char **argv, pid_t pid)
 	}
 	if (WIFEXITED(stat))
 	{
-		status = WEXITSTATUS(stat);
-		if (status != 0)
-			ma_perror(argv, status);
+		stat = WEXITSTATUS(stat);
+		if (stat != 0)
+			ma_perror(argus, count,argv, stat);
 	}
 	else if (WIFSIGNALED(stat))
-		status = (128 + WTERMSIG(stat));
+		stat = (128 + WTERMSIG(stat));
 	else
-		status = 127;
-	return (status);
+		stat = 127;
+	return (stat);
 }

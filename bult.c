@@ -18,7 +18,7 @@ char **impl_env(char **ma_environ)
 	nenv = (pair_entry *)malloc(sizeof(struct pair_entry) * (env_num + 1));
 	if (nenv == NULL)
 	{
-		ma_perror(NULL, 12);
+		ma_perror(NULL, 0, NULL, 12);
 		free(nenv);
 		return (NULL);
 	}
@@ -68,23 +68,26 @@ int ma_env(char **envm)
 
 /**
  * exit_shell - Function that exit the shell with exit status
+ * @argus:....
+ * count: ....
+ * @usrin: ...
  * @argv: an array of arguments passed to the program
  */
-void exit_shell(char **argv)
+void exit_shell(char **argus, int count, char *usrin, char **argv)
 {
-	int stat, i;
+	int stat = 0, i;
 
 	if (argv[1] == NULL)
 	{
-		sweep_all(argv);
-		exit(status);
+		sweep_all(argv, usrin);
+		exit(stat);
 	}
 	for (i = 0; argv[1][i]; i++)
 	{
 		if (ma_isalpha(argv[1][i]) != 0)
 		{
-			display_errorexit(argv);
-			sweep_all(argv);
+			display_errorexit(argus, count, argv);
+			sweep_all(argv, usrin);
 			exit(1);
 		}
 		else
@@ -92,12 +95,12 @@ void exit_shell(char **argv)
 			stat = ma_atoi(argv[1]);
 			if (stat == 1)
 			{
-				display_errorexit(argv);
-				sweep_all(argv);
+				display_errorexit(argv, count, argus);
+				sweep_all(argv, usrin);
 				exit(stat);
 			}
 		}
 	}
-	sweep_all(argv);
+	sweep_all(argv, usrin);
 	exit(stat);
 }

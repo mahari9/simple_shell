@@ -50,7 +50,6 @@ char *ma_whichpath(char *cmnd)
 				if (dup_pth)
 					free(dup_pth);
 				free(pth);
-				source = 1;
 				return (pth_cmnd);
 			}
 			else
@@ -62,12 +61,11 @@ char *ma_whichpath(char *cmnd)
 		} while (comp != NULL);
 		if (dup_pth)
 			free(dup_pth);
-		free(pth);
 		if (stat(cmnd, &tmp) == 0)
 			return (cmnd);
 		return (NULL);
 	}
-	else if ((no_pth == 1) && stat(cmnd, &tmp) == 0)
+	else if(stat(cmnd, &tmp) == 0)
 	{
 		if (ma_strncmp(cmnd, "/", 1) == 0)
 			return (cmnd);
