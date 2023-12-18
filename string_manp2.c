@@ -123,12 +123,11 @@ void append_str(char **buffer, char *str, int n, size_t *i)
 
 char *ma_strchr(const char *s, int crt)
 {
-	for (; *s != '\0'; s++)
+	while (s != NULL)
 	{
 		if (*s == crt)
-		{
 			return ((char *)s); /* crt is Found in the string */
-		}
+		s++;
 
 	} /* crt is not found in the string */
 	return (NULL);

@@ -24,9 +24,10 @@ int ma_separat(char *line)
 		else if (log_ort && (and_tok == NULL || log_ort < and_tok))
 			stat = log_or(cmnds);
 		else
-			stat = ma_separat(cmnds);
+			stat = ma_parser(cmnds);
 		cmnds = ma_strtok_r(NULL, ";", &csav);
 	}
+	free(line);
 	return (stat);
 }
 
