@@ -99,30 +99,26 @@ int ma_atoi(char *str)
  * @hystk: pointer to char in string
  * @ndl: pointer to char to be searched
  *
- * Return: pointer to the beginning of the substring or NULL;
+ * Return: 0
  */
 char *ma_strstr(char *hystk, char *ndl)
 {
 	char *r = hystk, *n = ndl;
 
-	if (*ndl == '\0')
+	while (*hystk)
 	{
-		return (hystk);
-	}
-	while (*hystk != '\0')
-	{
-		while (*r != '\0' && *n != '\0' && *r == *n)
+		while (*ndl)
 		{
-			r++;
-			n++;
+			if (*hystk++ != *ndl++)
+				break;
 		}
-		if (*n == '\0')
+		if (!*ndl)
 		{
 			return (r);
 		}
-		hystk++;
-		r = hystk;
-		n = ndl;
+		ndl = n;
+		r++;
+		hystk = r;
 	}
-	return (NULL);
+	return (0);
 }

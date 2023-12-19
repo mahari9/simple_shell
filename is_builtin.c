@@ -11,8 +11,7 @@ int execute_builtin(char **argus)
 
 	if (ma_strncmp(argus[0], "exit", 4) == 0)
 	{
-		exit_shell(argus);
-		return (0);
+		return (exit_shell(argus));
 	}
 	if (ma_strncmp(argus[0], "alias", 5) == 0)
 	{

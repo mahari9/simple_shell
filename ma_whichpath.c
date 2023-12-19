@@ -8,22 +8,19 @@
  */
 char *ma_buildpath(char *comp, char *dir)
 {
-	size_t full_len;
-	char *cmnd;
+	int full_len;
+	char *pth_cmnd;
 
 	full_len = ma_strlen(dir) + ma_strlen(comp) + 2;
-	cmnd = (char*)malloc(sizeof(char) * full_len);
-	if (cmnd != NULL)
+	pth_cmnd = malloc(full_len);
+	if (pth_cmnd)
 	{
-		free(cmnd);
-		return (NULL);
+		ma_strcpy(pth_cmnd, dir);
+		ma_strcat(pth_cmnd, "/");
+		ma_strcat(pth_cmnd, comp);
+		ma_strcat(pth_cmnd, "\0");
 	}
-
-	ma_strcpy(cmnd, dir);
-	ma_strcat(cmnd, "/");
-	ma_strcat(cmnd, comp);
-	ma_strcat(cmnd, "\0");
-	return (cmnd);
+	return (pth_cmnd);
 }
 
 /**
@@ -33,10 +30,10 @@ char *ma_buildpath(char *comp, char *dir)
  */
 char *ma_whichpath(char *cmnd)
 {
-	char *pth, *dup_pth, *comp, *pth_cmnd;
+	char *pth = NULL, *dup_pth = NULL, *comp, *pth_cmnd;
 	struct stat tmp;
 
-	pth = getenv("PATH");
+	pth = ma_getenv("PATH");
 	if (pth)
 	{
 		dup_pth = ma_strdup(pth);
@@ -46,7 +43,6 @@ char *ma_whichpath(char *cmnd)
 			pth_cmnd = ma_buildpath(cmnd, comp);
 			if (stat(pth_cmnd, &tmp) == 0)
 			{
-				cmnd = ma_strdup(pth_cmnd);
 				if (dup_pth)
 					free(dup_pth);
 				free(pth);
@@ -57,7 +53,7 @@ char *ma_whichpath(char *cmnd)
 			{
 				if (pth_cmnd)
 					free(pth_cmnd);
-				comp = strtok(NULL, ":");
+				comp = ma_strtok(NULL, ":");
 			}
 		} while (comp != NULL);
 		if (dup_pth)
@@ -83,8 +79,8 @@ char *ma_whichpath(char *cmnd)
 char *ma_getenv(const char *name)
 {
 	int i, j;
-	char **envm = environ, *value, *value_start;
-	size_t value_length;
+	char **envm = environ, *value, *value_begin;
+	size_t value_len;
 
 	if (!name || !environ)
 		return (NULL);
@@ -93,14 +89,14 @@ char *ma_getenv(const char *name)
 		for (j = 0; name[j] != '\0' && name[j] == envm[i][j]; j++)
 		if (name[j] == '\0' && envm[i][j] == '=')
 		{
-			value_start = &envm[i][j + 1];
-			value_length = ma_strlen(value_start);
+			value_begin = &envm[i][j + 1];
+			value_len = ma_strlen(value_begin);
 
-			value = (char*)malloc(value_length + 1);
+			value = malloc(value_len + 1);
 
 			if (value)
 			{
-				ma_strcpy(value, value_start);
+				ma_strcpy(value, value_begin);
 				return (value);
 			}
 		}

@@ -47,19 +47,18 @@ char *ma_strtok(char *usri, const char *separ)
 	}
 	return (str_copy);
 }
-#include "shell.h"
 
 /**
- * _strtok_r - custom version of the strtok_r function
- * @str: line to be split into strings
+ * ma_strtok_r - function that tokenize line into  string on muilt thread safe 
+ * @str: line to be split into tokens of strings
  * @delim: the delimiter
- * @saveptr: adress of str
- * Return: split string
+ * @saveptr: adress of str for next token
+ * Return: token of string
 */
 
 char *ma_strtok_r(char *str, const char *delim, char **saveptr)
 {
-	char *token;
+	char *tkn;
 
 	if (str != NULL)
 		*saveptr = str;
@@ -70,7 +69,7 @@ char *ma_strtok_r(char *str, const char *delim, char **saveptr)
 	if (**saveptr == '\0')
 		return (NULL);
 
-	token = *saveptr;
+	tkn = *saveptr;
 	while (**saveptr != '\0' && ma_strchr(delim, **saveptr) == NULL)
 		(*saveptr)++;
 
@@ -80,5 +79,5 @@ char *ma_strtok_r(char *str, const char *delim, char **saveptr)
 		(*saveptr)++;
 	}
 
-	return (token);
+	return (tkn);
 }

@@ -9,8 +9,8 @@
 char **impl_env(char **ma_environ)
 {
 	char **envm = environ, *env;
-	pair_entry *nenv;
-	int env_num = 0, i = 0, j = 0;
+	pair_entry *nenv = NULL;
+	int env_num = 0, i, j;
 
 	for (; *envm != NULL; envm++)
 		env_num++;
@@ -32,6 +32,7 @@ char **impl_env(char **ma_environ)
 		nenv[i].value = env + j + 1;
 		envm++;
 	}
+	i = 0;
 	while (*envm != NULL)
 	{
 		ma_puts(*envm);
@@ -68,37 +69,35 @@ int ma_env(char **envm)
 /**
  * exit_shell - Function that exit the shell with exit status
  * @argv: an array of arguments passed to the program
+ * Return: 2 on failure
  */
-void exit_shell(char **argv)
+int exit_shell(char **argv)
 {
-	int stat, i;
+	int stat;
 
 	if (argv[1] == NULL)
 	{
 		sweep_all(argv);
 		exit(status);
 	}
-	for (i = 0; argv[1][i]; i++)
+	else
 	{
-		if (ma_isalpha(argv[1][i]) != 0)
+		stat = ma_atoi(argv[1]);
+		if ((stat == 0) && (ma_strcmp(argv[1], "0") == 0))
 		{
-			display_errorexit(argv);
 			sweep_all(argv);
-			exit(1);
+			exit(stat);
 		}
-		else
+		else if (stat > 0)
 		{
-			stat = ma_atoi(argv[1]);
-			if (stat == 1)
-			{
-				display_errorexit(argv);
-				sweep_all(argv);
-				exit(stat);
-			}
+			sweep_all(argv);
+			exit(stat);
 		}
+		else if (stat < 1)
+			display_errorexit(argv);
+
 	}
-	sweep_all(argv);
-	exit(stat);
+	return (2);
 }
 
 /**

@@ -20,7 +20,7 @@ extern char **environ;
 #define BUFFMAXSIZE 1024
 #define MAXALS 25
 
-#define WRT(e) (write(STDOUT_FILENO, e, ma_strlen(e)))
+#define WRT(e) (write(STDERR_FILENO, e, ma_strlen(e)))
 
 /**
  * struct pair_entry - Pair entry Used for
@@ -52,7 +52,7 @@ int count, num_p, status, source, replflag, no_pth;
 void *env_n[50];
 
 /*********** string_manp.c *******/
-int ma_strlen(const char *str);
+int ma_strlen(char *str);
 char *ma_strcpy(char *dst, char *src);
 char *ma_strdup(const char *str);
 char *ma_strndup(const char *str, size_t n);
@@ -76,7 +76,7 @@ char *ma_strchr(const char *s, char crt);
 char **impl_env(char **ma_environ);
 int ma_env(char **envm);
 int ma_cd(char **argus);
-void exit_shell(char **argv);
+int exit_shell(char **argv);
 char *create_env(char *name, char *value);
 int ma_setenv(char *name, char *value);
 int ma_unsetenv(char *name);
@@ -99,7 +99,7 @@ char *display_error(char **argus);
 char *display_error126(char **argus);
 void display_errorexit(char **argus);
 void ma_perror_cd(char **argus, int cod);
-int ma_perror(char **argus, int cod);
+int ma_perror(char **argv, int cod);
 void ma_perrorfile(char **argv);
 char *ma_cd_error(char **argus);
 char *ma_cd_error1(char **argus);
@@ -133,9 +133,7 @@ char *update_var(char *cmd);
 
 /*******signal catcher and prompt ******/
 void signal_catcher(int sign_num);
-int setup_signal_catcher(void);
 void display_prompt(void);
-void print_o(const char *message);
 
 /********ma_whichpath **********/
 char *ma_whichpath(char *cmnd);

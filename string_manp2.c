@@ -12,13 +12,13 @@ char *ma_itoa(int num)
 	char *str;
 
 	num_digits = count_digits(num);
-	str = (char*)malloc((num_digits + 1) * sizeof(char));
+	str = malloc((num_digits + 1) * sizeof(char));
 	if (!str)
 	{
 		free(str);
 		return (NULL);
 	}
-	while (num < 0)
+	if (num < 0)
 	{
 		str[0] = '-';
 		num = -num;

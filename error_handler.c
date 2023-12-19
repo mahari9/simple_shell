@@ -9,11 +9,15 @@ char *display_error(char **argus)
 {
 	int length;
 	char *error, *ec;
-
-	ec = ma_itoa(count);
-	if (!ec)
-		return (NULL);
-
+	
+	if (count !=0)
+	{
+		ec = ma_itoa(count);
+		if (!ec)
+			return (NULL);
+	}
+	else
+		ec = "0";
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]) + 17;
 	error = (char*)malloc(sizeof(char) * length);
 	if (!error)
@@ -44,10 +48,15 @@ char *display_error126(char **argus)
 {
 	int length;
 	char *error, *ec;
-
-	ec = ma_itoa(count);
-	if (!ec)
-		return (NULL);
+	
+	if (count != 0)
+	{
+		ec = ma_itoa(count);
+		if (!ec)
+			return (NULL);
+	}
+	else
+		ec = "0";
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
 	error = (char*)malloc(sizeof(char) * (length + 25));
 	if (!error)
@@ -69,7 +78,7 @@ char *display_error126(char **argus)
 
 /**
  * display_errorexit - Function that prints error message for invalid exit
- * @argus: array of Pointer to command line arguments
+ * @argus: array of pointers to the  command line arguments
  * Return: Nothing
  */
 void display_errorexit(char **argus)
@@ -95,9 +104,8 @@ void display_errorexit(char **argus)
 	ma_strcat(error, ": invalid number: ");
 	ma_strcat(error, argus[1]);
 	ma_strcat(error, "\n");
-
-	if (count)
-		free(ec);
+	
+	free(ec);
 	WRT(error);
 	free(error);
 }

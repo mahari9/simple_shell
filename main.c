@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 	if (signal(SIGINT, signal_catcher) == SIG_ERR)
 	{
 		deallocate_env();
+		exit(EXIT_FAILURE);
 	}
 	initialize_alias_count();
 	if (argc == 2 && argv[1] != NULL)
@@ -33,5 +34,6 @@ int main(int argc, char **argv)
 		get_process_stdininput();
 	}
 	deallocate_env();
+	(void)argc;
 	return (0);
 }

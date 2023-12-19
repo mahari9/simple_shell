@@ -22,12 +22,12 @@ void ma_perror_cd(char **argus, int cod)
 
 /**
  * ma_perror - handle error message to standard output
- * @argus: array of pointers to the arguments
+ * @argv: array of pointers to the cmnd_line arguments
  * @cod: code of errore
  *
  * Return: error code
  */
-int ma_perror(char **argus, int cod)
+int ma_perror(char **argv, int cod)
 {
 	int status = 0;
 	char *error = NULL;
@@ -40,13 +40,13 @@ int ma_perror(char **argus, int cod)
 	}
 	else if (cod == 126)
 	{
-		error = display_error126(argus);
+		error = display_error126(argv);
 		WRT(error);
 		status = 126;
 	}
 	else if (cod == 127)
 	{
-		error = display_error(argus);
+		error = display_error(argv);
 		WRT(error);
 		status = 127;
 	}

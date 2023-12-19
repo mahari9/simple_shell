@@ -8,7 +8,7 @@
  */
 int ma_separat(char *line)
 {
-	char *csav, *and_tok, *log_ort, *cmnds;
+	char *csav, *and_tok, *or_tok, *cmnds;
 	int stat = 0;
 
 	line = hashtag_comm(line);
@@ -18,10 +18,10 @@ int ma_separat(char *line)
 	for (; cmnds != NULL;)
 	{
 		and_tok = ma_strstr(cmnds, "&&");
-		log_ort = ma_strstr(cmnds, "||");
-		if (and_tok && (log_ort == NULL || and_tok < log_ort))
+		or_tok = ma_strstr(cmnds, "||");
+		if (and_tok && (or_tok == NULL || and_tok < or_tok))
 			stat = log_and(cmnds);
-		else if (log_ort && (and_tok == NULL || log_ort < and_tok))
+		else if (or_tok && (and_tok == NULL || or_tok < and_tok))
 			stat = log_or(cmnds);
 		else
 			stat = ma_parser(cmnds);
@@ -32,22 +32,22 @@ int ma_separat(char *line)
 
 
 /**
- * log_and - handles when first operator is &&
+ * log_and - logical and handler when first operator is and
  * @cmnds: command line to be split
  * Return: 0 on success
  */
 int log_and(char *cmnds)
 {
 	int result = 0;
-	char *cmd, *op = "", *log_andt = ma_strstr(cmnds, "&&");
-	char *log_ort = ma_strstr(cmnds, "||"), *sav;
+	char *cmd, *opr = "", *and_tok = ma_strstr(cmnds, "&&");
+	char *or_tok = ma_strstr(cmnds, "||"), *sav;
 
-	if (log_ort == NULL)
+	if (or_tok == NULL)
 	{
 		cmd = ma_strtok_r(cmnds, "&", &sav);
 		while (cmd != NULL)
 		{
-			result = ma_separat(cmd);
+			result = ma_parser(cmd);
 			if (result != 0)
 				return (result);
 			cmd = ma_strtok_r(NULL, "&", &sav);
@@ -58,39 +58,39 @@ int log_and(char *cmnds)
 		cmd = ma_strtok_r(cmnds, "&", &sav);
 		while (cmd != NULL)
 		{
-			result = ma_separat(cmd);
-			if (((result == 0) && (ma_strcmp(op, "||") == 0))
-			    || ((result != 0) && (ma_strcmp(op, "&&") == 0)))
+			result = ma_parser(cmd);
+			if (((result == 0) && (ma_strcmp(opr, "||") == 0))
+			    || ((result != 0) && (ma_strcmp(opr, "&&") == 0)))
 				return (result);
-			log_ort = ma_strstr(cmnds, "||");
-			log_andt = ma_strstr(cmnds, "&&");
-			if (log_andt == NULL || log_andt > log_ort)
-				op = "|";
+			or_tok = ma_strstr(cmnds, "||");
+			and_tok = ma_strstr(cmnds, "&&");
+			if (and_tok == NULL || and_tok > or_tok)
+				opr = "|";
 			else
-				op = "&";
-			cmd = ma_strtok_r(NULL, op, &sav);
+				opr = "&";
+			cmd = ma_strtok_r(NULL, opr, &sav);
 		}
 	}
 	return (result);
 }
 
 /**
- * log_or - handles when first operator is ||
+ * log_or - logical or handler  when first operator is or
  * @cmnds: command line to be split
  * Return: 0 on success
  */
 int log_or(char *cmnds)
 {
 	int result = 0;
-	char *cmd, *op = "", *log_andt = ma_strstr(cmnds, "&&");
-	char *log_ort = ma_strstr(cmnds, "||"), *sav;
+	char *cmd, *opr = "", *and_tok = ma_strstr(cmnds, "&&");
+	char *or_tok = ma_strstr(cmnds, "||"), *sav;
 
-	if (log_andt == NULL)
+	if (and_tok == NULL)
 	{
 		cmd = ma_strtok_r(cmnds, "|", &sav);
 		while (cmd != NULL)
 		{
-			result = ma_separat(cmd);
+			result = ma_parser(cmd);
 			if (result == 0)
 				return (result);
 			cmd = ma_strtok_r(NULL, "|", &sav);
@@ -101,17 +101,17 @@ int log_or(char *cmnds)
 		cmd = ma_strtok_r(cmnds, "|", &sav);
 		while (cmd != NULL)
 		{
-			result = ma_separat(cmd);
-			if (((result == 0) && (ma_strcmp(op, "||") == 0))
-			    || ((result != 0) && (ma_strcmp(op, "&&") == 0)))
+			result = ma_parser(cmd);
+			if (((result == 0) && (ma_strcmp(opr, "||") == 0))
+			    || ((result != 0) && (ma_strcmp(opr, "&&") == 0)))
 				return (result);
-			log_ort = ma_strstr(cmnds, "||");
-			log_andt = ma_strstr(cmnds, "&&");
-			if (log_ort == NULL || log_andt < log_ort)
-				op = "&";
+			or_tok = ma_strstr(cmnds, "||");
+			and_tok = ma_strstr(cmnds, "&&");
+			if (or_tok == NULL || and_tok < or_tok)
+				opr = "&";
 			else
-				op = "|";
-			cmd = ma_strtok_r(NULL, op, &sav);
+				opr = "|";
+			cmd = ma_strtok_r(NULL, opr, &sav);
 		}
 	}
 	return (result);

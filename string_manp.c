@@ -5,7 +5,7 @@
  * @str: String to be calculate it's length
  * Return: length
  */
-int ma_strlen(const char *str)
+int ma_strlen(char *str)
 {
 	int i = 0;
 	int length = 0;
