@@ -15,9 +15,8 @@ int get_process_stdininput(void)
 	usrin = NULL;
 	if (isatty(STDIN_FILENO))
                 display_prompt();
-	do {
-
-		c = ma_getline(&usrin, &n, STDIN_FILENO);
+	while ((c = ma_getline(&usrin, &n, STDIN_FILENO)) != -1)
+	{
 		source = 0;
 		no_pth = 1;
 		replflag = 0;
@@ -39,7 +38,7 @@ int get_process_stdininput(void)
 			display_prompt();
 			fflush(stdout);
 		}
-	} while (1);
+	}
 	if (usrin)
 		free(usrin);
 	if (isatty(STDIN_FILENO))

@@ -28,7 +28,7 @@ int execute_builtin(char **argus)
 	{
 		if ((argus[1] == NULL) || (argus[2] == NULL) || (argus[3] != NULL))
 		{
-			write(2, "use: setenv VARIABLE VALUE format\n", 29);
+			write(2, "use: setenv VARIABLE VALUE\n", 22);
 			return (-1);
 		}
 		return (ma_setenv(argus[1], argus[2]));
@@ -37,7 +37,7 @@ int execute_builtin(char **argus)
 	{
 		if ((argus[1] == NULL) || (argus[2] != NULL))
 		{
-			write(2, "use: unsetenv VARIABLE format\n", 25);
+			write(2, "use: unsetenv VARIABLE\n", 18);
 			return (-1);
 		}
 		return (ma_unsetenv(argus[1]));

@@ -17,8 +17,11 @@ char *create_env(char *name, char *value)
 	len = len_name + len_value + 2;
 	env_v = (char*)malloc(sizeof(char) * (len));
 	if (env_v == NULL)
+	{
+		ma_perror(NULL, 12);
+		free(env_v);
 		return (NULL);
-	ma_perror(NULL, 12);
+	}
 	ma_strcpy(env_v, name);
 	ma_strcat(env_v, "=");
 	ma_strcat(env_v, value);
@@ -40,8 +43,11 @@ int ma_setenv(char *name, char *value)
 	int i, j = 0;
 
 	if ((ma_strchr(name, '=') != NULL) || (ma_strlen(name) == 0))
+	{
+		ma_perror(NULL, 22);
+		free(env_var);
 		return (-1);
-	ma_perror(NULL, 22);
+	}
 	track_address(env_var);
 	env_var = create_env(name, value);
 	for (env = environ; *env; env++)

@@ -56,7 +56,7 @@ int ma_strlen(char *str);
 char *ma_strcpy(char *dst, char *src);
 char *ma_strdup(const char *str);
 char *ma_strndup(const char *str, size_t n);
-char *ma_strcat(char *dst, const char *src);
+char *ma_strcat(char *dst, char *src);
 
 /************** string_manp1.c ********/
 int ma_strcmp(char *str1, char *str2);
@@ -68,9 +68,9 @@ char *ma_strstr(char *hystk, char *ndl);
 /******** string_manp2.c *********/
 char *ma_itoa(int num);
 int count_digits(int num);
-int ma_puts(char *cos);
+void ma_puts(char *cos);
 void append_str(char **buffer, char *str, int n, size_t *i);
-char *ma_strchr(const char *s, char crt);
+char *ma_strchr(const char *s, int crt);
 
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);
