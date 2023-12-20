@@ -37,9 +37,10 @@ char *ma_whichpath(char *cmnd)
 	if (pth)
 	{
 		dup_pth = ma_strdup(pth);
-		comp = ma_strtok(dup_pth, ":");
+		comp = strtok(dup_pth, ":");
 
-		do {
+		while (comp != NULL)
+		{
 			pth_cmnd = ma_buildpath(cmnd, comp);
 			if (stat(pth_cmnd, &tmp) == 0)
 			{
@@ -53,9 +54,9 @@ char *ma_whichpath(char *cmnd)
 			{
 				if (pth_cmnd)
 					free(pth_cmnd);
-				comp = ma_strtok(NULL, ":");
+				comp = strtok(NULL, ":");
 			}
-		} while (comp != NULL);
+		}
 		if (dup_pth)
 			free(dup_pth);
 		free(pth);
@@ -63,12 +64,27 @@ char *ma_whichpath(char *cmnd)
 			return (cmnd);
 		return (NULL);
 	}
-	else if ((no_pth == 1) && stat(cmnd, &tmp) == 0)
-	{
-		if (ma_strncmp(cmnd, "/", 1) == 0)
+	else if ((no_pth == 1) && (stat(cmnd, &tmp) == 0))
+		if ((check_abspth(cmnd)))
 			return (cmnd);
-	}
 	return (NULL);
+}
+
+/**
+ * check_abspth - Function that checks whether the provided path is absolute
+ * @dir: dirctory which contains the path
+ *
+ * Return: 1 if absolute or 0 if not
+ */
+int check_abspth(const char *dir)
+{
+	char *forward_slash;
+
+	forward_slash = ma_strchr(dir, '/');
+	if (forward_slash != NULL && forward_slash == dir)
+		return (1);
+	else
+		return (0);
 }
 
 /**

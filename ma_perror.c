@@ -5,19 +5,20 @@
  * @argus: pointer to user input command
  * @cod: code of error
  */
-void ma_perror_cd(char **argus, int cod)
+void ma_perror_cd(char *argus, int cod)
 {
 	char *error = NULL;
 
 	if (cod == 2)
 	{
 		error = ma_cd_error(argus);
+		if (error)
+		{
+			WRT(error);
+			free(error);
+		}
 	}
-	if (error)
-	{
-		WRT(error);
-		free(error);
-	}
+	return;
 }
 
 /**

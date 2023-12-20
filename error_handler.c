@@ -112,11 +112,11 @@ void display_errorexit(char **argus)
 
 /**
  * ma_cd_error - can't change current directory to specified location
- * @argus: Array of pointers to the command line arguments
+ * @argus: pointers to the command line arguments
  * Return: error message
  */
 
-char *ma_cd_error(char **argus)
+char *ma_cd_error(char *argus)
 {
 	char *errmsg, *error, *ec;
 	int length;
@@ -126,11 +126,10 @@ char *ma_cd_error(char **argus)
 		return (NULL);
 	errmsg = ": cd: Unable to change directory to ";
 	length = ma_strlen(shell) + ma_strlen(ec) +
-		ma_strlen(errmsg) + ma_strlen(argus[1] + 4);
-	error = (char*)malloc(sizeof(char) * length);
+		ma_strlen(errmsg) + ma_strlen(argus) + 4;
+	error = malloc(sizeof(char) * length);
 	if (!error)
 	{
-		ma_perror(NULL, 12);
 		free(ec);
 		return (NULL);
 	}
@@ -138,9 +137,8 @@ char *ma_cd_error(char **argus)
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, errmsg);
-	ma_strcat(error, argus[1]);
+	ma_strcat(error, (argus));
 	ma_strcat(error, "\n");
-	ma_strcat(error, "\0");
 
 	free(ec);
 	return (error);

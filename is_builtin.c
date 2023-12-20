@@ -20,7 +20,8 @@ int execute_builtin(char **argus)
 	}
 	else if (ma_strncmp(argus[0], "cd", 2) == 0)
 	{
-		return (ma_cd(argus));
+		ma_cd(argus[1]);
+		return (0);
 	}
 	else if (ma_strncmp(argus[0], "env", 3) == 0)
 		return (ma_env(environ));

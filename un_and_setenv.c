@@ -1,36 +1,6 @@
 #include "shell.h"
 
 /**
- * create_env - Function that creates strings w/c are environmental variables
- * @name: name of environmental variable
- * @value: value of environmental
- *
- * Return: created env
- */
-char *create_env(char *name, char *value)
-{
-	char *env_v;
-	int len_name, len_value, len;
-
-	len_name = ma_strlen(name);
-	len_value = ma_strlen(value);
-	len = len_name + len_value + 2;
-	env_v = (char*)malloc(sizeof(char) * (len));
-	if (env_v == NULL)
-	{
-		ma_perror(NULL, 12);
-		free(env_v);
-		return (NULL);
-	}
-	ma_strcpy(env_v, name);
-	ma_strcat(env_v, "=");
-	ma_strcat(env_v, value);
-	ma_strcat(env_v, "\0");
-
-	return (env_v);
-}
-
-/**
  * ma_setenv - Function that modify or add an environment variable
  * @name: name of environmental variable
  * @value: value of enviromental variable
@@ -39,21 +9,22 @@ char *create_env(char *name, char *value)
  */
 int ma_setenv(char *name, char *value)
 {
-	char **env, *env_var = NULL, **mod_environ = NULL;
+	char **env, *env_var = NULL, **set_environ = NULL;
 	int i, j = 0;
 
 	if ((ma_strchr(name, '=') != NULL) || (ma_strlen(name) == 0))
-	{
-		ma_perror(NULL, 22);
-		free(env_var);
-		return (-1);
-	}
+		return (ma_perror(NULL, 22));
+	env_var = malloc(ma_strlen(name) + ma_strlen(value) + 2);
+	if (env_var == NULL)
+		return (ma_perror(NULL, 12));
 	track_address(env_var);
-	env_var = create_env(name, value);
+	ma_strcpy(env_var, name);
+	ma_strcat(env_var, "=");
+	ma_strcat(env_var, value);
 	for (env = environ; *env; env++)
 	{
 		if (ma_strncmp(*env, name, ma_strlen(name)) == 0 &&
-				(*env)[ma_strlen(name)] == '=')
+		    (*env)[ma_strlen(name)] == '=')
 		{
 			*env = env_var;
 			return (0);
@@ -61,16 +32,15 @@ int ma_setenv(char *name, char *value)
 	}
 	for (env = environ; *env; env++)
 		j++;
-	mod_environ = (char**)malloc(sizeof(char *) * (j + 2));
-	if (mod_environ == NULL)
-		return (-1);
-	ma_perror(NULL, 12);
-	track_address(mod_environ);
+	set_environ = malloc((j + 2) * sizeof(char *));
+	if (set_environ == NULL)
+		return (ma_perror(NULL, 12));
+	track_address(set_environ);
 	for (i = 0; environ[i]; i++)
-		mod_environ[i] = environ[i];
-	mod_environ[i] = env_var;
-	mod_environ[i + 1] = NULL;
-	environ = mod_environ;
+		set_environ[i] = environ[i];
+	set_environ[i] = env_var;
+	set_environ[i + 1] = NULL;
+	environ = set_environ;
 	return (0);
 }
 

@@ -10,11 +10,11 @@ char **impl_env(char **ma_environ)
 {
 	char **envm = environ, *env;
 	pair_entry *nenv = NULL;
-	int env_num = 0, i, j;
+	int env_num = 0, i = 0, j;
 
 	for (; *envm != NULL; envm++)
 		env_num++;
-	nenv = (pair_entry*)malloc(sizeof(struct pair_entry) * (env_num + 1));
+	nenv = malloc(sizeof(struct pair_entry) * env_num);
 	if (nenv == NULL)
 	{
 		ma_perror(NULL, 12);
@@ -22,7 +22,7 @@ char **impl_env(char **ma_environ)
 		return (NULL);
 	}
 	envm = environ;
-	for (i = 0; i < env_num; i++)
+	for (; i < env_num; i++)
 	{
 		env = *envm;
 		j = 0;

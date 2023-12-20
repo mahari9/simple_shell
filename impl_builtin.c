@@ -134,48 +134,47 @@ void ma_alias(char **argus)
 
 /**
  * ma_cd - change the current directory of the process
- * @argus: Array of pointers to the arguments
+ * @dir: directory cotaining the path to the destination working directory
  * Return: 0 on success, -1 on failure
  */
-int ma_cd(char **argus)
+void ma_cd(char *dir)
 {
 	char *cwd = NULL, *home = NULL, *prev_dir = NULL,
-		*dir = argus[1], *old_dir = getcwd(NULL, 0);
-	int value;
+		*old_dir = getcwd(NULL, 0);
 
 	track_address(old_dir);
-	cwd = getcwd(NULL, 0);
-	track_address(cwd);
-	if (!argus[1])
+	if (dir == NULL || ma_strcmp(dir, "") == 0)
 	{
 		home = ma_getenv("HOME");
 		track_address(home);
-		if (!home)
-			value = chdir((home = ma_getenv("PWD")) ? home : "/");
-		else
-			value = chdir(home);
+		if (chdir(home) != 0)
+			return;
+		cwd = getcwd(NULL, 0);
+		track_address(cwd);
 	}
 	else if (ma_strcmp(dir, "-") == 0)
 	{
 		prev_dir = ma_getenv("OLDPWD");
 		track_address(prev_dir);
-		if (!prev_dir)
-		{
-			write(1, cwd, ma_strlen(cwd));
-			write(1, "\n", 1);
-			return (1);
-		}
-		write(1, prev_dir, ma_strlen(prev_dir));
+		chdir(prev_dir);
+		cwd = getcwd(NULL, 0);
+		if (cwd)
+			track_address(cwd);
+		write(1, cwd, ma_strlen(cwd));
 		write(1, "\n", 1);
-		value = chdir((prev_dir = ma_getenv("OLDPWD=")) ? prev_dir : "/");
+		if (chdir(prev_dir) == -1 || prev_dir == NULL)
+				return;
 	}
 	else
 	{
 		if (chdir(dir) != 0)
-			ma_perror_cd(argus, 3);
-		return (-1);
+		{
+			ma_perror_cd(dir, 2);
+			return;
+		}
+		cwd = getcwd(NULL, 0);
+		track_address(cwd);
 	}
-	ma_setenv("OLDPWD", old_dir);
 	ma_setenv("PWD", cwd);
-	return (value);
+	ma_setenv("OLDPWD", old_dir);
 }

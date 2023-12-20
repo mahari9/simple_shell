@@ -75,9 +75,8 @@ char *ma_strchr(const char *s, int crt);
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);
 int ma_env(char **envm);
-int ma_cd(char **argus);
+void ma_cd(char *dir);
 int exit_shell(char **argv);
-char *create_env(char *name, char *value);
 int ma_setenv(char *name, char *value);
 int ma_unsetenv(char *name);
 int track_address(void *p);
@@ -98,11 +97,10 @@ void sweep_all(char **argus);
 char *display_error(char **argus);
 char *display_error126(char **argus);
 void display_errorexit(char **argus);
-void ma_perror_cd(char **argus, int cod);
+void ma_perror_cd(char *argus, int cod);
 int ma_perror(char **argv, int cod);
 void ma_perrorfile(char **argv);
-char *ma_cd_error(char **argus);
-char *ma_cd_error1(char **argus);
+char *ma_cd_error(char *argus);
 
 /********  getline and process ******/
 ssize_t ma_getline(char **linept, size_t *n, int fd);
@@ -137,6 +135,7 @@ void display_prompt(void);
 
 /********ma_whichpath **********/
 char *ma_whichpath(char *cmnd);
+int check_abspth(const char *dir);
 char *ma_buildpath(char *comp, char *dir);
 char *ma_getenv(const char *name);
 
