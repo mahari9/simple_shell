@@ -21,7 +21,7 @@ int get_process_stdininput(void)
 		no_pth = 1;
 		replflag = 0;
 		if (usrin[c - 1] == '\n')
-			(usrin[c - 1] = '0');
+			usrin[c - 1] = '\0';
 		loca_count++;
 		count++;
 		for (envm = environ; *envm; ++envm)
@@ -55,8 +55,9 @@ int get_process_stdininput(void)
  */
 void ma_readprocess_execute_file(const char *filename)
 {
-	char *line = NULL, c, **envm;
+	char *line = NULL, **envm;
 	size_t n = 0;
+	ssize_t c;
 	int loca_count, stat = 0, fd;
 
 	if (!filename)
@@ -73,7 +74,7 @@ void ma_readprocess_execute_file(const char *filename)
 		source = 0;
 		no_pth = 1;
 		if (line[c - 1] == '\n')
-			(line[c - 1] = '0');
+			line[c - 1] = '\0';
 		loca_count++;
 		count++;
 		for (envm = environ; *envm; ++envm)

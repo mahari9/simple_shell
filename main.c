@@ -30,9 +30,7 @@ int main(int argc, char **argv)
 			ma_perrorfile(argv);
 	}
 	else
-	{
 		get_process_stdininput();
-	}
 	deallocate_env();
 	(void)argc;
 	return (0);

@@ -79,16 +79,16 @@ int ma_unsetenv(char *name)
  * @p: pointer of which it's address will stored in the array env_n
  * Return: 1 on success else 0
  */
-int track_address(void *p)
+void track_address(void *p)
 {
 	char msg[] = "env is on maximum limit\n";
 
 	if (num_p < 50)
 	{
 		env_n[num_p++] = p;
-		return (1);
+		return;
 	}
 	else
 		WRT(msg);
-	return (0);
+	return;
 }

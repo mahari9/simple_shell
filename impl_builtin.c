@@ -162,7 +162,7 @@ void ma_cd(char *dir)
 			track_address(cwd);
 		write(1, cwd, ma_strlen(cwd));
 		write(1, "\n", 1);
-		if (chdir(prev_dir) == -1 || prev_dir == NULL)
+		if (prev_dir == NULL || chdir(prev_dir) == -1)
 				return;
 	}
 	else

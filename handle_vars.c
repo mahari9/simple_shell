@@ -16,7 +16,7 @@ char *impl_var(char *cmd)
 		buffer = ma_getenv(name);
 		if (buffer != NULL)
 		{
-			value = (char*)malloc(ma_strlen(buffer) + 1);
+			value = malloc(strlen(buffer) + 1);
 			ma_strcpy(value, buffer);
 			free(buffer);
 			return (value);
@@ -41,31 +41,23 @@ char *update_var(char *cmd)
 	buffer = (char*)malloc(size);
 	if (!buffer)
 		return (NULL);
-
-	for (; *cmd; cmd++)
+	while (*cmd)
 	{
-		if (i + 1 >= size)
-		{
-			size *= 2;
-			buffer = (char*)malloc(size);
-			if (!buffer)
-				return (NULL);
-		}
 		if (cmd[0] == '$' && cmd[1] == '$')
 		{
 			pid = getpid();
 			append_str(&buffer, NULL, pid, &i);
-			cmd += 1;
+			cmd += 2;
 			verify++;
 		}
 		else if (cmd[0] == '$' && cmd[1] == '?')
 		{
 			append_str(&buffer, NULL, status, &i);
-			cmd += 1;
+			cmd += 2;
 			verify++;
 		}
 		else
-			buffer[i++] = *cmd;
+			buffer[i++] = *cmd++;
 	}
 	buffer[i] = '\0';
 	if (verify)
@@ -86,8 +78,7 @@ char *update_var(char *cmd)
 
 void signal_catcher(int sign_num)
 {
-	write(STDOUT_FILENO, "\n", 1);
-	display_prompt();
+	write(STDOUT_FILENO, "\n$ ", 2);
 	(void) sign_num;
 }
 

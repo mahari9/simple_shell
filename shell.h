@@ -79,7 +79,7 @@ void ma_cd(char *dir);
 int exit_shell(char **argv);
 int ma_setenv(char *name, char *value);
 int ma_unsetenv(char *name);
-int track_address(void *p);
+void track_address(void *p);
 char *search_alias(char *name, int *row);
 void define_alias(char *al_name, char *al_value);
 void print_alias(int r);

@@ -42,13 +42,11 @@ int ma_perror(char **argv, int cod)
 	else if (cod == 126)
 	{
 		error = display_error126(argv);
-		WRT(error);
 		status = 126;
 	}
 	else if (cod == 127)
 	{
 		error = display_error(argv);
-		WRT(error);
 		status = 127;
 	}
 	else if (cod == 12)

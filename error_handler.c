@@ -126,8 +126,8 @@ char *ma_cd_error(char *argus)
 		return (NULL);
 	errmsg = ": cd: Unable to change directory to ";
 	length = ma_strlen(shell) + ma_strlen(ec) +
-		ma_strlen(errmsg) + ma_strlen(argus) + 4;
-	error = malloc(sizeof(char) * length);
+		ma_strlen(errmsg) + ma_strlen(argus) + 3;
+	error = malloc(sizeof(char) * (length + 1));
 	if (!error)
 	{
 		free(ec);
