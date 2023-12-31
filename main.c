@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	initialize_alias_count();
-	if (argc == 2 && argv[1] != NULL)
+	if (argc == 2)
 	{
 		filename = argv[1];
 		if (validate_file(filename))

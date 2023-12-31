@@ -25,7 +25,6 @@ char *display_error(char **argus)
 		free(ec);
 		return (NULL);
 	}
-
 	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);

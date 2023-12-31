@@ -2,22 +2,22 @@
 
 /**
  * ma_buildpath- Function that search and build path for executable command
- * @comp: Command to be executed
+ * @cmnd: Command to be executed
  * @dir: directory containg possible executable command.
  * Return: Path of the command or NULL (failure).
  */
-char *ma_buildpath(char *comp, char *dir)
+char *ma_buildpath(char *cmnd, char *dir)
 {
 	int full_len;
 	char *pth_cmnd;
 
-	full_len = ma_strlen(dir) + ma_strlen(comp) + 2;
-	pth_cmnd = malloc(full_len);
+	full_len = ma_strlen(dir) + ma_strlen(cmnd) + 1;
+	pth_cmnd = malloc(full_len + 1);
 	if (pth_cmnd)
 	{
 		ma_strcpy(pth_cmnd, dir);
 		ma_strcat(pth_cmnd, "/");
-		ma_strcat(pth_cmnd, comp);
+		ma_strcat(pth_cmnd, cmnd);
 		ma_strcat(pth_cmnd, "\0");
 	}
 	return (pth_cmnd);
@@ -60,6 +60,7 @@ char *ma_whichpath(char *cmnd)
 		if (dup_pth)
 			free(dup_pth);
 		free(pth);
+
 		if (stat(cmnd, &tmp) == 0)
 			return (cmnd);
 		return (NULL);
@@ -67,6 +68,7 @@ char *ma_whichpath(char *cmnd)
 	else if ((no_pth == 1) && (stat(cmnd, &tmp) == 0))
 		if ((check_abspth(cmnd)))
 			return (cmnd);
+
 	return (NULL);
 }
 

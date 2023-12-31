@@ -52,25 +52,23 @@ int count, num_p, status, source, replflag, no_pth;
 void *env_n[50];
 
 /*********** string_manp.c *******/
-int ma_strlen(char *str);
-char *ma_strcpy(char *dst, char *src);
 char *ma_strdup(const char *str);
 char *ma_strndup(const char *str, size_t n);
-char *ma_strcat(char *dst, char *src);
+char *ma_strchr(const char *s, int crt);
+void append_str(char **buffer, char *str, int n, size_t *i);
 
 /************** string_manp1.c ********/
+int ma_strlen(char *str);
+char *ma_strcat(char *dst, char *src);
+char *ma_strcpy(char *dst, char *src);
 int ma_strcmp(char *str1, char *str2);
 int ma_strncmp(const char *str1, const char *str2, size_t n);
-int ma_isalpha(char c);
-int ma_atoi(char *str);
-char *ma_strstr(char *hystk, char *ndl);
 
 /******** string_manp2.c *********/
 char *ma_itoa(int num);
-int count_digits(int num);
 void ma_puts(char *cos);
-void append_str(char **buffer, char *str, int n, size_t *i);
-char *ma_strchr(const char *s, int crt);
+int ma_atoi(char *str);
+char *ma_strstr(char *hystk, char *ndl);
 
 /******* builti-in  *****************/
 char **impl_env(char **ma_environ);
@@ -87,7 +85,6 @@ void ma_alias(char **argus);
 
 /**********memory mang *********/
 void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-char *ma_memcpy(char *dst, const char *src, unsigned int n);
 void initialize_alias_count(void);
 void deallocate_env(void);
 void deallocate(char **argus);
@@ -123,7 +120,7 @@ int main(int argc, char **argv);
 int handle_commands(char **argus);
 int execute_builtin(char **argus);
 int inputcommand_execute(char **argv, char **envm);
-int p_process(char **argus, pid_t pid);
+int p_process(pid_t pid, char **agrus);
 
 /******* variable rplace handler********/
 char *impl_var(char *cmd);

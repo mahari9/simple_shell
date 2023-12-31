@@ -8,27 +8,22 @@
  */
 char *search_alias(char *nam, int *row)
 {
-	int j, found;
-	char *al_valu;
+	int j;
+	char *al_valu, *found;
 
-	while (1)
+	for (j = 0; G_alias.aliases[j].name != NULL; j++)
 	{
-		found = 0;
-		for (j = 0; G_alias.aliases[j].name != NULL; j++)
+		if (ma_strcmp(nam, G_alias.aliases[j].name) == 0)
 		{
-			if (ma_strcmp(nam, G_alias.aliases[j].name) == 0)
-			{
-				if (row != NULL)
-					*row = j;
-
-				al_valu = G_alias.aliases[j].value;
-				nam = al_valu;
-				found = 1;
-				break;
-			}
+			if (row != NULL)
+				*row = j;
+			al_valu = G_alias.aliases[j].value;
+			found = search_alias(G_alias.aliases[j].value, row);
+			if (found)
+				return (found);
+			else
+				return (al_valu);
 		}
-		if (!found)
-			return (NULL);
 	}
 	return (NULL);
 }
@@ -45,7 +40,6 @@ void define_alias(char *al_name, char *al_value)
 	int row;
 	char *found;
 
-	G_alias.a_count = 0;
 	found = search_alias(al_name, &row);
 	if (found)
 		G_alias.aliases[row].value = al_value;
@@ -65,18 +59,12 @@ void define_alias(char *al_name, char *al_value)
 void print_alias(int r)
 {
 	int len;
-	char *aliaslis;
-
-	aliaslis = NULL;
+	char *aliaslis = NULL;
 
 	len = ma_strlen(G_alias.aliases[r].name)
 	+ ma_strlen(G_alias.aliases[r].value);
-	aliaslis = (char*)malloc(sizeof(char) * (len + 5));
-	if (aliaslis == NULL)
-	{
-		ma_perror(NULL, 12);
-		return;
-	}
+	aliaslis = malloc(sizeof(char) * (len + 5));
+
 	ma_strcpy(aliaslis, G_alias.aliases[r].name);
 	ma_strcat(aliaslis, "='");
 	ma_strcat(aliaslis, G_alias.aliases[r].value);
@@ -97,15 +85,16 @@ void ma_alias(char **argus)
 
 	for (i = 0; argus[i]; i++)
 		ar_count++;
-	if (!ar_count)
+	if (ar_count == 0)
 	{
 		for (i = 0; i < G_alias.a_count; i++)
 			print_alias(i);
+		return;
 	}
 	for (; col < ar_count; n++, col++)
 	{
 		equal = ma_strchr(argus[n], '=');
-		if (equal == NULL)
+		if (!equal)
 		{
 			for (i = 0; i <= G_alias.a_count; i++)
 				if ((G_alias.aliases[i].name)
@@ -135,7 +124,7 @@ void ma_alias(char **argus)
 /**
  * ma_cd - change the current directory of the process
  * @dir: directory cotaining the path to the destination working directory
- * Return: 0 on success, -1 on failure
+ * Return: Nothing
  */
 void ma_cd(char *dir)
 {

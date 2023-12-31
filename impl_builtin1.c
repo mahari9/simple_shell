@@ -18,7 +18,6 @@ char **impl_env(char **ma_environ)
 	if (nenv == NULL)
 	{
 		ma_perror(NULL, 12);
-		free(nenv);
 		return (NULL);
 	}
 	envm = environ;
@@ -26,6 +25,7 @@ char **impl_env(char **ma_environ)
 	{
 		env = *envm;
 		j = 0;
+
 		while (env[j] != '=')
 			j++;
 		nenv[i].name = ma_strndup(env, j);
@@ -42,6 +42,7 @@ char **impl_env(char **ma_environ)
 	for (i = 0; i < env_num; i++)
 		free(nenv[i].name);
 	free(nenv);
+
 	return (ma_environ);
 }
 
@@ -54,14 +55,13 @@ char **impl_env(char **ma_environ)
 
 int ma_env(char **envm)
 {
-	int i, j;
+	int i = 0;
 
-	for (i = 0; envm[i] != NULL; i++)
+	while (envm[i] != NULL)
 	{
-		for (j = 0; envm[i][j]; j++)
-			;
-		write(STDOUT_FILENO, envm[i], j);
+		write(STDOUT_FILENO, envm[i], strlen(envm[i]));
 		write(STDOUT_FILENO, "\n", 1);
+		i++;
 	}
 	return (0);
 }

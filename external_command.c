@@ -30,14 +30,14 @@ int inputcommand_execute(char **argv, char **envm)
 		{
 			if (source)
 				free(pth_cmnd);
-			perror("forking");
+			perror("fork");
 			return (-1);
 		}
 		else
 		{
 			if (source)
 				free(pth_cmnd);
-			return (p_process(argv, pid));
+			return (p_process(pid, argv));
 		}
 	}
 	else
@@ -52,7 +52,7 @@ int inputcommand_execute(char **argv, char **envm)
  * Return: 0 (Success)
  */
 
-int p_process(char **argv, pid_t pid)
+int p_process(pid_t pid, char **argv)
 {
 	int stat;
 
