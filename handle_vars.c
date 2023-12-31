@@ -16,7 +16,7 @@ char *impl_var(char *cmd)
 		buffer = ma_getenv(name);
 		if (buffer != NULL)
 		{
-			value = malloc(strlen(buffer) + 1);
+			value = malloc(ma_strlen(buffer) + 1);
 			ma_strcpy(value, buffer);
 			free(buffer);
 			return (value);
@@ -35,10 +35,10 @@ char *impl_var(char *cmd)
 char *update_var(char *cmd)
 {
 	char *buffer, *cmdcopy = cmd;
-	size_t i = 0, size = 254, verify = 0;
+	size_t i = 0, verify = 0;
 	pid_t pid;
 
-	buffer = (char*)malloc(size);
+	buffer = malloc(254);
 	if (!buffer)
 		return (NULL);
 	while (*cmd)
@@ -78,7 +78,7 @@ char *update_var(char *cmd)
 
 void signal_catcher(int sign_num)
 {
-	write(STDOUT_FILENO, "\n$ ", 2);
+	write(STDOUT_FILENO, "\n$ ", 3);
 	(void) sign_num;
 }
 

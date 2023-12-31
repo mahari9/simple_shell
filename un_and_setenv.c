@@ -5,7 +5,7 @@
  * @name: name of environmental variable
  * @value: value of enviromental variable
  *
- * Return: 0 on success, -1 on failure
+ * Return: 0 on success
  */
 int ma_setenv(char *name, char *value)
 {
@@ -77,7 +77,7 @@ int ma_unsetenv(char *name)
 /**
  * track_address - Add address of given pointer to an array
  * @p: pointer of which it's address will stored in the array env_n
- * Return: 1 on success else 0
+ * Return: Nothing
  */
 void track_address(void *p)
 {
@@ -86,9 +86,7 @@ void track_address(void *p)
 	if (num_p < 50)
 	{
 		env_n[num_p++] = p;
-		return;
 	}
 	else
 		WRT(msg);
-	return;
 }

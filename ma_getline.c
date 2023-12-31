@@ -108,7 +108,6 @@ char *hashtag_comm(char *line)
 			treated_line = ma_strndup(line, rmn);
 			treated_line[rmn] = '\0';
 			track_address(treated_line);
-			free(line);
 			line = treated_line;
 		}
 	}
