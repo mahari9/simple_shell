@@ -98,8 +98,7 @@ void display_errorexit(char *argus)
 	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
-	ma_strcat(error, ": ");
-	ma_strcat(error, "exit: invalid number: ");
+	ma_strcat(error, ": exit: Illegal number: ");
 	ma_strcat(error, (argus));
 	ma_strcat(error, "\n");
 
@@ -122,10 +121,9 @@ char *ma_cd_error(char *argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
-	errmsg = ": cd: Unable to change directory to ";
 	length = ma_strlen(shell) + ma_strlen(ec) +
-		ma_strlen(errmsg) + ma_strlen(argus) + 3;
-	error = malloc(sizeof(char) * (length + 1));
+		ma_strlen(errmsg) + ma_strlen(argus);
+	error = malloc(sizeof(char) * (length + 24));
 	if (!error)
 	{
 		free(ec);
@@ -134,7 +132,7 @@ char *ma_cd_error(char *argus)
 	ma_strcpy(error, shell);
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
-	ma_strcat(error, errmsg);
+	ma_strcat(error, ": cd: can't cd to ");
 	ma_strcat(error, (argus));
 	ma_strcat(error, "\n");
 
