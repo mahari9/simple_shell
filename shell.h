@@ -48,7 +48,7 @@ typedef struct alias_list
 /********* global variable declaration****/
 alias_list G_alias;
 char *usrin, *shell;
-int count, num_p, status, source, replflag, no_pth;
+int count, num_p, exit_status, source, replflag, no_pth;
 void *env_n[50];
 
 /*********** string_manp.c *******/
@@ -130,7 +130,7 @@ char *update_var(char *cmd);
 void signal_catcher(int sign_num);
 void display_prompt(void);
 
-/********ma_whichpath **********/
+/********ma_path **********/
 char *ma_whichpath(char *cmnd);
 int check_abspth(const char *dir);
 char *ma_buildpath(char *comp, char *dir);

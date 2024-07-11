@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 	shell = argv[0];
 	count = 0;
 	num_p = 0;
-	status = 0;
+	exit_status = 0;
 
 	if (signal(SIGINT, signal_catcher) == SIG_ERR)
 	{

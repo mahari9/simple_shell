@@ -1,5 +1,95 @@
 #include "shell.h"
+/**
+ * get_process_stdininput - gets input from stdin and leads it to next process
+ * Return: status of the user input
+ */
+int get_process_stdininput(void)
+{
+	int loca_count = 0, status = 1;
+	size_t n = 0;
+	ssize_t c;
+	char **envm;
 
+	usrin = NULL;
+	if (isatty(STDIN_FILENO))
+		display_prompt();
+	while ((c = ma_getline(&usrin, &n, STDIN_FILENO)) != -1)
+	{
+		source = 0;
+		replflag = 0;
+		no_pth = 1;
+		if (usrin[c - 1] == '\n')
+			usrin[c - 1] = '\0';
+		loca_count++;
+		count;
+		for (envm = environ; *envm; ++envm)
+		{
+			if (ma_strcmp(*envm, "PATH=") == 0)
+			{
+				no_pth = 0;
+				break;
+			}
+		}
+		status = ma_separat(usrin);
+		if (isatty(STDIN_FILENO))
+		{
+			write(STDOUT_FILENO, prompt, 2);
+			fflush(stdout);
+		}
+	}
+	if (usrin)
+		free(usrin);
+	if (isatty(STDIN_FILENO))
+		write(STDERR_FILENO, "\n", 2);
+	deallocate_env();
+	exit(status);
+}
+
+/**
+ * ma_parser - splits line into an array of tokens
+ * @usri: input command-line to be splited in arguments
+ *
+ * Return: 0 on seccuss -1 on failure
+ */
+int ma_parser(char *usri)
+{
+	int i, status = 0;
+	const char *delim = " \n\t&|";
+	char *usri_copy = NULL, *argu, **argus, *found, *sav;
+
+	usri_copy = ma_strdup(usri);
+	if (usri_copy != NULL)
+	{
+		argu = ma_strtok_r(usri_copy, delim, &sav);
+		for (i = 0; argu != NULL; i++)
+			argu = ma_strtok_r(NULL, delim, &sav);
+		free(usri_copy);
+	}
+	else
+		return (-1);
+	argus = malloc(sizeof(char *) * (i + 1));
+	if (!argus)
+		return (ma_perror(NULL, 12));
+	argu = ma_strtok_r(usri, delim, &sav);
+	for (i = 0; argu != NULL; i++)
+	{
+		argus[i] = ma_strdup(argu);
+		found = impl_var(argus[i]);
+		if (found)
+		{
+			free(argus[i]);
+			argus[i] = found;
+		}
+		argu = ma_strtok_r(NULL, delim, &sav);
+	}
+	argus[i] = NULL;
+	if (replflag == 0)
+		status = handle_commands(argus);
+	else
+		write(STDOUT_FILENO, "\n", 1);
+	deallocate(argus);
+	return (status);
+}
 /**
  * ma_separat - separates multiple cmnds
  * @line: line to be split
@@ -9,7 +99,7 @@
 int ma_separat(char *line)
 {
 	char *csav, *and_tok, *or_tok, *cmnds;
-	int stat = 0;
+	int status = 0;
 
 	line = hashtag_comm(line);
 	if (!line)
@@ -22,12 +112,12 @@ int ma_separat(char *line)
 		if (and_tok && (or_tok == NULL || and_tok < or_tok))
 			stat = log_and(cmnds);
 		else if (or_tok && (and_tok == NULL || or_tok < and_tok))
-			stat = log_or(cmnds);
+			status = log_or(cmnds);
 		else
-			stat = ma_parser(cmnds);
+			status = ma_parser(cmnds);
 		cmnds = ma_strtok_r(NULL, ";", &csav);
 	}
-	return (stat);
+	return (status);
 }
 
 
@@ -115,80 +205,4 @@ int log_or(char *cmnds)
 		}
 	}
 	return (result);
-}
-/**
- * ma_parser - splits line into an array of tokens
- * @usri: input command-line to be splited in arguments
- *
- * Return: 0 on seccuss -1 on failure
- */
-int ma_parser(char *usri)
-{
-	int i, stat = 0;
-	const char *delim = " \n\t&|";
-	char *usri_copy = NULL, *argu, **argus, *found, *sav;
-
-	usri_copy = ma_strdup(usri);
-	if (usri_copy != NULL)
-	{
-		argu = ma_strtok_r(usri_copy, delim, &sav);
-		for (i = 0; argu != NULL; i++)
-			argu = ma_strtok_r(NULL, delim, &sav);
-		free(usri_copy);
-	}
-	else
-		return (-1);
-	argus = (char**)malloc(sizeof(char *) * (i + 1));
-	if (!argus)
-		return (ma_perror(NULL, 12));
-	argu = ma_strtok_r(usri, delim, &sav);
-	for (i = 0; argu != NULL; i++)
-	{
-		argus[i] = ma_strdup(argu);
-		found = impl_var(argus[i]);
-		if (found)
-		{
-			free(argus[i]);
-			argus[i] = found;
-		}
-		argu = ma_strtok_r(NULL, delim, &sav);
-	}
-	argus[i] = NULL;
-	if (replflag == 0)
-		stat = handle_commands(argus);
-	else
-		write(STDOUT_FILENO, "\n", 1);
-	deallocate(argus);
-	return (stat);
-}
-
-/**
- * handle_commands - Function that handles execution of different commands
- * @argus: Array of pointers to command line arguments passed to function
- * Return: 0 on success
- */
-int handle_commands(char **argus)
-{
-	char **envm = environ, *found;
-	int i = 0, stat = 0;
-
-	while (argus[i] != NULL)
-	{
-		found = search_alias(argus[i], NULL);
-		if (found && (ma_strcmp(argus[0], "alias") != 0))
-		{
-			free(argus[i]);
-			argus[i] = ma_strdup(found);
-		}
-		i++;
-	}
-	if (argus && argus[0])
-	{
-		stat = execute_builtin(argus);
-		if (stat != 1)
-			return (stat);
-		else
-			return (inputcommand_execute(argus, envm));
-	}
-	return (0);
 }

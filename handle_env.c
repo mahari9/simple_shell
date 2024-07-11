@@ -67,40 +67,6 @@ int ma_env(char **envm)
 }
 
 /**
- * exit_shell - Function that exit the shell with exit status
- * @argv: an array of arguments passed to the program
- * Return: 2 on failure
- */
-int exit_shell(char **argv)
-{
-	int stat;
-
-	if (argv[1] == NULL)
-	{
-		sweep_all(argv);
-		exit(status);
-	}
-	else
-	{
-		stat = ma_atoi(argv[1]);
-		if ((stat == 0) && (ma_strcmp(argv[1], "0") == 0))
-		{
-			sweep_all(argv);
-			exit(stat);
-		}
-		else if (stat > 0)
-		{
-			sweep_all(argv);
-			exit(stat);
-		}
-		else if (stat < 1)
-			display_errorexit(argv);
-
-	}
-	return (2);
-}
-
-/**
  * initialize_alias_count - initialization of global alias
  * list of aliases and alias_count
  */

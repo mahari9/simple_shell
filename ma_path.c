@@ -1,36 +1,12 @@
 #include "shell.h"
-
-/**
- * ma_buildpath- Function that search and build path for executable command
- * @cmnd: Command to be executed
- * @dir: directory containg possible executable command.
- * Return: Path of the command or NULL (failure).
- */
-char *ma_buildpath(char *cmnd, char *dir)
-{
-	int full_len;
-	char *pth_cmnd;
-
-	full_len = ma_strlen(dir) + ma_strlen(cmnd) + 1;
-	pth_cmnd = malloc(full_len + 1);
-	if (pth_cmnd)
-	{
-		ma_strcpy(pth_cmnd, dir);
-		ma_strcat(pth_cmnd, "/");
-		ma_strcat(pth_cmnd, cmnd);
-		ma_strcat(pth_cmnd, "\0");
-	}
-	return (pth_cmnd);
-}
-
 /**
  * ma_whichpath- Function that search path for executable command
- * @cmnd: executable Command
+ *@cmnd: Command to be executed
  * Return: path to executable cmnd or NULL
  */
 char *ma_whichpath(char *cmnd)
 {
-	char *pth = NULL, *dup_pth = NULL, *comp, *pth_cmnd;
+	char *pth = NULL, *dup_pth = NULL, *pth_cmnd, *comp;
 	struct stat tmp;
 
 	pth = ma_getenv("PATH");
@@ -68,7 +44,66 @@ char *ma_whichpath(char *cmnd)
 	else if ((no_pth == 1) && (stat(cmnd, &tmp) == 0))
 		if ((check_abspth(cmnd)))
 			return (cmnd);
+	return (NULL);
+}
 
+/**
+ * ma_buildpath- Function that search and build path for executable command
+ * @cmnd: Command to be executed
+ * @dir: directory containg possible executable command.
+ * Return: Path of the command or NULL (failure).
+ */
+
+char *ma_buildpath(char *cmnd, char *dir)
+{
+	int len_cmnd, len_dir;
+	char *pth_cmnd;
+
+	len_cmnd = ma_strlen(cmnd);
+	len_dir = ma_strlen(dir);
+	pth_cmnd = malloc(len_cmnd + len_dir + 2);
+	if (pth_cmnd)
+	{
+		ma_strcpy(pth_cmnd, dir);
+		ma_strcat(pth_cmnd, "/");
+		ma_strcat(pth_cmnd, cmnd);
+		ma_strcat(pth_cmnd, "\0");
+	}
+	return (pth_cmnd);
+}
+/**
+ * ma_getenv - Gets the value of environment variable by name
+ * @name: Environment variable's name
+ * Return: The value of the environment variable or NULL if failed
+ */
+char *ma_getenv(const char *name)
+{
+	int i, j;
+	char **envm = environ, *value, *value_begin;
+	size_t value_len;
+
+	if (!name || !environ)
+		return (NULL);
+	for (i = 0; environ[i] != NULL; i++)
+	{
+		for (j = 0; name[j] != '\0' && name[j] == envm[i][j]; j++)
+		{
+			/*compare chars until they differ or name[j] is '\0'*/
+		}
+		if (name[j] == '\0' && envm[i][j] == '=')
+		{
+			value_begin = &envm[i][j + 1];
+			value_len = ma_strlen(value_begin);
+
+			value = malloc(value_len + 1);
+
+			if (value)
+			{
+				ma_strcpy(value, value_begin);
+				return (value);
+			}
+		}
+	}
 	return (NULL);
 }
 
@@ -87,37 +122,4 @@ int check_abspth(const char *dir)
 		return (1);
 	else
 		return (0);
-}
-
-/**
- * ma_getenv - Gets the value of environment variable by name
- * @name: Environment variable's name
- * Return: The value of the environment variable or NULL if failed
- */
-char *ma_getenv(const char *name)
-{
-	int i, j;
-	char **envm = environ, *value, *value_begin;
-	size_t value_len;
-
-	if (!name || !environ)
-		return (NULL);
-	for (i = 0; environ[i] != NULL; i++)
-	{
-		for (j = 0; name[j] != '\0' && name[j] == envm[i][j]; j++)
-		if (name[j] == '\0' && envm[i][j] == '=')
-		{
-			value_begin = &envm[i][j + 1];
-			value_len = ma_strlen(value_begin);
-
-			value = malloc(value_len + 1);
-
-			if (value)
-			{
-				ma_strcpy(value, value_begin);
-				return (value);
-			}
-		}
-	}
-	return (NULL);
 }

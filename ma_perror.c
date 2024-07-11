@@ -30,29 +30,29 @@ void ma_perror_cd(char *argus, int cod)
  */
 int ma_perror(char **argv, int cod)
 {
-	int status = 0;
+	int exit_status = 0;
 	char *error = NULL;
 
 	if (cod == 22)
 	{
 		write(STDERR_FILENO, "Invalid Argument\n", 17);
 		errno = EINVAL;
-		status = -1;
+		exit_status = -1;
 	}
 	else if (cod == 126)
 	{
 		error = display_error126(argv);
-		status = 126;
+		exit_status = 126;
 	}
 	else if (cod == 127)
 	{
 		error = display_error(argv);
-		status = 127;
+		exit_status = 127;
 	}
 	else if (cod == 12)
 	{
 		write(STDERR_FILENO, "Error: Unable to allocate memory\n", 33);
-		status = -1;
+		exit_status = -1;
 	}
 
 	if (error)
@@ -60,7 +60,7 @@ int ma_perror(char **argv, int cod)
 		WRT(error);
 		free(error);
 	}
-	return (status);
+	return (exit_status);
 }
 
 /**
@@ -70,7 +70,7 @@ int ma_perror(char **argv, int cod)
 void ma_perrorfile(char **argv)
 {
 	char *error, *ec, *msg = ": Can't open ";
-	int len, status;
+	int len;
 
 	if (count != 0)
 	{
@@ -102,6 +102,6 @@ void ma_perrorfile(char **argv)
 		free(ec);
 	WRT(error);
 	free(error);
-	status = 127;
-	exit(status);
+	exit_status = 127;
+	exit(exit_status);
 }

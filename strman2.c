@@ -103,3 +103,17 @@ char *ma_strstr(char *hystk, char *ndl)
 	}
 	return (0);
 }
+
+/**
+ * signal_catcher - catch signal (Ctrl-C) interrupt from terminating the shell
+ *
+ * @sign_num: an integer that contains the signal number
+ *
+ * Return: nothing
+ */
+
+void signal_catcher(int sign_num)
+{
+	write(STDOUT_FILENO, "\n$ ", 3);
+	(void) sign_num;
+}
