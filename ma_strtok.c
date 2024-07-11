@@ -49,7 +49,7 @@ char *ma_strtok(char *usri, const char *separ)
 }
 
 /**
- * ma_strtok_r - function that tokenize line into  string on muilt thread safe 
+ * ma_strtok_r - function that tokenize line into  string on muilt thread safe
  * @str: line to be split into tokens of strings
  * @delim: the delimiter
  * @saveptr: adress of str for next token

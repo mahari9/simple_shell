@@ -72,12 +72,12 @@ int ma_env(char **envm)
  */
 void initialize_alias_count(void)
 {
-        int i;
+	int i;
 
-        for (i = 0; i < MAXALS; ++i)
-        {
-                G_alias.aliases[i].name = NULL;
-                G_alias.aliases[i].value = NULL;
-        }
-        G_alias.a_count = 0;
+	for (i = 0; i < MAXALS; ++i)
+	{
+		G_alias.aliases[i].name = NULL;
+		G_alias.aliases[i].value = NULL;
+	}
+	G_alias.a_count = 0;
 }

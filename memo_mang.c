@@ -28,7 +28,7 @@ void *ma_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		return (free(ptr), NULL);
 	}
 	old_ptr = ptr;
-	result = malloc(sizeof (*old_ptr) * new_size);
+	result = malloc(sizeof(*old_ptr) * new_size);
 	if (result == NULL)
 	{
 		return (free(ptr), NULL);

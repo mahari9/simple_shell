@@ -21,7 +21,7 @@ int get_process_stdininput(void)
 		if (usrin[c - 1] == '\n')
 			usrin[c - 1] = '\0';
 		loca_count++;
-		count;
+		count++;
 		for (envm = environ; *envm; ++envm)
 		{
 			if (ma_strcmp(*envm, "PATH=") == 0)
@@ -33,7 +33,7 @@ int get_process_stdininput(void)
 		status = ma_separat(usrin);
 		if (isatty(STDIN_FILENO))
 		{
-			write(STDOUT_FILENO, prompt, 2);
+			display_prompt();
 			fflush(stdout);
 		}
 	}
@@ -110,7 +110,7 @@ int ma_separat(char *line)
 		and_tok = ma_strstr(cmnds, "&&");
 		or_tok = ma_strstr(cmnds, "||");
 		if (and_tok && (or_tok == NULL || and_tok < or_tok))
-			stat = log_and(cmnds);
+			status = log_and(cmnds);
 		else if (or_tok && (and_tok == NULL || or_tok < and_tok))
 			status = log_or(cmnds);
 		else

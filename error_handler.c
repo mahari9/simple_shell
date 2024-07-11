@@ -9,8 +9,8 @@ char *display_error(char **argus)
 {
 	int length;
 	char *error, *ec;
-	
-	if (count !=0)
+
+	if (count != 0)
 	{
 		ec = ma_itoa(count);
 		if (!ec)
@@ -19,7 +19,7 @@ char *display_error(char **argus)
 	else
 		ec = "0";
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]) + 17;
-	error = (char*)malloc(sizeof(char) * length);
+	error = (char *)malloc(sizeof(char) * length);
 	if (!error)
 	{
 		free(ec);
@@ -47,7 +47,7 @@ char *display_error126(char **argus)
 {
 	int length;
 	char *error, *ec;
-	
+
 	if (count != 0)
 	{
 		ec = ma_itoa(count);
@@ -57,7 +57,7 @@ char *display_error126(char **argus)
 	else
 		ec = "0";
 	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[0]);
-	error = (char*)malloc(sizeof(char) * (length + 25));
+	error = (char *)malloc(sizeof(char) * (length + 25));
 	if (!error)
 	{
 		free(ec);
@@ -80,7 +80,7 @@ char *display_error126(char **argus)
  * @argus: array of pointers to the  command line arguments
  * Return: Nothing
  */
-void display_errorexit(char **argus)
+void display_errorexit(char *argus)
 {
 	int length;
 	char *error, *ec;
@@ -88,8 +88,8 @@ void display_errorexit(char **argus)
 	ec = ma_itoa(count);
 	if (!ec)
 		return;
-	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus[1] + 4);
-	error = (char*)malloc(sizeof(char) * (length + 24));
+	length = ma_strlen(shell) + ma_strlen(ec) + ma_strlen(argus);
+	error = malloc(sizeof(char) * (length + 30));
 	if (!error)
 	{
 		free(ec);
@@ -99,11 +99,10 @@ void display_errorexit(char **argus)
 	ma_strcat(error, ": ");
 	ma_strcat(error, ec);
 	ma_strcat(error, ": ");
-	ma_strcat(error, argus[0]);
-	ma_strcat(error, ": invalid number: ");
-	ma_strcat(error, argus[1]);
+	ma_strcat(error, "exit: invalid number: ");
+	ma_strcat(error, (argus));
 	ma_strcat(error, "\n");
-	
+
 	free(ec);
 	WRT(error);
 	free(error);

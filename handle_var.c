@@ -101,7 +101,7 @@ void append_str(char **tmp, char *str, int num, size_t *i)
 	{
 		if (!tmp)
 		{
-			ma_perrorr(NULL, 12);
+			ma_perror(NULL, 12);
 			return;
 		}
 		ma_strcpy(*tmp, str);

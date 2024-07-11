@@ -64,7 +64,7 @@ int exit_shell(char **argv)
 	}
 	else
 	{
-		status = _atoi(argv[1]);
+		status = ma_atoi(argv[1]);
 		if ((status == 0) && (ma_strcmp(argv[1], "0") == 0))
 		{
 			sweep_all(argv);

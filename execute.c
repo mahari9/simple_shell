@@ -1,34 +1,34 @@
 #include "shell.h"
 
 /**
- * handle_commands - Function that handles execution of different commands
- * @argus: Array of pointers to command line arguments passed to function
- * Return: 0 on success
+ * p_process - handle parent proccess after forking(pid = 0)
+ * @argv: vector of arguments
+ * @pid: proccess id
+ * Return: 0 (Success)
  */
-int handle_commands(char **argus)
-{
-	char **envm = environ, *found;
-	int bltin, i;
 
-	for (i = 0; argus[i] != NULL; i++)
+int p_process(pid_t pid, char **argv)
+{
+	int status;
+
+	if (waitpid(pid, &status, 0) == -1)
 	{
-		found = search_alias(argus[i], NULL);
-		if (found && (ma_strcmp(argus[0], "alias") != 0))
-		{
-			free(argus[i]);
-			argus[i] = ma_strdup(found);
+		perror("waitpid");
+		return (-1);
 	}
-	if (argus && argus[0])
+	if (WIFEXITED(status))
 	{
-		bltin = execute_builtin(argus);
-		if (bltin != 1)
-			return (bltin);
-		else
-			return (inputcommand_execute(argus, envm));
+		exit_status = WEXITSTATUS(status);
+		if (exit_status != 0)
+			ma_perror(argv, exit_status);
 	}
+	else if (WIFSIGNALED(status))
+		exit_status = (128 + WTERMSIG(status));
 	else
-		return (0);
+		exit_status = 127;
+	return (exit_status);
 }
+
 
 /**
  * inputcommand_execute - handle execution of input external commands
@@ -77,35 +77,6 @@ int inputcommand_execute(char **argv, char **envm)
 }
 
 /**
- * p_process - handle parent proccess after forking(pid = 0)
- * @argv: vector of arguments
- * @pid: proccess id
- * Return: 0 (Success)
- */
-
-int p_process(pid_t pid, char **argv)
-{
-	int status;
-
-	if (waitpid(pid, &status, 0) == -1)
-	{
-		perror("waitpid");
-		return (-1);
-	}
-	if (WIFEXITED(status))
-	{
-		exit_status = WEXITSTATUS(status);
-		if (exit_status != 0)
-			ma_perror(argv, exit_status);
-	}
-	else if (WIFSIGNALED(status))
-		exit_status = (128 + WTERMSIG(status));
-	else
-		exit_status = 127;
-	return (exit_status);
-}
-
-/**
  * execute_builtin - Handles predefined built-in commands
  * @argus: Array pointers to the arguments passed to the program
  *
@@ -128,7 +99,7 @@ int execute_builtin(char **argus)
 		return (ma_env(environ));
 	else if (ma_strcmp(argus[0], "exit") == 0)
 		return (exit_shell(argus));
-	else if (ma_strcmp(args[0], "setenv") == 0)
+	else if (ma_strcmp(argus[0], "setenv") == 0)
 	{
 		if ((argus[1] == NULL) || (argus[2] == NULL) || (argus[3] != NULL))
 		{
@@ -147,4 +118,36 @@ int execute_builtin(char **argus)
 		return (ma_unsetenv(argus[1]));
 	}
 	return (1);
+}
+
+
+/**
+ * handle_commands - Function that handles execution of different commands
+ * @argus: Array of pointers to command line arguments passed to function
+ * Return: 0 on success
+ */
+int handle_commands(char **argus)
+{
+	char **envm = environ, *found;
+	int bltin, i;
+
+	for (i = 0; argus[i] != NULL; i++)
+	{
+		found = search_alias(argus[i], NULL);
+		if (found && (ma_strcmp(argus[0], "alias") != 0))
+		{
+			free(argus[i]);
+			argus[i] = ma_strdup(found);
+		}
+	}
+	if (argus && argus[0])
+	{
+		bltin = execute_builtin(argus);
+		if (bltin != 1)
+			return (bltin);
+		else
+			return (inputcommand_execute(argus, envm));
+	}
+	else
+		return (0);
 }

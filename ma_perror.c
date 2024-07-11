@@ -18,7 +18,6 @@ void ma_perror_cd(char *argus, int cod)
 			free(error);
 		}
 	}
-	return;
 }
 
 /**
@@ -83,7 +82,7 @@ void ma_perrorfile(char **argv)
 
 	len = ma_strlen(argv[0]) + ma_strlen(ec) + ma_strlen(argv[1])
 		+ ma_strlen(msg) + 4;
-	error = (char*)malloc(sizeof(char) * (len));
+	error = (char *)malloc(sizeof(char) * (len));
 	if (!error)
 	{
 		if (count)
