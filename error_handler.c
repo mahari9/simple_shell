@@ -115,14 +115,14 @@ void display_errorexit(char *argus)
 
 char *ma_cd_error(char *argus)
 {
-	char *errmsg, *error, *ec;
+	char *error, *ec;
 	int length;
 
 	ec = ma_itoa(count);
 	if (!ec)
 		return (NULL);
 	length = ma_strlen(shell) + ma_strlen(ec) +
-		ma_strlen(errmsg) + ma_strlen(argus);
+		+ ma_strlen(argus);
 	error = malloc(sizeof(char) * (length + 24));
 	if (!error)
 	{
