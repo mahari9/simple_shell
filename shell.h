@@ -49,7 +49,7 @@ typedef struct alias_list
 alias_list G_alias;
 char *usrin, *shell;
 int count, num_p, exit_status, source, replflag, no_pth;
-void *env_n[50];
+void *env_n[150];
 
 /*********** string_manp.c *******/
 char *ma_strdup(const char *str);

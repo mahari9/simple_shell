@@ -83,7 +83,7 @@ void track_address(void *p)
 {
 	char msg[] = "env is on maximum limit\n";
 
-	if (num_p < 50)
+	if (num_p < 150)
 	{
 		env_n[num_p++] = p;
 	}
