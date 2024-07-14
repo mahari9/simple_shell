@@ -124,9 +124,7 @@ int validate_file(const char *pn)
 	struct stat valid;
 
 	if (stat(pn, &valid) != 0)
-	{
-		perror("stat");
 		return (0);
-	}
+
 	return (S_ISREG(valid.st_mode));
 }
