@@ -44,7 +44,6 @@ void ma_cd(char *dir)
 		{
 			ma_perror_cd(dir,2);
 			free(old_dir);
-			free(home);
 			free(prev_dir);
 			return;
 		}
