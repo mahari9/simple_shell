@@ -43,7 +43,6 @@ void ma_cd(char *dir)
 		if (chdir(prev_dir) != 0)
 		{
 			ma_perror_cd(dir,2);
-			free(old_dir);
 			free(prev_dir);
 			return;
 		}
